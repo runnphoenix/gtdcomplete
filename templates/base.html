@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Character Set -->
+		<meta charset="utf-8">
+		<!-- Make clear what the following line means -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- Bootstrap CSS File -->
+		<link type="text/css" rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+		
+		<title>GTD Complete</title>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<div class="row">
+					<h1 style="float:left">GTD Complete</h1>
+				</div>
+				<div class="row">
+					<div class="col-md-1" style="float:right;">
+						{% if not logged %}
+							<a href="/signup">signup</a>
+						{% endif %}
+					</div>
+					<div class="col-md-1" style="float:right;">
+						{% if not logged %}
+							<a href="/login">login</a>
+						{% else %}
+							<a href="/logout">logout</a>
+						{% endif %}
+					</div>
+				</div>
+			</header>
+			
+			<section>
+				{% block userAccount %}
+				{% endblock %}
+			</section>
+			
+			<section>
+				{% block blog %}
+				{% endblock %}
+			</section>
+			
+		</div>
+	</body>
+</html>
