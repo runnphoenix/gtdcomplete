@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from google.appengien.ext import db
+from google.appengine.ext import db
 from user import User
 
 class Event(db.Model):
