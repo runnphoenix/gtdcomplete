@@ -14,8 +14,8 @@ class NewEvent(Handler):
 		self.render("newEvent.html")
 
 	@accessControl.user_logged_in
-	def post(self):
-		eventTitle = self.request.get("title")
+	def post(self, project, context):
+		title = self.request.get("title")
 		content = self.request.get("content")
 		repeat = self.request.get("repeat")
 		planStartTime = self.request.get("planStartTime")
@@ -23,28 +23,35 @@ class NewEvent(Handler):
 		exeStartTime = self.request.get("exeStartTime")
 		exeEndTime = self.request.get("exeEndTime")
 
-		context = self.request.get("context")
-
-		errorMessage = self.erMessage(eventTitle, content, repeat, planStartTime, planEndTime, exeStartTime, extEndTime)
+		errorMessage = self.erMessage(list(title, content, repeat, planStartTime, planEndTime, exeStartTime, extEndTime))
 
 		if errorMessage:
-			self.render("newEvent.html", errorMessage = errorMessage, eventTitle=eventTitle, content=content, repeat=repeat, planStartTime=planStartTime, planEndTime=planEndTime, exeStartTime=exeStartTime, exeEndTime=exeEndTime)
+			self.render("newEvent.html", 
+				errorMessage=errorMessage, 
+				eventTitle=eventTitle, 
+				content=content, 
+				repeat=repeat, 
+				planStartTime=planStartTime, 
+				planEndTime=planEndTime, 
+				exeStartTime=exeStartTime, 
+				exeEndTime=exeEndTime)
 		else:
 			event = Event(
-				project = ,
-				context = ,
-				title = ,
-				content = ,
-				repeat = ,
-				time_plan_start = ,
-				time_plan_end = ,
-				time_exe_start = ,
-				time_exe_end = )
+				project = project,
+				context = context,
+				user = self.user,
+				parent = events_key,
+				title = title,
+				content = content,
+				repeat = repeat,
+				time_plan_start = planStartTime,
+				time_plan_end = planEndTime,
+				time_exe_start = exeStartTime,
+				time_exe_end = exeEndTime)
 			event.put()
 			self.redirect("/event/%s" % str(event.key().id()))
 
-	def erMessage(self, eventTitle, eventContent):
-		if eventTitle and (not eventConent):
-			return ""
+	def erMessage(self, paraList):
+		
 
 
