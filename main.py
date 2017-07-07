@@ -8,7 +8,7 @@ from handlers import Signup
 from handlers import Login
 from handlers import Logout
 from handlers import Welcome
-#from handlers import NewEvent
+from handlers import NewEvent
 #from handlers import EditEvent
 #from handlers import DeleteEvent
 #from handlers import EventPage
@@ -21,5 +21,6 @@ app = webapp2.WSGIApplication([
 	('/signup', Signup),
 	('/welcome', Welcome),
 	('/login', Login),
-	('/logout', Logout)
+	('/logout', Logout),
+	('/event/new', NewEvent)
 ], debug=True)

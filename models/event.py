@@ -3,6 +3,7 @@
 from google.appengine.ext import db
 from project import Project
 from user import User
+from context import Context
 
 class Event(db.Model):
 	title = db.StringProperty(required=True)

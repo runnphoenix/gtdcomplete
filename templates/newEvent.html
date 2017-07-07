@@ -1,0 +1,62 @@
+{% extends "eventBase.html" %}
+
+{% block content %}
+	<h3>New Event</h3>
+	
+	<form method="post">
+	
+		<label>
+			<div>Title</div>					
+			<input type="text" name="title" value={{eventTitle}}>
+		</label>
+		
+		<br><br>
+		
+		<label>
+			<div>Content</div>
+			<input type="text" name="content" value={{eventContent}}>
+		</label>
+		
+		<br><br>
+		<label>
+			<div>Repeat</div>
+			<input type="text" name="repeat" value={{eventRepeat}}>
+		</label>
+		
+		<br><br>
+		<label>
+			<div>Plan Start Time</div>
+			<input type="text" name="planStartTime" value={{eventPlanStartTime}}>
+		</label>
+		
+		<br><br>
+		<label>
+			<div>Plan End Time</div>
+			<input type="text" name="planEndTime" value={{eventPlanEndTime}}>
+		</label>
+		
+		<br><br>
+		<label>
+			<div>Exe Start Time</div>
+			<input type="text" name="exeStartTime" value={{eventExeStartTime}}>
+		</label>
+		
+		<br><br>
+		<label>
+			<div>Exe End Time</div>
+			<input type="text" name="exeEndTime" value={{eventEndTime}}>
+		</label>
+		
+		<br><br>
+
+		
+		{% if errorMessage%}
+			<div style="color:red;">{{errorMessage}}</div>
+		{% endif %}
+		
+		<br><br>
+		
+		<input type="submit">
+		
+	</form>
+{% endblock %}

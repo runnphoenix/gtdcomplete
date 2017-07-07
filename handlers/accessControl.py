@@ -33,7 +33,7 @@ def event_exist(function):
 def user_own_event(function):
 	@functools.wraps(function)
 	def wrapper(self, event_id, event):
-		if self.user.name = event.project.user.name:
+		if self.user.name == event.project.user.name:
 			return function(self, event_id, event)
 		else:
 			print("------- User does not own event.")

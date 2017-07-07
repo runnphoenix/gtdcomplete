@@ -14,7 +14,7 @@ class NewEvent(Handler):
 		self.render("newEvent.html")
 
 	@accessControl.user_logged_in
-	def post(self, project, context):
+	def post(self):
 		title = self.request.get("title")
 		content = self.request.get("content")
 		repeat = self.request.get("repeat")
@@ -23,7 +23,11 @@ class NewEvent(Handler):
 		exeStartTime = self.request.get("exeStartTime")
 		exeEndTime = self.request.get("exeEndTime")
 
-		errorMessage = self.erMessage(list(title, content, repeat, planStartTime, planEndTime, exeStartTime, extEndTime))
+		# List all existing projects
+
+		# List all existing contexts && select one from them (/Projects /Contexts)
+
+		errorMessage = self.erMessage(title, content, repeat, planStartTime, planEndTime, exeStartTime, exeEndTime)
 
 		if errorMessage:
 			self.render("newEvent.html", 
@@ -51,7 +55,9 @@ class NewEvent(Handler):
 			event.put()
 			self.redirect("/event/%s" % str(event.key().id()))
 
-	def erMessage(self, paraList):
-		
-
+	def erMessage(self, title, content, repeat, planStartTime, planEndTime, exeStartTime, exeEndTime):
+		if not title or not content or not repeat or not planStartTime or not planEndTime or not exeStartTime or not exeEndTime:
+			return "Field is empty."
+		else:
+			return None
 
