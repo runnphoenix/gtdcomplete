@@ -3,12 +3,18 @@ import webapp2
 
 from models import User
 from models import Event
+from models import Project
+from models import Context
 
 from handlers import Signup
 from handlers import Login
 from handlers import Logout
 from handlers import Welcome
 from handlers import NewEvent
+from handlers import NewProject
+from handlers import NewContext
+from handlers import ProjectPage
+from handlers import ContextPage
 #from handlers import EditEvent
 #from handlers import DeleteEvent
 #from handlers import EventPage
@@ -22,5 +28,9 @@ app = webapp2.WSGIApplication([
 	('/welcome', Welcome),
 	('/login', Login),
 	('/logout', Logout),
-	('/event/new', NewEvent)
+	('/project/new', NewProject),
+	('/contex/new', NewContext),
+	('/event/new', NewEvent),
+	('/project/[0-9]+', ProjectPage),
+	('/project/[0-9]+', ContextPage)
 ], debug=True)

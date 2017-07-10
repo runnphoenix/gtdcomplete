@@ -9,9 +9,15 @@ def events_key(name="default"):
 	return db.Key.from_path("events", name)
 
 class NewEvent(Handler):
+
+	# List all existing projects
+	projects = db.GqlQuery("select * from Project order by created desc")
+	# List all existing contexts && select one from them (/Projects /Contexts)
+	contexts = db.GqlQuery("select * from Context order by created desc")
+
 	@accessControl.user_logged_in
 	def get(self):
-		self.render("newEvent.html")
+		self.render("newEvent.html", projects=self.projects, contexts=self.contexts)
 
 	@accessControl.user_logged_in
 	def post(self):
@@ -23,14 +29,13 @@ class NewEvent(Handler):
 		exeStartTime = self.request.get("exeStartTime")
 		exeEndTime = self.request.get("exeEndTime")
 
-		# List all existing projects
-
-		# List all existing contexts && select one from them (/Projects /Contexts)
-
+	
 		errorMessage = self.erMessage(title, content, repeat, planStartTime, planEndTime, exeStartTime, exeEndTime)
 
 		if errorMessage:
 			self.render("newEvent.html", 
+				projects = self.projects,
+				contexts = self.contexts,
 				errorMessage=errorMessage, 
 				eventTitle=eventTitle, 
 				content=content, 
