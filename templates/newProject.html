@@ -1,72 +1,14 @@
 {% extends "eventBase.html" %}
 
 {% block content %}
-	<h3>New Event</h3>
+	<h3>New Project</h3>
 	
 	<form method="post">
 	
 		<label>
-			<div>Title</div>					
-			<input type="text" name="title" value={{eventTitle}}>
+			<div>Name</div>					
+			<input type="text" name="name" value={{projectName}}>
 		</label>
-		
-		<br>
-		
-		<label>
-			<div>Content</div>
-			<input type="text" name="content" value={{eventContent}}>
-		</label>
-		
-		<br>
-		<label>
-			<div>Repeat</div>
-			<input type="text" name="repeat" value={{eventRepeat}}>
-		</label>
-		
-		<br>
-		<label>
-			<div>Plan Start Time</div>
-			<input type="text" name="planStartTime" value={{eventPlanStartTime}}>
-		</label>
-		
-		<br>
-		<label>
-			<div>Plan End Time</div>
-			<input type="text" name="planEndTime" value={{eventPlanEndTime}}>
-		</label>
-		
-		<br>
-		<label>
-			<div>Exe Start Time</div>
-			<input type="text" name="exeStartTime" value={{eventExeStartTime}}>
-		</label>
-		
-		<br>
-		<label>
-			<div>Exe End Time</div>
-			<input type="text" name="exeEndTime" value={{eventEndTime}}>
-		</label>
-		
-		<br>
-		<label>
-			<div>Select from Projects</div>
-		</label>
-		<select name='projects'>
-			{% for project in projects %}
-				<option value={{project}}>{{project}}</option>
-			{% endfor %}
-		</select>
-		<br>
-
-		<label>
-			<div>Select from Contexts</div>
-		</label>
-		<select name='contexts'>
-			{% for context in contexts %}
-				<option value={{context}}>{{context}}</option>
-			{% endfor %}
-		</select>
-		<br><br>
 
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>

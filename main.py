@@ -32,5 +32,5 @@ app = webapp2.WSGIApplication([
 	('/contex/new', NewContext),
 	('/event/new', NewEvent),
 	('/project/[0-9]+', ProjectPage),
-	('/project/[0-9]+', ContextPage)
+	('/context/[0-9]+', ContextPage)
 ], debug=True)

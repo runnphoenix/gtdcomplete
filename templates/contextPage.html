@@ -1,0 +1,26 @@
+{% extends "blogBase.html" %}
+
+{% block content %}
+
+<h3>{{context.name}}</h3>
+	<div>{{context.user}}</div>
+	<hr>
+	
+	<!-- Events -->
+	<h3>Events</h3>
+	{% for event in context.events %}
+		<div class="row">
+			<div class="col-md-1">{{event.title}}</div>
+			<div class="col-md-3">{{event.content}}</div>
+		</div>
+		<form method="post">
+			{% if event.user == self.user.name %}
+				<input name="comment" type="hidden" value="{{event.key().id()}}">
+				<a href="/event/{{event.key().id()}}/edit/{{event.key().id()}}">Edit</a>
+				<a href="/event/{{event.key().id()}}/delete/{{event.key().id()}}">Delete</a>
+			{% endif %}
+		</form>
+		<br>
+	{% endfor %}
+	
+{% endblock%}

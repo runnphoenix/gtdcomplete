@@ -6,15 +6,18 @@ from google.appengine.ext import db
 def events_key(name='default'):
 	return db.Key.from_path("events", name)
 
+def projects_key(name='default'):
+	return db.Key.from_path('projects', name)
+
 def user_logged_in(function):
 	@functools.wraps(function)
-	def wrapper(self, *a):
+	def wrapper(self, *args):
 		if self.user:
-			return function(self, *a)
+			return function(self, *args)
 		else:
 			print("------- User not logged in.")
 			self.redirect('/login')
-			return 
+			return
 	return wrapper
 
 def event_exist(function):
@@ -27,8 +30,8 @@ def event_exist(function):
 		else:
 			print("------- Event not exist.")
 			self.error(404)
-			return 
-		return wrapper
+			return
+	return wrapper
 
 def user_own_event(function):
 	@functools.wraps(function)
@@ -40,3 +43,16 @@ def user_own_event(function):
 			self.redirect('/event/%s' % str(event_id))
 			return
 	return wrapper
+
+def project_exist(function):
+	@functools.wraps(function)
+	def wrapper(self, project_id):
+		key = db.Key.from_path("Project", int(project_id), parent=projects_key())
+		project = db.get(key)
+		if project:
+			return function(self, project_id, project)
+		else:
+			print("------- Project does not exist.")
+			self.error(404)
+			return
+		return wrapper

@@ -5,7 +5,7 @@ from models import Project
 from google.appengine.ext import db
 import accessControl
 
-calss NewProject(Handler):
+class NewProject(Handler):
 
 	@accessControl.user_logged_in
 	def get(self):
@@ -14,11 +14,11 @@ calss NewProject(Handler):
 
 	@accessControl.user_logged_in
 	def post(self):
-		name = self.reqeuset.get('name')
+		name = self.request.get('name')
 		if not name:
-			erMessage = 'name can not be empty'
-			self.render('newProject.html', erMessage=erMessage)
+			errorMessage = 'name can not be empty'
+			self.render('newProject.html', errorMessage=errorMessage)
 		else:
 			project = Project(name=name, user=self.user)
 			project.put()
-			self.redirect('/project/%s' %s str(project.key().id()))
+			self.redirect('/project/%s' % str(project.key().id()))
