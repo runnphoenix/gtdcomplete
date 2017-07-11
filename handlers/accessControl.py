@@ -3,18 +3,16 @@
 import functools
 from google.appengine.ext import db
 
-def events_key(name='default'):
+def events_key(name="default"):
 	return db.Key.from_path("events", name)
 
-def projects_key(name='default'):
-	return db.Key.from_path('projects', name)
+def projects_key(name="default"):
+	return db.Key.from_path("projects", name)
 
 def user_logged_in(function):
 	@functools.wraps(function)
 	def wrapper(self, *a):
 		if self.user:
-			print(function.__name__)
-			print(a)
 			return function(self, *a)
 		else:
 			print("------- User not logged in.")
@@ -49,11 +47,11 @@ def user_own_event(function):
 def project_exist(function):
 	@functools.wraps(function)
 	def wrapper(self, project_id):
-		print("xxxx %s" % project_id)
-		key = db.Key.from_path("Project", int(project_id))
-		project = db.get(key)
+		key = db.Key.from_path("Project", int(project_id), parent=projects_key())
+		print key.id()
+		project = db.GqlQuery("select * from Project")
+		print project
 		if project:
-			print(project)
 			return function(self, project_id, project)
 		else:
 			print("------- Project does not exist.")

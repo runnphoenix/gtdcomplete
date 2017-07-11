@@ -17,7 +17,7 @@ from handlers import ProjectPage
 from handlers import ContextPage
 #from handlers import EditEvent
 #from handlers import DeleteEvent
-#from handlers import EventPage
+from handlers import EventPage
 #from handlers import Events
 from handlers import MainPage
 
@@ -31,6 +31,7 @@ app = webapp2.WSGIApplication([
 	('/project/new', NewProject),
 	('/contex/new', NewContext),
 	('/event/new', NewEvent),
-	('/project/[0-9]+', ProjectPage),
-	('/context/[0-9]+', ContextPage)
+	('/project/([0-9]+)', ProjectPage),
+	('/context/([0-9]+)', ContextPage),
+    ('/event/([0-9]+)', EventPage)
 ], debug=True)

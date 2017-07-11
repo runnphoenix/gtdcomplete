@@ -49,7 +49,7 @@ class NewEvent(Handler):
 				#project = project,
 				#context = context,
 				user = self.user,
-				parent = events_key,
+				parent = events_key(),
 				title = title,
 				content = content,
 				repeat = repeat)

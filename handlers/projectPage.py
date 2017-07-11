@@ -8,7 +8,7 @@ class ProjectPage(Handler):
 	@accessControl.user_logged_in
 	@accessControl.project_exist
 	def get(self, project_id, project):
-		self.render("projectPage.html")
+		self.render("projectPage.html", project=project)
 
 	@accessControl.user_logged_in
 	def post(self):
