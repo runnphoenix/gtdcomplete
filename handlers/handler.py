@@ -26,7 +26,7 @@ def check_secure_val(h):
 		return val
 
 class Handler(webapp2.RequestHandler):
-	
+
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
 
