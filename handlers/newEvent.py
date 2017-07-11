@@ -24,44 +24,44 @@ class NewEvent(Handler):
 		title = self.request.get("title")
 		content = self.request.get("content")
 		repeat = self.request.get("repeat")
-		planStartTime = self.request.get("planStartTime")
-		planEndTime = self.request.get("planEndTime")
-		exeStartTime = self.request.get("exeStartTime")
-		exeEndTime = self.request.get("exeEndTime")
+		#planStartTime = self.request.get("planStartTime")
+		#planEndTime = self.request.get("planEndTime")
+		#exeStartTime = self.request.get("exeStartTime")
+		#exeEndTime = self.request.get("exeEndTime")
 
-	
-		errorMessage = self.erMessage(title, content, repeat, planStartTime, planEndTime, exeStartTime, exeEndTime)
+
+		errorMessage = self.erMessage(title, content, repeat)
 
 		if errorMessage:
-			self.render("newEvent.html", 
+			self.render("newEvent.html",
 				projects = self.projects,
 				contexts = self.contexts,
-				errorMessage=errorMessage, 
-				eventTitle=eventTitle, 
-				content=content, 
-				repeat=repeat, 
-				planStartTime=planStartTime, 
-				planEndTime=planEndTime, 
-				exeStartTime=exeStartTime, 
-				exeEndTime=exeEndTime)
+				errorMessage=errorMessage,
+				eventTitle=eventTitle,
+				content=content,
+				repeat=repeat)
+				#planStartTime=planStartTime,
+				#planEndTime=planEndTime,
+				#exeStartTime=exeStartTime,
+				#exeEndTime=exeEndTime)
 		else:
 			event = Event(
-				project = project,
-				context = context,
+				#project = project,
+				#context = context,
 				user = self.user,
 				parent = events_key,
 				title = title,
 				content = content,
-				repeat = repeat,
-				time_plan_start = planStartTime,
-				time_plan_end = planEndTime,
-				time_exe_start = exeStartTime,
-				time_exe_end = exeEndTime)
+				repeat = repeat)
+				#time_plan_start = planStartTime,
+				#time_plan_end = planEndTime,
+				#time_exe_start = exeStartTime,
+				#time_exe_end = exeEndTime
 			event.put()
 			self.redirect("/event/%s" % str(event.key().id()))
 
-	def erMessage(self, title, content, repeat, planStartTime, planEndTime, exeStartTime, exeEndTime):
-		if not title or not content or not repeat or not planStartTime or not planEndTime or not exeStartTime or not exeEndTime:
+	def erMessage(self, title, content, repeat):
+		if not title or not content or not repeat:
 			return "Field is empty."
 		else:
 			return None

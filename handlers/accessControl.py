@@ -14,6 +14,7 @@ def user_logged_in(function):
 	def wrapper(self, *a):
 		if self.user:
 			print(function.__name__)
+			print(a)
 			return function(self, *a)
 		else:
 			print("------- User not logged in.")
@@ -48,9 +49,11 @@ def user_own_event(function):
 def project_exist(function):
 	@functools.wraps(function)
 	def wrapper(self, project_id):
+		print("xxxx %s" % project_id)
 		key = db.Key.from_path("Project", int(project_id))
 		project = db.get(key)
 		if project:
+			print(project)
 			return function(self, project_id, project)
 		else:
 			print("------- Project does not exist.")

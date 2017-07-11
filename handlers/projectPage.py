@@ -7,7 +7,7 @@ import accessControl
 class ProjectPage(Handler):
 	@accessControl.user_logged_in
 	@accessControl.project_exist
-	def get(self, project_id):
+	def get(self, project_id, project):
 		self.render("projectPage.html")
 
 	@accessControl.user_logged_in
