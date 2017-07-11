@@ -17,7 +17,7 @@ class NewEvent(Handler):
 
 	@accessControl.user_logged_in
 	def get(self):
-		self.render("newEvent.html", projects=self.user.projects, contexts=self.contexts)
+		self.render("newEvent.html", projects=self.user.projects, contexts=self.user.contexts)
 
 	@accessControl.user_logged_in
 	def post(self):

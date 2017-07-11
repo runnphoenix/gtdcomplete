@@ -9,6 +9,9 @@ def events_key(name="default"):
 def projects_key(name="default"):
 	return db.Key.from_path("projects", name)
 
+def contexts_key(name="default"):
+	return db.Key.from_path("contexts", name)
+
 def user_logged_in(function):
 	@functools.wraps(function)
 	def wrapper(self, *a):
@@ -17,6 +20,42 @@ def user_logged_in(function):
 		else:
 			print("------- User not logged in.")
 			self.redirect('/login')
+			return
+	return wrapper
+
+def project_exist(function):
+	@functools.wraps(function)
+	def wrapper(self, project_id):
+		key = db.Key.from_path("Project", int(project_id), parent=projects_key())
+		print key.id()
+		projects = db.GqlQuery("select * from Project")
+		project = None
+		for pro in projects:
+			if pro.key().id() == key.id():
+				project = pro
+		if project:
+			return function(self, project_id, project)
+		else:
+			print("------- Project does not exist.")
+			self.error(404)
+			return
+	return wrapper
+
+def context_exist(function):
+	@functools.wraps(function)
+	def wrapper(self, context_id):
+		key = db.Key.from_path("Context", int(context_id), parent=contexts_key())
+		print key.id()
+		contexts = db.GqlQuery("select * from Context")
+		context = None
+		for con in contexts:
+			if con.key().id() == key.id():
+				context = con
+		if context:
+			return function(self, context_id, context)
+		else:
+			print("------- Context does not exist.")
+			self.error(404)
 			return
 	return wrapper
 
@@ -44,20 +83,4 @@ def user_own_event(function):
 			return
 	return wrapper
 
-def project_exist(function):
-	@functools.wraps(function)
-	def wrapper(self, project_id):
-		key = db.Key.from_path("Project", int(project_id), parent=projects_key())
-		print key.id()
-		projects = db.GqlQuery("select * from Project")
-		project = None
-		for pro in projects:
-			if pro.key().id() == key.id():
-				project = pro
-		if project:
-			return function(self, project_id, project)
-		else:
-			print("------- Project does not exist.")
-			self.error(404)
-			return
-	return wrapper
+

@@ -29,9 +29,9 @@ app = webapp2.WSGIApplication([
 	('/login', Login),
 	('/logout', Logout),
 	('/project/new', NewProject),
-	('/contex/new', NewContext),
+	('/context/new', NewContext),
 	('/event/new', NewEvent),
 	('/project/([0-9]+)', ProjectPage),
 	('/context/([0-9]+)', ContextPage),
-    ('/event/([0-9]+)', EventPage)
+    	('/event/([0-9]+)', EventPage)
 ], debug=True)
