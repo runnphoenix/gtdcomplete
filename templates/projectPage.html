@@ -1,9 +1,18 @@
 {% extends "eventBase.html" %}
 
 {% block contentSection %}
-	{% for pro in project %}
-		{{pro.name}}
-	{% endfor %}
+	<h3>{{project.name}}</h3>
+	<div>{{project.user.name}}</div>
+	<hr>
 	
+	<!-- Events -->
+	<h3>Events</h3>
+	{% for event in project.events %}
+		<div class="row">
+			<div class="col-md-1">{{event.title}}</div>
+			<div class="col-md-3">{{event.content}}</div>
+		</div>
+		<br>
+	{% endfor %}
 	
 {% endblock%}

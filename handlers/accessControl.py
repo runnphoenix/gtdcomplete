@@ -49,8 +49,11 @@ def project_exist(function):
 	def wrapper(self, project_id):
 		key = db.Key.from_path("Project", int(project_id), parent=projects_key())
 		print key.id()
-		project = db.GqlQuery("select * from Project")
-		print project
+		projects = db.GqlQuery("select * from Project")
+		project = None
+		for pro in projects:
+			if pro.key().id() == key.id():
+				project = pro
 		if project:
 			return function(self, project_id, project)
 		else:

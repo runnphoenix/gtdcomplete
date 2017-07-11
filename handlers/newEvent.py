@@ -17,7 +17,7 @@ class NewEvent(Handler):
 
 	@accessControl.user_logged_in
 	def get(self):
-		self.render("newEvent.html", projects=self.projects, contexts=self.contexts)
+		self.render("newEvent.html", projects=self.user.projects, contexts=self.contexts)
 
 	@accessControl.user_logged_in
 	def post(self):
@@ -46,8 +46,8 @@ class NewEvent(Handler):
 				#exeEndTime=exeEndTime)
 		else:
 			event = Event(
-				#project = project,
-				#context = context,
+				project = project,
+				context = context,
 				user = self.user,
 				parent = events_key(),
 				title = title,
