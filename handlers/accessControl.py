@@ -45,7 +45,7 @@ def context_exist(function):
 	@functools.wraps(function)
 	def wrapper(self, context_id):
 		key = db.Key.from_path("Context", int(context_id), parent=contexts_key())
-		print key.id()
+		#context = db.get(key)
 		contexts = db.GqlQuery("select * from Context")
 		context = None
 		for con in contexts:
