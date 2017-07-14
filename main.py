@@ -10,6 +10,7 @@ from handlers import Signup
 from handlers import Login
 from handlers import Logout
 from handlers import Welcome
+from handlers import Projects
 from handlers import NewEvent
 from handlers import NewProject
 from handlers import NewContext
@@ -33,5 +34,6 @@ app = webapp2.WSGIApplication([
 	('/event/new', NewEvent),
 	('/project/([0-9]+)', ProjectPage),
 	('/context/([0-9]+)', ContextPage),
-    ('/event/([0-9]+)', EventPage)
+    ('/event/([0-9]+)', EventPage),
+    ('/projects', Projects)
 ], debug=True)

@@ -15,3 +15,4 @@ from logout import Logout
 from signup import Signup
 from welcome import Welcome
 from mainPage import MainPage
+from projects import Projects
