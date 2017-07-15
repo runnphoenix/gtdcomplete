@@ -2,6 +2,8 @@
 
 from handler import Handler
 from models import Event
+from models import Project
+from models import Context
 from google.appengine.ext import db
 import accessControl
 
@@ -24,10 +26,22 @@ class NewEvent(Handler):
 		title = self.request.get("title")
 		content = self.request.get("content")
 		repeat = self.request.get("repeat")
-		#planStartTime = self.request.get("planStartTime")
-		#planEndTime = self.request.get("planEndTime")
-		#exeStartTime = self.request.get("exeStartTime")
-		#exeEndTime = self.request.get("exeEndTime")
+		planStartTime = self.request.get("planStartTime")
+		planEndTime = self.request.get("planEndTime")
+		exeStartTime = self.request.get("exeStartTime")
+		exeEndTime = self.request.get("exeEndTime")
+
+		project = None
+		projectName = self.request.get("projects")
+		for pro in self.user.projects:
+			if pro.name == projectName:
+				project = pro
+
+		context = None
+		contextName = self.request.get("contexts")
+		for con in self.user.contexts:
+			if con.name == contextName:
+				context = con
 
 
 		errorMessage = self.erMessage(title, content, repeat)
@@ -39,11 +53,11 @@ class NewEvent(Handler):
 				errorMessage=errorMessage,
 				eventTitle=eventTitle,
 				content=content,
-				repeat=repeat)
-				#planStartTime=planStartTime,
-				#planEndTime=planEndTime,
-				#exeStartTime=exeStartTime,
-				#exeEndTime=exeEndTime)
+				repeat=repeat,
+				planStartTime=planStartTime,
+				planEndTime=planEndTime,
+				exeStartTime=exeStartTime,
+				exeEndTime=exeEndTime)
 		else:
 			event = Event(
 				project = project,
@@ -52,11 +66,11 @@ class NewEvent(Handler):
 				parent = events_key(),
 				title = title,
 				content = content,
-				repeat = repeat)
-				#time_plan_start = planStartTime,
-				#time_plan_end = planEndTime,
-				#time_exe_start = exeStartTime,
-				#time_exe_end = exeEndTime
+				repeat = repeat,
+				time_plan_start = planStartTime,
+				time_plan_end = planEndTime,
+				time_exe_start = exeStartTime,
+				time_exe_end = exeEndTime)
 			event.put()
 			self.redirect("/event/%s" % str(event.key().id()))
 

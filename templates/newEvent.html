@@ -44,7 +44,7 @@
 		<br>
 		<label>
 			<div>Exe End Time</div>
-			<input type="date" name="exeEndTime" value={{eventEndTime}}>
+			<input type="date" name="exeEndTime" value={{eventExeEndTime}}>
 		</label>
 		
 		<br>
@@ -53,7 +53,7 @@
 		</label>
 		<select name='projects'>
 			{% for project in projects %}
-				<option value={{project}}>{{project.name}}</option>
+				<option value={{project.name}}>{{project.name}}</option>
 			{% endfor %}
 		</select>
 		<br>
@@ -63,7 +63,7 @@
 		</label>
 		<select name='contexts'>
 			{% for context in contexts %}
-				<option value={{context}}>{{context.name}}</option>
+				<option value={{context.name}}>{{context.name}}</option>
 			{% endfor %}
 		</select>
 		<br><br>
