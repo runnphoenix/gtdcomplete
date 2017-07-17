@@ -6,77 +6,79 @@ from models import Project
 from models import Context
 from google.appengine.ext import db
 import accessControl
+from datetime import datetime,date,time
+
 
 def events_key(name="default"):
-	return db.Key.from_path("events", name)
+    return db.Key.from_path("events", name)
+
 
 class NewEvent(Handler):
 
-	# List all existing projects
-	projects = db.GqlQuery("select * from Project order by created desc")
-	# List all existing contexts && select one from them (/Projects /Contexts)
-	contexts = db.GqlQuery("select * from Context order by created desc")
+    # List all existing projects
+    projects = db.GqlQuery("select * from Project order by created desc")
+    # List all existing contexts && select one from them (/Projects /Contexts)
+    contexts = db.GqlQuery("select * from Context order by created desc")
 
-	@accessControl.user_logged_in
-	def get(self):
-		self.render("newEvent.html", projects=self.user.projects, contexts=self.user.contexts)
+    @accessControl.user_logged_in
+    def get(self):
+        self.render(
+            "newEvent.html", projects=self.user.projects, contexts=self.user.contexts)
 
-	@accessControl.user_logged_in
-	def post(self):
-		title = self.request.get("title")
-		content = self.request.get("content")
-		repeat = self.request.get("repeat")
-		planStartTime = self.request.get("planStartTime")
-		planEndTime = self.request.get("planEndTime")
-		exeStartTime = self.request.get("exeStartTime")
-		exeEndTime = self.request.get("exeEndTime")
+    @accessControl.user_logged_in
+    def post(self):
+        title = self.request.get("title")
+        content = self.request.get("content")
+        repeat = self.request.get("repeat")
+        planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
+        planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
+        exeStartTime = datetime.strptime(self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
+        exeEndTime = datetime.strptime(self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
 
-		project = None
-		projectName = self.request.get("projects")
-		for pro in self.user.projects:
-			if pro.name == projectName:
-				project = pro
+        project = None
+        projectName = self.request.get("projects")
+        for pro in self.user.projects:
+            if pro.name == projectName:
+                project = pro
 
-		context = None
-		contextName = self.request.get("contexts")
-		for con in self.user.contexts:
-			if con.name == contextName:
-				context = con
+        context = None
+        contextName = self.request.get("contexts")
+        for con in self.user.contexts:
+            if con.name == contextName:
+                context = con
 
+        errorMessage = self.erMessage(title, content, repeat)
 
-		errorMessage = self.erMessage(title, content, repeat)
+        if errorMessage:
+            self.render("newEvent.html",
+                        projects=self.projects,
+                        contexts=self.contexts,
+                        errorMessage=errorMessage,
+                        eventTitle=eventTitle,
+                        content=content,
+                        repeat=repeat,
+                        planStartTime=planStartTime,
+                        planEndTime=planEndTime,
+                        exeStartTime=exeStartTime,
+                        exeEndTime=exeEndTime)
+        else:
+            event = Event(
+                project=project,
+                context=context,
+                user=self.user,
+                parent=events_key(),
+                title=title,
+                content=content,
+                repeat=repeat,
+                time_plan_start=planStartTime,
+                time_plan_end=planEndTime,
+                time_exe_start=exeStartTime,
+                time_exe_end=exeEndTime)
+            event.put()
+            self.redirect("/event/%s" % str(event.key().id()))
 
-		if errorMessage:
-			self.render("newEvent.html",
-				projects = self.projects,
-				contexts = self.contexts,
-				errorMessage=errorMessage,
-				eventTitle=eventTitle,
-				content=content,
-				repeat=repeat,
-				planStartTime=planStartTime,
-				planEndTime=planEndTime,
-				exeStartTime=exeStartTime,
-				exeEndTime=exeEndTime)
-		else:
-			event = Event(
-				project = project,
-				context = context,
-				user = self.user,
-				parent = events_key(),
-				title = title,
-				content = content,
-				repeat = repeat,
-				time_plan_start = planStartTime,
-				time_plan_end = planEndTime,
-				time_exe_start = exeStartTime,
-				time_exe_end = exeEndTime)
-			event.put()
-			self.redirect("/event/%s" % str(event.key().id()))
-
-	def erMessage(self, title, content, repeat):
-		if not title or not content or not repeat:
-			return "Field is empty."
-		else:
-			return None
-
+    def erMessage(self, title, content, repeat):
+        if not title or not content or not repeat:
+            return "Field is empty."
+        else:
+            return None
