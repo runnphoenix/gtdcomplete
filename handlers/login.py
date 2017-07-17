@@ -32,7 +32,7 @@ class Login(Signup):
             if user:
                 if User.valid_hash(username, password, user.pw_hash):
                     self.add_cookie(user)
-                    self.redirect('/welcome')
+                    self.redirect('/projects')
                 else:
                     self.render(
                         "login.html",

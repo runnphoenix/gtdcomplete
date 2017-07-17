@@ -9,7 +9,6 @@ from models import Context
 from handlers import Signup
 from handlers import Login
 from handlers import Logout
-from handlers import Welcome
 from handlers import Projects
 from handlers import NewEvent
 from handlers import NewProject
@@ -26,7 +25,6 @@ from handlers import MainPage
 app = webapp2.WSGIApplication([
     ('/', MainPage),
 	('/signup', Signup),
-	('/welcome', Welcome),
 	('/login', Login),
 	('/logout', Logout),
 	('/project/new', NewProject),

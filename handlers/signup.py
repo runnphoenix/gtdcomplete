@@ -4,6 +4,7 @@ import re
 from google.appengine.ext import db
 from handler import Handler
 from models import User
+from models import Project
 
 
 def users_key(group='default'):
@@ -73,4 +74,9 @@ class Signup(Handler):
             # set cookie
             self.add_cookie(user)
             # redirect
-            self.redirect('/welcome')
+
+            # Add default INBOX project for user
+            project = Project(name="inbox", user=user)
+            project.put()
+
+            self.redirect('/projects')
