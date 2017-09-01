@@ -14,6 +14,6 @@ class Event(db.Model):
 	time_exe_start = db.DateTimeProperty(auto_now_add=True)
 	time_ext_end = db.DateTimeProperty(auto_now_add=True)
 
-	#context = db.ReferenceProperty(Context, collection_name = 'events')
+	context = db.ReferenceProperty(Context, collection_name = 'events')
 	user = db.ReferenceProperty(User, collection_name = 'events')
-	#project = db.ReferenceProperty(Project, collection_name = 'events')
+	project = db.ReferenceProperty(Project, collection_name = 'events')

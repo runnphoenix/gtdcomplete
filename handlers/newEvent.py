@@ -54,7 +54,7 @@ class NewEvent(Handler):
                         projects=self.projects,
                         contexts=self.contexts,
                         errorMessage=errorMessage,
-                        eventTitle=eventTitle,
+                        eventTitle=title,
                         content=content,
                         repeat=repeat,
                         planStartTime=planStartTime,
