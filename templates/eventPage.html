@@ -1,7 +1,89 @@
 {% extends "sectionBase.html" %}
 
 {% block contentSection %}
-	<h3>event title: {{event.title}}</h3>
-	<div>event user name: {{event.user.name}}</div>
-	<div>event content: {{event.content}}</div>
+	<h3>{{event.title}}</h3>
+	
+	<form method="post">
+	
+		<label>
+			<div>Title</div>					
+			<input type="text" name="title" value={{event.title}}>
+		</label>
+		
+		<br>
+		
+		<label>
+			<div>Content</div>
+			<input type="text" name="content" value={{event.content}}>
+		</label>
+		
+		<br>
+		<label>
+			<div>Repeat</div>
+			<input type="text" name="repeat" value={{event.repeat}}>
+		</label>
+		
+		<br>
+		<label>
+			<div>Plan Start Time</div>
+			<input type="datetime-local" name="planStartTime" value={{event.planStartTime}}>
+		</label>
+		
+		<br>
+		<label>
+			<div>Plan End Time</div>
+			<input type="datetime-local" name="planEndTime" value={{event.planEndTime}}>
+		</label>
+		
+		<br>
+		<label>
+			<div>Exe Start Time</div>
+			<input type="datetime-local" name="exeStartTime" value={{event.exeStartTime}}>
+		</label>
+		
+		<br>
+		<label>
+			<div>Exe End Time</div>
+			<input type="datetime-local" name="exeEndTime" value={{event.exeEndTime}}>
+		</label>
+		
+		<br>
+		<label>
+			<div>Select from Projects</div>
+		</label>
+		<select name='projects'>
+			{% for project in event.user.projects %}
+				{% if project.name == event.project.name %}
+					<option value={project.name}} selected="selected">{{project.name}}</option> 
+				{% else %}
+					<option value={{project.name}}>{{project.name}}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+		<br>
+
+		<label>
+			<div>Select from Contexts</div>
+		</label>
+		<select name='contexts'>
+			{% for context in event.user.contexts %}
+				{% if context.name == event.context.name %}
+					<option value={context.name}} selected="selected">{{context.name}}</option> 
+				{% else %}
+					<option value={{context.name}}>{{context.name}}</option>
+				{% endif %}
+
+			{% endfor %}
+		</select>
+		<br><br>
+
+		{% if errorMessage%}
+			<div style="color:red;">{{errorMessage}}</div>
+		{% endif %}
+		
+		<br><br>
+		
+		<input type="submit">
+		
+	</form>
 {% endblock %}
