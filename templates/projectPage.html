@@ -1,16 +1,16 @@
 {% extends "sectionBase.html" %}
 
 {% block contentSection %}
-	<h3>{{project.name}}</h3>
-	<hr>
+<div class="container">
+	<div class="row">
+  		<div class="col-md-7">
+			<h3>{{project.name}}</h3>
+			<hr>
 	
-	<!-- Events -->
-	{% for event in project.events %}
-		<div class="row">
-			<div class="col-md-1">{{event.title}}</div>
-			<div class="col-md-3">{{event.content}}</div>
+			{% for event in project.events %}
+				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+			{% endfor %}
 		</div>
-		<br>
-	{% endfor %}
-	
-{% endblock%}
+	</div>
+</div>
+{% endblock %}
