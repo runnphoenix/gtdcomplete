@@ -8,7 +8,6 @@ class ProjectPage(Handler):
 	@accessControl.user_logged_in
 	@accessControl.project_exist
 	def get(self, project_id, project):
-		print project.events
 		self.render("projectPage.html", project=project)
 
 	@accessControl.user_logged_in

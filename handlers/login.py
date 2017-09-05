@@ -19,7 +19,6 @@ class Login(Signup):
         if not self.username_valid(username):
             params['error_username'] = "Not a valid user name."
             has_error = True
-            print(params)
 
         if not self.password_valid(password):
             params['error_password'] = "Not a valid password."

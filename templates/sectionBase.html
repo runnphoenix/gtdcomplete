@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block eventSection %}
+<div class="row">
+	<div class="col-md-10">
+		<div class="col-md-3">
+			<a href="/projects">
+				<h3>Projects</h3>
+			</a>
+			<a href="/contexts">
+				<h3>Contexts</h3>
+			</a>
+			<a href="/event/new">
+				<h3>Add Event</h3>
+			</a>
+		</div>
+
+		<div class="col-md-7">
+			{% block contentSection %}
+			{% endblock %}
+		</div>
+	</div>
+</div>
+{% endblock %}
