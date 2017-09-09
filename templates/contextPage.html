@@ -3,18 +3,12 @@
 {% block contentSection %}
 
 <h3>{{context.name}}</h3>
-	<div>{{context.user.name}}</div>
 	<hr>
 	
-	<!-- Events -->
-	<h3>Events</h3>
 	{% for event in context.events %}
-		<div class="row">
-			<div class="col-md-1">{{event.title}}</div>
-			<div class="col-md-3">{{event.content}}</div>
-		</div>
+		<a href="/event/{{event.key().id()}}>{{event.title}}</a>
 		<form method="post">
-			{% if event.user == self.user.name %}
+			{% if event.user == self.user %}
 				<input name="comment" type="hidden" value="{{event.key().id()}}">
 				<a href="/event/{{event.key().id()}}/edit/{{event.key().id()}}">Edit</a>
 				<a href="/event/{{event.key().id()}}/delete/{{event.key().id()}}">Delete</a>

@@ -12,6 +12,7 @@ from handlers import Login
 from handlers import Logout
 from handlers import Projects
 from handlers import TimeCategories
+from handlers import Contexts
 from handlers import ProjectsJson
 from handlers import NewEvent
 from handlers import NewProject
@@ -41,5 +42,6 @@ app = webapp2.WSGIApplication([
 	('/event/([0-9]+)', EventPage),
 	('/projects', Projects),
 	('/timeCategories', TimeCategories),
+	('/contexts', Contexts),
 	('/projects.json', ProjectsJson)
 ], debug=True)
