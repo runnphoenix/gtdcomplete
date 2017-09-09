@@ -59,6 +59,16 @@
 		<br>
 
 		<label>
+			<div>Select from timeCategories</div>
+		</label>
+		<select name='timeCategories'>
+			{% for timeCategory in timeCategories %}
+				<option value={{timeCategory.name}}>{{timeCategory.name}}</option>
+			{% endfor %}
+		</select>
+		<br>
+
+		<label>
 			<div>Select from Contexts</div>
 		</label>
 		<select name='contexts'>

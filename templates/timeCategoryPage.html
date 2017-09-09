@@ -1,0 +1,16 @@
+{% extends "sectionBase.html" %}
+
+{% block contentSection %}
+<div class="container">
+	<div class="row">
+  		<div class="col-md-7">
+			<h3>{{timeCategory.name}}</h3>
+			<hr>
+	
+			{% for event in timeCategory.events %}
+				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

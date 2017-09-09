@@ -4,6 +4,7 @@ from google.appengine.ext import db
 from project import Project
 from user import User
 from context import Context
+from timeCategory import TimeCategory
 
 class Event(db.Model):
 	title = db.StringProperty(required=True)
@@ -17,3 +18,4 @@ class Event(db.Model):
 	context = db.ReferenceProperty(Context, collection_name = 'events')
 	user = db.ReferenceProperty(User, collection_name = 'events')
 	project = db.ReferenceProperty(Project, collection_name = 'events')
+	timeCategory = db.ReferenceProperty(TimeCategory, collection_name = 'events')

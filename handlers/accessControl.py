@@ -12,6 +12,9 @@ def projects_key(name="default"):
 def contexts_key(name="default"):
 	return db.Key.from_path("contexts", name)
 
+def timeCategories_key(name="default"):
+	return db.Key.from_path("timeCategories", name)
+
 def user_logged_in(function):
 	@functools.wraps(function)
 	def wrapper(self, *a):
@@ -39,6 +42,24 @@ def project_exist(function):
 			self.error(404)
 			return
 	return wrapper
+
+def timeCategory_exist(function):
+	@functools.wraps(function)
+	def wrapper(self, timeCategory_id):
+		key = db.Key.from_path("TimeCategory", int(timeCategory_id), parent=timeCategories_key())
+		timeCategories = db.GqlQuery("select * from TimeCategory")
+		timeCategory = None
+		for category in timeCategories:
+			if category.key().id() == key.id():
+				timeCategory = category
+		if timeCategory:
+			return function(self, timeCategory_id, timeCategory)
+		else:
+			print("------- TimeCategory does not exist.")
+			self.error(404)
+			return
+	return wrapper
+
 
 def context_exist(function):
 	@functools.wraps(function)
