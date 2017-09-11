@@ -3,6 +3,12 @@
 {% block contentSection %}
 	<div class="row">
 		<div class="col-md-3">
+			
+			<h3>
+				<a href="/timeCategory/new">New Category</a>
+			</h3>
+			<hr>
+
 			{% for timeCategory in timeCategories %}
 				<h4>
 					<a href="/timeCategory/{{timeCategory.key().id()}}">{{timeCategory.name}}</a>

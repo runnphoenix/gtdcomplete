@@ -3,6 +3,12 @@
 {% block contentSection %}
 	<div class="row">
 		<div class="col-md-3">
+
+			<h3>
+				<a href="/project/new">New Project</a>
+			</h3>
+			<hr>
+
 			{% for project in projects %}
 				<h4>
 					<a href="/project/{{project.key().id()}}">{{project.name}}</a>

@@ -3,6 +3,12 @@
 {% block contentSection %}
 	<div class="row">
 		<div class="col-md-3">
+
+			<h3>
+				<a href="/context/new">New Context</a>
+			</h3>
+			<hr>
+
 			{% for context in contexts %}
 				<h4>
 					<a href="/context/{{context.key().id()}}">{{context.name}}</a>
