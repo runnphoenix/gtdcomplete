@@ -18,14 +18,12 @@
 		</label>
 		
 		<br>
+		<label>
 			<div>Repeat</div>
-			{% for i in range(7) %}
-				{% if repeat[i] == "1" %}
-					<input type="checkbox" name="repeat{{i}}" checked="checked">
-				{% else %}
-					<input type="checkbox" name="repeat{{i}}">
-				{% endif %}
-			{% endfor %}
+			<input type="checkbox" name="Monday" value={{eventRepeat}}>
+			<input type="checkbox" name="Tuesday" value={{eventRepeat}}>Tuesday
+			<input type="checkbox" name="Wensday" value={{eventRepeat}}>Wensday
+		</label>
 		
 		<br>
 		<label>

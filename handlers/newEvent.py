@@ -23,13 +23,21 @@ class NewEvent(Handler):
     @accessControl.user_logged_in
     def get(self):
         self.render(
-            "newEvent.html", projects=self.user.projects, contexts=self.user.contexts, timeCategories=self.user.timeCategories)
+            "newEvent.html", projects=self.user.projects, repeat='0000000', contexts=self.user.contexts, timeCategories=self.user.timeCategories)
 
     @accessControl.user_logged_in
     def post(self):
         title = self.request.get("title")
         content = self.request.get("content")
-        repeat = self.request.get("repeat")
+        repeat = ""
+        for i in range(7):
+            rep = self.request.get("repeat"+str(i))
+            if (rep != "on"):
+                repeat = repeat + '0'
+            else:
+                repeat = repeat + '1'
+        print repeat
+
         planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
         planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
         exeStartTime = datetime.strptime(self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
@@ -53,13 +61,13 @@ class NewEvent(Handler):
             if con.name == contextName:
                 context = con
 
-        errorMessage = self.erMessage(title, content, repeat)
+        errorMessage = self.erMessage(title, timeCategory, content, repeat)
 
         if errorMessage:
             self.render("newEvent.html",
-                        projects=self.projects,
-                        contexts=self.contexts,
-                        timeCategories=self.timeCategories,
+                        projects=self.user.projects,
+                        contexts=self.user.contexts,
+                        timeCategories=self.user.timeCategories,
                         errorMessage=errorMessage,
                         eventTitle=title,
                         content=content,
