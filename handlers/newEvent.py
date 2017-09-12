@@ -15,9 +15,7 @@ def events_key(name="default"):
 
 class NewEvent(Handler):
 
-    # List all existing projects
     projects = db.GqlQuery("select * from Project order by created desc")
-    # List all existing contexts && select one from them (/Projects /Contexts)
     contexts = db.GqlQuery("select * from Context order by created desc")
     timeCategories = db.GqlQuery("select * from TimeCategory order by created desc")
 
@@ -30,7 +28,7 @@ class NewEvent(Handler):
             timeCategories=self.user.timeCategories,
             repeat='0000000',
             eventTitle='',
-            content='',
+            eventContent='',
             planStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
             planEndTime=datetime.now(pytz.timezone('Asia/Shanghai')),
             exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
@@ -82,7 +80,7 @@ class NewEvent(Handler):
                         timeCategories=self.user.timeCategories,
                         errorMessage=errorMessage,
                         eventTitle=title,
-                        content=content,
+                        eventContent=content,
                         repeat=repeat,
                         planStartTime=planStartTime,
                         planEndTime=planEndTime,
