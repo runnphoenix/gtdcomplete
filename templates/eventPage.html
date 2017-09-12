@@ -18,10 +18,15 @@
 		</label>
 		
 		<br>
-		<label>
-			<div>Repeat</div>
-			<input type="text" name="repeat" value={{event.repeat}}>
-		</label>
+		<div>Repeat</div>
+		{% for i in range(7) %}
+			{% if event.repeat[i] == "1" %}
+				<input type="checkbox" name="repeat{{i}}" checked="checked">
+			{% else %}
+				<input type="checkbox" name="repeat{{i}}">
+			{% endif %}
+		{% endfor %}
+		<br>
 		
 		<br>
 		<label>
@@ -46,6 +51,7 @@
 			<div>Exe End Time</div>
 			<input type="datetime-local" name="exeEndTime" value={{event.exeEndTime}}>
 		</label>
+		<br>
 		
 		<br>
 		<label>
@@ -60,8 +66,22 @@
 				{% endif %}
 			{% endfor %}
 		</select>
-		<br>
 
+		<br>
+		<label>
+			<div>Select from TimeCategories</div>
+		</label>
+		<select name='timeCategories'>
+			{% for timeCategory in event.user.timeCategories %}
+				{% if timeCategory.name == event.timeCategory.name %}
+					<option value={timeCategory.name}} selected="selected">{{timeCategory.name}}</option> 
+				{% else %}
+					<option value={{timeCategory.name}}>{{timeCategory.name}}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+
+		<br>
 		<label>
 			<div>Select from Contexts</div>
 		</label>

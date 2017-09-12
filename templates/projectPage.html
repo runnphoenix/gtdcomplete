@@ -8,7 +8,9 @@
 			<hr>
 	
 			{% for event in project.events %}
-				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+				<div>
+					<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+				</div>
 			{% endfor %}
 		</div>
 	</div>
