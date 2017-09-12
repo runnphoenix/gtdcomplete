@@ -23,7 +23,17 @@ class NewEvent(Handler):
     @accessControl.user_logged_in
     def get(self):
         self.render(
-            "newEvent.html", projects=self.user.projects, repeat='0000000', contexts=self.user.contexts, timeCategories=self.user.timeCategories)
+            "newEvent.html",
+            projects=self.user.projects,
+            contexts=self.user.contexts,
+            timeCategories=self.user.timeCategories,
+            repeat='0000000',
+            eventTitle='',
+            content='',
+            planStartTime=datetime.now(),
+            planEndTime=datetime.now(),
+            exeStartTime=datetime.now(),
+            exeEndTime=datetime.now())
 
     @accessControl.user_logged_in
     def post(self):

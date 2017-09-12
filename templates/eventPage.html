@@ -11,7 +11,6 @@
 		</label>
 		
 		<br>
-		
 		<label>
 			<div>Content</div>
 			<input type="text" name="content" value={{event.content}}>
@@ -31,25 +30,25 @@
 		<br>
 		<label>
 			<div>Plan Start Time</div>
-			<input type="datetime-local" name="planStartTime" value={{event.planStartTime}}>
+			<input type="datetime-local" name="planStartTime" value={{event.time_plan_start.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
 		
 		<br>
 		<label>
 			<div>Plan End Time</div>
-			<input type="datetime-local" name="planEndTime" value={{event.planEndTime}}>
+			<input type="datetime-local" name="planEndTime" value={{event.time_plan_end.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
 		
 		<br>
 		<label>
 			<div>Exe Start Time</div>
-			<input type="datetime-local" name="exeStartTime" value={{event.exeStartTime}}>
+			<input type="datetime-local" name="exeStartTime" value={{event.time_exe_start.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
 		
 		<br>
 		<label>
 			<div>Exe End Time</div>
-			<input type="datetime-local" name="exeEndTime" value={{event.exeEndTime}}>
+			<input type="datetime-local" name="exeEndTime" value={{event.time_exe_end.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
 		<br>
 		
