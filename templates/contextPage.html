@@ -4,17 +4,9 @@
 
 <h3>{{context.name}}</h3>
 	<hr>
-	
 	{% for event in context.events %}
-		<a href="/event/{{event.key().id()}}>{{event.title}}</a>
-		<form method="post">
-			{% if event.user == self.user %}
-				<input name="comment" type="hidden" value="{{event.key().id()}}">
-				<a href="/event/{{event.key().id()}}/edit/{{event.key().id()}}">Edit</a>
-				<a href="/event/{{event.key().id()}}/delete/{{event.key().id()}}">Delete</a>
-			{% endif %}
-		</form>
-		<br>
+		<div>
+			<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+		</div>
 	{% endfor %}
-	
 {% endblock%}
