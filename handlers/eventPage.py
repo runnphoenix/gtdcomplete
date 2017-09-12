@@ -52,18 +52,19 @@ class EventPage(Handler):
         errorMessage = self.erMessage(title, timeCategory, content, repeat)
 
         if errorMessage:
-            self.render("newEvent.html",
-                        projects=self.user.projects,
-                        contexts=self.user.contexts,
-                        timeCategories=self.user.timeCategories,
-                        errorMessage=errorMessage,
-                        eventTitle=title,
-                        content=content,
-                        repeat=repeat,
-                        planStartTime=planStartTime,
-                        planEndTime=planEndTime,
-                        exeStartTime=exeStartTime,
-                        exeEndTime=exeEndTime)
+            event = Event(
+                project=project,
+                timeCategory=timeCategory,
+                context=context,
+                user=self.user,
+                title=title,
+                content=content,
+                repeat=repeat,
+                time_plan_start=planStartTime,
+                time_plan_end=planEndTime,
+                time_exe_start=exeStartTime,
+                time_exe_end=exeEndTime)
+            self.render("eventPage.html", event=event)
         else:
             event.project=project
             event.timeCategory=timeCategory

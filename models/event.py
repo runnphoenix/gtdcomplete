@@ -8,7 +8,7 @@ from timeCategory import TimeCategory
 
 class Event(db.Model):
 	title = db.StringProperty(required=True)
-	content = db.TextProperty(required=False)
+	content = db.StringProperty(required=False)
 	repeat = db.StringProperty(required=False)
 	time_plan_start = db.DateTimeProperty(auto_now_add=True)
 	time_plan_end = db.DateTimeProperty(auto_now_add=True)
