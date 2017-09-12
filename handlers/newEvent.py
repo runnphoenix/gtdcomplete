@@ -8,6 +8,7 @@ from models import TimeCategory
 from google.appengine.ext import db
 import accessControl
 from datetime import datetime,date,time
+import pytz
 
 def events_key(name="default"):
     return db.Key.from_path("events", name)
@@ -30,10 +31,11 @@ class NewEvent(Handler):
             repeat='0000000',
             eventTitle='',
             content='',
-            planStartTime=datetime.now(),
-            planEndTime=datetime.now(),
-            exeStartTime=datetime.now(),
-            exeEndTime=datetime.now())
+            planStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
+            planEndTime=datetime.now(pytz.timezone('Asia/Shanghai')),
+            exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
+            exeEndTime=datetime.now(pytz.timezone('Asia/Shanghai'))
+        )
 
     @accessControl.user_logged_in
     def post(self):
