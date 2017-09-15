@@ -6,7 +6,10 @@
   		<div class="col-md-7">
 			<h3>Day Time Consume</h3>
 			<hr>
-	
+
+			{% for category in result %}
+			<div>{{category}}: {{result[category][0]}} Minutes {{result[category][1]}}%</div>
+			{% endfor %}
 
 		</div>
 	</div>
