@@ -8,7 +8,6 @@ from newEvent import NewEvent
 from newProject import NewProject
 from newTimeCategory import NewTimeCategory
 from newContext import NewContext
-#from events import Events
 from projectPage import ProjectPage
 from timeCategoryPage import TimeCategoryPage
 from contextPage import ContextPage
@@ -20,3 +19,5 @@ from projects import Projects
 from timeCategories import TimeCategories
 from contexts import Contexts
 from projectsJson import ProjectsJson
+
+from dayStatistics import DayStatistics

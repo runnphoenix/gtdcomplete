@@ -1,4 +1,3 @@
-
 import webapp2
 
 from models import User
@@ -21,11 +20,14 @@ from handlers import NewContext
 from handlers import ProjectPage
 from handlers import TimeCategoryPage
 from handlers import ContextPage
-#from handlers import EditEvent
 #from handlers import DeleteEvent
 from handlers import EventPage
-#from handlers import Events
 from handlers import MainPage
+
+from handlers import DayStatistics
+#from handlers import MonthStatistics
+#from handlers import YearStatistics
+#from handlers import AllStatistics
 
 app = webapp2.WSGIApplication([
 	('/', MainPage),
@@ -43,5 +45,9 @@ app = webapp2.WSGIApplication([
 	('/projects', Projects),
 	('/timeCategories', TimeCategories),
 	('/contexts', Contexts),
+    ('/statistics/day', DayStatistics),
+    #('/statistics/month', MonthStatistics),
+    #('/statistics/year', YearStatistics),
+    #('/statistics/all', AllStatistics),
 	('/projects.json', ProjectsJson)
 ], debug=True)
