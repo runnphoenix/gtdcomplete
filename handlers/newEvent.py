@@ -39,6 +39,7 @@ class NewEvent(Handler):
     def post(self):
         title = self.request.get("title")
         content = self.request.get("content")
+
         repeat = ""
         for i in range(7):
             rep = self.request.get("repeat"+str(i))
@@ -71,7 +72,7 @@ class NewEvent(Handler):
             if con.name == contextName:
                 context = con
 
-        errorMessage = self.erMessage(title, timeCategory, content, repeat)
+        errorMessage = self.erMessage(title)
 
         if errorMessage:
             self.render("newEvent.html",
@@ -103,8 +104,8 @@ class NewEvent(Handler):
             event.put()
             self.redirect("/event/%s" % str(event.key().id()))
 
-    def erMessage(self, title, timeCategory, content, repeat):
-        if not title or not timeCategory or not content or not repeat:
+    def erMessage(self, title):
+        if not title:
             return "Field is empty."
         else:
             return None
