@@ -3,12 +3,33 @@
 {% block contentSection %}
 <div class="container">
 	<div class="row">
-  		<div class="col-md-7">
+  	<div class="col-md-7">
 			<h3>Time Statistics</h3>
+			
+			<form method="post">
+				<div class="row">
+					<div class="col-md-4">
+						<label>
+							<div>Start Date</div>
+							<input type="date-local" name="startDate" value={{startDate.strftime("%Y-%m-%d")}}>
+						</label>
+					</div>
+					<div class="col-md-4">
+						<label>
+							<div>End Date</div>
+								<input type="date-local" name="endDate" value={{endDate.strftime("%Y-%m-%d")}}>
+						</label>
+					</div>
+				</div>
+
+				<br>
+				<input type="submit">
+			</form>
+
 			<hr>
 
 			{% for category in result %}
-			<div>{{category}}: {{result[category][0]}} Minutes {{result[category][1]}}%</div>
+				<div>{{category}}: {{result[category][0]}} Minutes {{result[category][1]}}%</div>
 			{% endfor %}
 
 		</div>

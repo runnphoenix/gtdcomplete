@@ -1,8 +1,6 @@
 #!/usr/bin/python
 
-#from accessControl import AccessControl
 #from deleteEvent import DeleteEvent
-#from editEvent import EditEvent
 from eventPage import EventPage
 from newEvent import NewEvent
 from newProject import NewProject
@@ -20,7 +18,4 @@ from timeCategories import TimeCategories
 from contexts import Contexts
 from projectsJson import ProjectsJson
 
-from dayStatistics import DayStatistics
-from allStatistics import AllStatistics
-from monthStatistics import MonthStatistics
-from yearStatistics import YearStatistics
+from timeStatistics import TimeStatistics
