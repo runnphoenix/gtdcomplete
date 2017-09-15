@@ -21,3 +21,6 @@ from contexts import Contexts
 from projectsJson import ProjectsJson
 
 from dayStatistics import DayStatistics
+from allStatistics import AllStatistics
+from monthStatistics import MonthStatistics
+from yearStatistics import YearStatistics

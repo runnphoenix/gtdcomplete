@@ -25,9 +25,9 @@ from handlers import EventPage
 from handlers import MainPage
 
 from handlers import DayStatistics
-#from handlers import MonthStatistics
-#from handlers import YearStatistics
-#from handlers import AllStatistics
+from handlers import MonthStatistics
+from handlers import YearStatistics
+from handlers import AllStatistics
 
 app = webapp2.WSGIApplication([
 	('/', MainPage),
@@ -46,8 +46,8 @@ app = webapp2.WSGIApplication([
 	('/timeCategories', TimeCategories),
 	('/contexts', Contexts),
     ('/statistics/day', DayStatistics),
-    #('/statistics/month', MonthStatistics),
-    #('/statistics/year', YearStatistics),
-    #('/statistics/all', AllStatistics),
+    ('/statistics/month', MonthStatistics),
+    ('/statistics/year', YearStatistics),
+    ('/statistics/all', AllStatistics),
 	('/projects.json', ProjectsJson)
 ], debug=True)
