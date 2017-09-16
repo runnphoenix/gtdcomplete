@@ -25,7 +25,15 @@ class TimeStatistics(Handler):
         startDate = datetime.strptime(self.request.get("startDate"), "%Y-%m-%d")
         endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
         # claculate days count
-
+	startYear = startDate.year
+	endYear = endDate.year
+	startMonth = startDate.month
+	endMonth = endDate.month
+	errMessage = ''
+	if startDate > endDate:
+		errMessage = "End date MUST be bigger than start date."
+	else: # with duration
+		days = (endDate - startDate).days + 1	
 
         # get all events
         result = {}
@@ -33,26 +41,14 @@ class TimeStatistics(Handler):
         for timeCategory in timeCategories:
             categoryTime = 0
             for event in timeCategory.events:
-                if event.time_exe_start.date() > startDate and event.time_exe_end < endDate:
+		print event.time_exe_start.date(), startDate.date()
+                if event.time_exe_start.date() >= startDate.date() and event.time_exe_end.date() <= endDate.date():
                     categoryTime = categoryTime + (event.time_exe_end - event.time_exe_start).seconds / 60
-            # Need to calculate how many days
-            result[timeCategory.name] = [categoryTime, float(categoryTime)/24/0.6/days]
+            result[timeCategory.name] = [categoryTime, float(categoryTime)/24/60/days*100]
 
         self.render("statistics.html",
                     startDate=startDate,
                     endDate=endDate,
-                    result=result
+                    result=result,
+		    errMessage = errMessage
                     )
-
-    def dayNumbersMonth(self, year, month):
-        longerMonths = [1,3,5,7,8,10,12]
-        shorterMonths = [4,6,9,11]
-        if month in longerMonths:
-            return 31
-        elif month in shorterMonths:
-            return 30
-        else:
-            if year % 4 == 0:
-                return 29
-            else:
-                return 28

@@ -28,6 +28,10 @@
 
 			<hr>
 
+			{% if errMessage %}
+				<div>{{errMessage}}</div>
+			{% endif %}
+
 			{% for category in result %}
 				<div>{{category}}: {{result[category][0]}} Minutes {{result[category][1]}}%</div>
 			{% endfor %}
