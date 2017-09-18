@@ -11,6 +11,9 @@ class ProjectPage(Handler):
 		self.render("projectPage.html", project=project)
 
 	@accessControl.user_logged_in
-	def post(self):
-		pass
-
+	@accessControl.project_exist
+	def post(self, project_id, project):
+		for event in project.events:
+			event.delete()
+		project.delete()
+		self.redirect("/projects")

@@ -5,6 +5,13 @@
 	<div class="row">
   		<div class="col-md-7">
 			<h3>{{project.name}}</h3>
+
+			{% if project.name != "inbox" %}
+				<form method="post">
+					<input type="submit" value="Delete">
+				</form>
+			{% endif %}
+
 			<hr>
 	
 			{% for event in project.events %}
