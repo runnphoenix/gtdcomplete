@@ -41,8 +41,16 @@ class TimeStatistics(Handler):
         for timeCategory in timeCategories:
             categoryTime = 0
             for event in timeCategory.events:
-                if event.time_exe_start.date() >= startDate.date() and event.time_exe_end.date() <= endDate.date():
-                    categoryTime = categoryTime + (event.time_exe_end - event.time_exe_start).seconds / 60
+                eventStartT = event.time_exe_start
+                eventEndT = event.time_exe_end
+                # Event across Midnight: 0.whole event in 1.first half in
+                # 2.second half in
+                if eventStartT.date() >= startDate.date() and eventEndT.date() <= endDate.date():
+                    categoryTime = categoryTime + (eventEndT - eventStartT).seconds / 60
+                elif eventStartT.date() == startDate.date() and (eventEndT.date() - endDate.date()).days == 1:
+                    categoryTime = categoryTime + (23 - eventStartT.hour)*60 + 60-eventStartT.minute
+                elif (startDate.date() - eventStartT.date()).days == 1 and eventEndT.date() == endDate.date():
+                    categoryTime = categoryTime + eventEndT.hour * 60 + eventEndT.minute
             result[timeCategory.name] = [categoryTime, float(categoryTime)/24/60/days*100]
 
         self.render("statistics.html",
