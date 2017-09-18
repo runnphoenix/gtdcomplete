@@ -8,4 +8,11 @@ class ProjectsJson(Handler):
 
     @accessControl.user_logged_in
     def get(self):
-        return json.dumps({'projects':[x.name for x in self.user.projects]})
+        self.response.headers['Content-Type'] = 'application/json'
+        projects = []
+        for project in self.user.projects:
+            projects.append(project.name)
+        obj = {
+            'projects': projects
+        }
+        self.response.out.write(json.dumps(obj))
