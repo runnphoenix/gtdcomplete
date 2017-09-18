@@ -41,7 +41,6 @@ class TimeStatistics(Handler):
         for timeCategory in timeCategories:
             categoryTime = 0
             for event in timeCategory.events:
-		print event.time_exe_start.date(), startDate.date()
                 if event.time_exe_start.date() >= startDate.date() and event.time_exe_end.date() <= endDate.date():
                     categoryTime = categoryTime + (event.time_exe_end - event.time_exe_start).seconds / 60
             result[timeCategory.name] = [categoryTime, float(categoryTime)/24/60/days*100]

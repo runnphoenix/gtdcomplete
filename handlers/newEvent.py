@@ -29,6 +29,7 @@ class NewEvent(Handler):
             repeat='0000000',
             eventTitle='',
             eventContent='',
+            finished=False,
             planStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
             planEndTime=datetime.now(pytz.timezone('Asia/Shanghai')),
             exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
@@ -85,7 +86,8 @@ class NewEvent(Handler):
                         planStartTime=planStartTime,
                         planEndTime=planEndTime,
                         exeStartTime=exeStartTime,
-                        exeEndTime=exeEndTime)
+                        exeEndTime=exeEndTime,
+                        finished=False)
         else:
             event = Event(
                 project=project,
@@ -99,7 +101,8 @@ class NewEvent(Handler):
                 time_plan_start=planStartTime,
                 time_plan_end=planEndTime,
                 time_exe_start=exeStartTime,
-                time_exe_end=exeEndTime)
+                time_exe_end=exeEndTime,
+                finished=False)
             event.put()
             self.redirect("/event/%s" % str(event.key().id()))
 

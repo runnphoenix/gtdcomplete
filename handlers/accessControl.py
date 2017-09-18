@@ -102,5 +102,3 @@ def user_own_event(function):
 			self.redirect('/event/%s' % str(event_id))
 			return
 	return wrapper
-
-

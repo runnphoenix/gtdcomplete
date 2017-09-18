@@ -15,8 +15,6 @@ class EventPage(Handler):
     @accessControl.event_exist
     @accessControl.user_own_event
     def post(self, event_id, event):
-        print self.request.params
-
         if "Delete" in self.request.params:
             event.delete()
             self.redirect("/projects")
@@ -54,7 +52,13 @@ class EventPage(Handler):
                 if con.name == contextName:
                     context = con
 
-            errorMessage = self.erMessage(title, timeCategory, content, repeat)
+            if self.request.get("finished") == 'on':
+                finished = True
+            else:
+                finished = False
+            print finished
+
+            errorMessage = self.erMessage(title)
 
             if errorMessage:
                 event = Event(
@@ -68,7 +72,8 @@ class EventPage(Handler):
                     time_plan_start=planStartTime,
                     time_plan_end=planEndTime,
                     time_exe_start=exeStartTime,
-                    time_exe_end=exeEndTime)
+                    time_exe_end=exeEndTime,
+                    finished = False)
                 self.render("eventPage.html", event=event)
             else:
                 event.project=project
@@ -82,12 +87,13 @@ class EventPage(Handler):
                 event.time_plan_end=planEndTime
                 event.time_exe_start=exeStartTime
                 event.time_exe_end=exeEndTime
+                event.finished=finished
 
                 event.put()
                 self.redirect("/event/%s" % str(event.key().id()))
 
-    def erMessage(self, title, timeCategory, content, repeat):
-        if not title or not timeCategory or not content or not repeat:
+    def erMessage(self, title):
+        if not title:
             return "Field is empty."
         else:
             return None
