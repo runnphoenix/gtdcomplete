@@ -59,7 +59,7 @@
 		<select name='projects'>
 			{% for project in event.user.projects %}
 				{% if project.name == event.project.name %}
-					<option value={project.name}} selected="selected">{{project.name}}</option> 
+				<option value={{project.name}} selected="selected">{{project.name}}</option> 
 				{% else %}
 					<option value={{project.name}}>{{project.name}}</option>
 				{% endif %}
@@ -73,7 +73,7 @@
 		<select name='timeCategories'>
 			{% for timeCategory in event.user.timeCategories %}
 				{% if timeCategory.name == event.timeCategory.name %}
-					<option value={timeCategory.name}} selected="selected">{{timeCategory.name}}</option> 
+				<option value={{timeCategory.name}} selected="selected">{{timeCategory.name}}</option> 
 				{% else %}
 					<option value={{timeCategory.name}}>{{timeCategory.name}}</option>
 				{% endif %}
@@ -87,7 +87,7 @@
 		<select name='contexts'>
 			{% for context in event.user.contexts %}
 				{% if context.name == event.context.name %}
-					<option value={context.name}} selected="selected">{{context.name}}</option> 
+				<option value={{context.name}} selected="selected">{{context.name}}</option> 
 				{% else %}
 					<option value={{context.name}}>{{context.name}}</option>
 				{% endif %}
@@ -102,7 +102,7 @@
 		
 		<br><br>
 		
-		<input type="submit">
-		
+		<input type="submit" name="Update" value="Update">
+		<input type="submit" name="Delete" value="Delete">	
 	</form>
 {% endblock %}

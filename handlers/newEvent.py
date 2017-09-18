@@ -47,7 +47,6 @@ class NewEvent(Handler):
                 repeat = repeat + '0'
             else:
                 repeat = repeat + '1'
-        print repeat
 
         planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
         planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")

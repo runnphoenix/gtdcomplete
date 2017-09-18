@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-#from deleteEvent import DeleteEvent
 from eventPage import EventPage
 from newEvent import NewEvent
 from newProject import NewProject

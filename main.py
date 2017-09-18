@@ -20,7 +20,6 @@ from handlers import NewContext
 from handlers import ProjectPage
 from handlers import TimeCategoryPage
 from handlers import ContextPage
-#from handlers import DeleteEvent
 from handlers import EventPage
 from handlers import MainPage
 

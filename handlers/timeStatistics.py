@@ -25,15 +25,15 @@ class TimeStatistics(Handler):
         startDate = datetime.strptime(self.request.get("startDate"), "%Y-%m-%d")
         endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
         # claculate days count
-	startYear = startDate.year
-	endYear = endDate.year
-	startMonth = startDate.month
-	endMonth = endDate.month
-	errMessage = ''
-	if startDate > endDate:
-		errMessage = "End date MUST be bigger than start date."
-	else: # with duration
-		days = (endDate - startDate).days + 1	
+        startYear = startDate.year
+        endYear = endDate.year
+        startMonth = startDate.month
+        endMonth = endDate.month
+        errMessage = ''
+        if startDate > endDate:
+            errMessage = "End date MUST be bigger than start date."
+        else: # with duration
+            days = (endDate - startDate).days + 1
 
         # get all events
         result = {}
@@ -50,5 +50,4 @@ class TimeStatistics(Handler):
                     startDate=startDate,
                     endDate=endDate,
                     result=result,
-		    errMessage = errMessage
-                    )
+                    errMessage = errMessage)
