@@ -1,6 +1,6 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-	<h4>Project: {{project.name}}</h4>
+	<h4>{{project.name}}</h4>
 	{% if project.name != "inbox" %}
 		<form method="post">
 			<input type="submit" value="Delete Project">
