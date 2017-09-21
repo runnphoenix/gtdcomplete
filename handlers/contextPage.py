@@ -6,9 +6,6 @@ import accessControl
 
 
 class ContextPage(Handler):
-
-	# find all events @ this project
-
 	@accessControl.user_logged_in
 	@accessControl.context_exist
 	def get(self, context_id, context):
@@ -16,6 +13,9 @@ class ContextPage(Handler):
 
 	@accessControl.user_logged_in
 	@accessControl.context_exist
-	def post(self):
-		pass
+	def post(self, context_id, context):
+		for event in context.events:
+			event.delete()
+		context.delete()
+		self.redirect("/contexts")
 

@@ -3,7 +3,12 @@
 {% block contentSection %}
 
 <h3>{{context.name}}</h3>
+	<form method="post">
+		<input type="submit" value="Delete">
+	</form>
+	
 	<hr>
+
 	{% for event in context.events %}
 		<div>
 			<a href="/event/{{event.key().id()}}">{{event.title}}</a>
