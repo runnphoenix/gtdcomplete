@@ -3,25 +3,20 @@
 {% block eventSection %}
 <div class="container">
 	<div class="row">
-		<div class="col-md-12">
-			<div class="col-md-2">
-
-				<h2>Tasks</h2>
-				<a href="/projects"><h3>Projects</h3></a>
-				<a href="/contexts"><h3>Contexts</h3></a>
-				<a href="/timeCategories"><h3>TimeCategories</h3></a>
-				<a href="/event/new"><h3>Add Event</h3></a>
-
-				<hr>
-
-				<h2>Statistics</h2>
-				<a href="/statistics"><h3>Time Statistics</h3></a>
-
-			</div>
-			<div class="col-md-10">
+		<div class="col-md-3">
+			<h2>Tasks</h2>
+			<a href="/projects"><h3>Projects</h3></a>
+			<a href="/contexts"><h3>Contexts</h3></a>
+			<a href="/timeCategories"><h3>TimeCategories</h3></a>
+			<a href="/event/new"><h3>Add Event</h3></a>
+			<hr>
+			<h2>Statistics</h2>
+			<a href="/statistics"><h3>Time Statistics</h3></a>
+			<hr>
+		</div>
+		<div class="col-md-9">
 				{% block contentSection %}
 				{% endblock %}
-			</div>
 		</div>
 	</div>
 </div>

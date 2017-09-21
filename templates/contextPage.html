@@ -1,17 +1,15 @@
 {% extends "sectionBase.html" %}
-
 {% block contentSection %}
-
-<h3>{{context.name}}</h3>
+	<h4>Context: {{context.name}}</h4>
 	<form method="post">
-		<input type="submit" value="Delete">
+		<input type="submit" value="Delete Context">
 	</form>
-	
-	<hr>
 
+	<br>
+	<h4>Events:</h4>
 	{% for event in context.events %}
-		<div>
+		<h5>
 			<a href="/event/{{event.key().id()}}">{{event.title}}</a>
-		</div>
+		</h5>
 	{% endfor %}
 {% endblock%}

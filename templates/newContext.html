@@ -1,22 +1,15 @@
 {% extends "sectionBase.html" %}
-
 {% block contentSection %}
 	<h3>New Context</h3>
-	
 	<form method="post">
-	
 		<label>
 			<div>Name</div>					
 			<input type="text" name="name" value={{contextName}}>
 		</label>
-
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>
 		{% endif %}
-		
 		<br><br>
-		
 		<input type="submit">
-		
 	</form>
 {% endblock %}

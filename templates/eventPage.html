@@ -1,21 +1,16 @@
 {% extends "sectionBase.html" %}
-
 {% block contentSection %}
 	<h3>{{event.title}}</h3>
-	
 	<form method="post">
-	
 		<label>
 			<div>Title</div>					
 			<input type="text" name="title" value={{event.title}}>
 		</label>
-		
 		<br>
 		<label>
 			<div>Content</div>
 			<input type="text" name="content" value={{event.content}}>
 		</label>
-		
 		<br>
 		<div>Repeat</div>
 		{% for i in range(7) %}
@@ -26,32 +21,27 @@
 			{% endif %}
 		{% endfor %}
 		<br>
-		
 		<br>
 		<label>
 			<div>Plan Start Time</div>
 			<input type="datetime-local" name="planStartTime" value={{event.time_plan_start.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
-		
 		<br>
 		<label>
 			<div>Plan End Time</div>
 			<input type="datetime-local" name="planEndTime" value={{event.time_plan_end.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
-		
 		<br>
 		<label>
 			<div>Exe Start Time</div>
 			<input type="datetime-local" name="exeStartTime" value={{event.time_exe_start.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
-		
 		<br>
 		<label>
 			<div>Exe End Time</div>
 			<input type="datetime-local" name="exeEndTime" value={{event.time_exe_end.strftime("%Y-%m-%dT%H:%M")}}>
 		</label>
 		<br>
-		
 		<br>
 		<label>
 			<div>Select from Projects</div>
@@ -65,7 +55,6 @@
 				{% endif %}
 			{% endfor %}
 		</select>
-
 		<br>
 		<label>
 			<div>Select from TimeCategories</div>
@@ -79,7 +68,6 @@
 				{% endif %}
 			{% endfor %}
 		</select>
-
 		<br>
 		<label>
 			<div>Select from Contexts</div>
@@ -95,11 +83,9 @@
 			{% endfor %}
 		</select>
 		<br><br>
-
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>
 		{% endif %}
-		
 		<label>
 			<div>Finished  
 				{% if event.finished %}
@@ -109,9 +95,7 @@
 				{% endif %}
 			</div>
 		</label>
-
 		<br><br>
-		
 		<input type="submit" name="Update" value="Update">
 		<input type="submit" name="Delete" value="Delete">	
 	</form>

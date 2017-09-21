@@ -1,24 +1,14 @@
 {% extends "sectionBase.html" %}
-
 {% block contentSection %}
-<div class="container">
-	<div class="row">
-  		<div class="col-md-7">
-			<h3>{{timeCategory.name}}</h3>
-
-			<form method="post">
-				<input type="submit" value="Delete">
-			</form>
-
-			<hr>
-	
-			{% for event in timeCategory.events %}
-				<div>
-					<a href="/event/{{event.key().id()}}">{{event.title}}</a>
-				</div>
-			{% endfor %}
-
-		</div>
-	</div>
-</div>
+	<h4>Category: {{timeCategory.name}}</h4>
+	<form method="post">
+		<input type="submit" value="Delete Category">
+	</form>
+	<br>
+	<h4>Events:</h4>
+	{% for event in timeCategory.events %}
+		<h5>
+			<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+		</h5>
+	{% endfor %}
 {% endblock %}
