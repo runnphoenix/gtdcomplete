@@ -52,7 +52,8 @@ class TimeStatistics(Handler):
                     categoryTime = categoryTime + (23 - eventStartT.hour)*60 + 60-eventStartT.minute
                 elif (startDate.date() - eventStartT.date()).days == 1 and eventEndT.date() == endDate.date():
                     categoryTime = categoryTime + eventEndT.hour * 60 + eventEndT.minute
-            result[timeCategory.name] = [categoryTime, float(categoryTime)/24/60/days*100]
+            if categoryTime > 0:
+                result[timeCategory.name] = [categoryTime, float(categoryTime)/24/60/days*100]
             # For time that not recorded
             recordedTimeCount = recordedTimeCount + categoryTime
         recordedTime = [recordedTimeCount, float(recordedTimeCount)/24/60/days*100]
