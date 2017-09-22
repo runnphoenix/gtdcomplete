@@ -17,6 +17,9 @@ class NewTimeCategory(Handler):
 		if not name:
 			errorMessage = 'name can not be empty'
 			self.render('newTimeCategory.html', errorMessage=errorMessage)
+		elif ' ' in name:
+			errorMessage = 'No space allowed.'
+			self.render('newTimeCategory.html', errorMessage=errorMessage)
 		else:
 			# find project names already exist
 			timeCategory_exist = False

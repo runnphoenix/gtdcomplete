@@ -17,6 +17,9 @@ class NewContext(Handler):
 		if not name:
 			errorMessage = 'name can not be empty'
 			self.render('newContext.html', errorMessage=errorMessage)
+		elif ' ' in name:
+			errorMessage = 'No space allowed.'
+			self.render('newContext.html', errorMessage=errorMessage)
 		else:
 			context = Context(name=name, user=self.user)
 			context.put()

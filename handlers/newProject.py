@@ -17,6 +17,9 @@ class NewProject(Handler):
 		if not name:
 			errorMessage = 'name can not be empty'
 			self.render('newProject.html', errorMessage=errorMessage)
+		elif ' ' in name:
+			errorMessage = 'No space allowed.'
+			self.render('newProject.html', errorMessage=errorMessage)
 		else:
 			# find project names already exist
 			project_exist = False
