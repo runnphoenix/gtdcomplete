@@ -51,9 +51,7 @@ class NewEvent(Handler):
 
         project = None
         projectName = self.request.get('projects')
-        print projectName
         for pro in self.user.projects:
-            print pro.name
             if pro.name == projectName:
                 project = pro
 
