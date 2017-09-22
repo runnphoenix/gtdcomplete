@@ -1,39 +1,32 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-<div class="container">
-	<div class="row">
-  	<div class="col-md-7">
-			<h3>Time Statistics</h3>
+	<h3>Time Statistics</h3>
 			
-			<form method="post">
-				<div class="row">
-					<div class="col-md-4">
-						<label>
-							<div>Start Date</div>
-							<input type="date-local" name="startDate" value={{startDate.strftime("%Y-%m-%d")}}>
-						</label>
-					</div>
-					<div class="col-md-4">
-						<label>
-							<div>End Date</div>
-								<input type="date-local" name="endDate" value={{endDate.strftime("%Y-%m-%d")}}>
-						</label>
-					</div>
-				</div>
-				<br>
-				<input type="submit">
-			</form>
+	<form method="post">
+		<label>
+			<div>Start Date</div>
+			<input type="date-local" name="startDate" value={{startDate.strftime("%Y-%m-%d")}}>
+		</label>
+		<label>
+			<div>End Date</div>
+			<input type="date-local" name="endDate" value={{endDate.strftime("%Y-%m-%d")}}>
+		</label>
+		<br>
+		<input type="submit">
+	</form>
 
-			<hr>
+	<hr>
 
-			{% if errMessage %}
-				<div>{{errMessage}}</div>
-			{% endif %}
-			{% for category in result %}
-				<div>{{category}}: {{result[category][0]}} Minutes {{result[category][1]}}%</div>
-			{% endfor %}
+	{% if errMessage %}
+		<div>{{errMessage}}</div>
+	{% endif %}
+	{% for category in result %}
+		<div>{{category}}: {{result[category][0]}} Minutes {{result[category][1]}}%</div>
+	{% endfor %}
 
-		</div>
-	</div>
-</div>
+	<br>
+	{% if recordedTime %}
+		<div>Recorded Time: {{recordedTime[0]}} Minutes {{recordedTime[1]}}%</div>
+	{% endif %}
+
 {% endblock %}

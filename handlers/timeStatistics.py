@@ -37,6 +37,7 @@ class TimeStatistics(Handler):
 
         # get all events
         result = {}
+        recordedTimeCount = 0
         timeCategories = self.user.timeCategories
         for timeCategory in timeCategories:
             categoryTime = 0
@@ -52,9 +53,13 @@ class TimeStatistics(Handler):
                 elif (startDate.date() - eventStartT.date()).days == 1 and eventEndT.date() == endDate.date():
                     categoryTime = categoryTime + eventEndT.hour * 60 + eventEndT.minute
             result[timeCategory.name] = [categoryTime, float(categoryTime)/24/60/days*100]
+            # For time that not recorded
+            recordedTimeCount = recordedTimeCount + categoryTime
+        recordedTime = [recordedTimeCount, float(recordedTimeCount)/24/60/days*100]
 
         self.render("statistics.html",
                     startDate=startDate,
                     endDate=endDate,
                     result=result,
+                    recordedTime=recordedTime,
                     errMessage = errMessage)
