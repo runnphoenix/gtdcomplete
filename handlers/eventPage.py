@@ -3,7 +3,7 @@
 from handler import Handler
 from models import Event
 import accessControl
-from datetime import datetime,date,time
+from datetime import datetime,date,time,timedelta
 
 class EventPage(Handler):
     @accessControl.user_logged_in
@@ -56,7 +56,6 @@ class EventPage(Handler):
                 finished = True
             else:
                 finished = False
-            print finished
 
             errorMessage = self.erMessage(title)
 
@@ -76,6 +75,32 @@ class EventPage(Handler):
                     finished = False)
                 self.render("eventPage.html", event=event)
             else:
+                if finished == True and event.finished == False:
+                    # Change event status to finished
+                    # Add a new event with date+1 AT NEXT REPEAT
+                    if event.repeat != "0000000":
+                        # find date of next event
+                        weekDayth = event.time_plan_start.date().weekday()
+                        nextDayCount=-1
+                        doubleRepeat = repeat+repeat
+                        for i in range(weekDayth+1, 14):
+                            if doubleRepeat[i]=='1':
+                                nextDayCount = i-weekDayth
+                                break
+                        newEvent = Event(
+                            project=event.project,
+                            timeCategory=event.timeCategory,
+                            context=event.context,
+                            user=self.user,
+                            title=event.title,
+                            content=event.content,
+                            repeat=event.repeat,
+                            time_plan_start=event.time_plan_start+timedelta(days=nextDayCount),
+                            time_plan_end=event.time_plan_end+timedelta(days=nextDayCount),
+                            time_exe_start=event.time_exe_start+timedelta(days=nextDayCount),
+                            time_exe_end=event.time_exe_end+timedelta(days=nextDayCount),
+                            finished=False)
+
                 event.project=project
                 event.timeCategory=timeCategory
                 event.context=context
@@ -88,6 +113,7 @@ class EventPage(Handler):
                 event.time_exe_start=exeStartTime
                 event.time_exe_end=exeEndTime
                 event.finished=finished
+
 
                 event.put()
                 self.redirect("/event/%s" % str(event.key().id()))
