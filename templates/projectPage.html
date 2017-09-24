@@ -9,8 +9,10 @@
 	<br>
 	<h4>Events:</h4>
 	{% for event in project.events %}
-		<div>
-			<a href="/event/{{event.key().id()}}">{{event.title}}</a>
-		</div>
+		{% if event.finished == False %}
+			<div>
+				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+			</div>
+			{% endif %}
 	{% endfor %}
 {% endblock %}
