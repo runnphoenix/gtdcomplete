@@ -7,8 +7,10 @@
 	<br>
 	<h4>Events:</h4>
 	{% for event in timeCategory.events %}
-		<h5>
-			<a href="/event/{{event.key().id()}}">{{event.title}}</a>
-		</h5>
+		{% if event.finished == False %}
+			<h5>
+				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+			</h5>
+		{% endif %}
 	{% endfor %}
 {% endblock %}
