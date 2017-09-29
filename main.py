@@ -25,6 +25,9 @@ from handlers import MainPage
 
 from handlers import TimeStatistics
 
+
+from handlers import Calendar
+
 app = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/signup', Signup),
@@ -42,5 +45,6 @@ app = webapp2.WSGIApplication([
 	('/timeCategories', TimeCategories),
 	('/contexts', Contexts),
     ('/statistics', TimeStatistics),
-	('/projects.json', ProjectsJson)
+	('/projects.json', ProjectsJson),
+    ('/calendar', Calendar)
 ], debug=True)
