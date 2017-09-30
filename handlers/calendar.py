@@ -13,32 +13,52 @@ from httplib2 import Http
 import datetime
 
 from oauth2client.contrib.appengine import AppAssertionCredentials
+from oauth2client.contrib.appengine import OAuth2Decorator
+from google.appengine.api import memcache
 
+#decorator = OAuth2Decorator(
+#  client_id='616429551496-5pq095a8rujmih0l0alfrl8jgadqtaaj.apps.googleusercontent.com',
+#  client_secret='7kOx9i9yDJriYbJbpFvDaizI',
+#  scope='https://www.googleapis.com/auth/calendar')
+#service = discovery.build('calendar', 'v3')
+
+#http://gtdcomplete-171902.appspot.com/oauth2callback?
+#state=http://gtdcomplete-171902.appspot.com/calendar:vr_52GqbH7YdFjqhC2V7YjoxNTA2NzU0MzYy&code=4/ZHVTxp_T_eQuxCveoeQERl6Qa7-DafJOP_jEW0NbiAc#
 
 class Calendar(Handler):
 	def get(self):
 		self.render('calendar.html')
 
+	#@decorator.oauth_required
 	def post(self):
 
-		credentials = AppAssertionCredentials('https://www.googleapis.com/auth/calendar')
-		http_auth = credentials.authorize(Http())
+
+	#	http = decorator.http()
+	#	request = service.events().list(calendarId='primary')
+	#	response = request.execute(http=http)
+	#	relf.render('calendar.html', response=response)
+
+
+
+		credentials = AppAssertionCredentials(scope='https://www.googleapis.com/auth/calendar')
+		http_auth = credentials.authorize(Http(memcache))
+		print(http_auth.__dict__)
 		service = discovery.build('calendar', 'v3', http=http_auth)
-		now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-		eventsResult = service.events().list(
-			calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
-			orderBy='startTime').execute()
-		events = eventsResult.get('items', [])
+	#	now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+	#	eventsResult = service.events().list(
+	#		calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
+	#		orderBy='startTime').execute()
+	#	events = eventsResult.get('items', [])
+	#	if not events:
+	#		errMessage = 'No Events Found.'
+	#	else:
+	#		errMessage = 'Events Founded.'
+	#	for event in events:
+	#		start = event['start'].get('dateTime', event['start'].get('date'))
 
-		if not events:
-			errMessage = 'No Events Found.'
-		else:
-			errMessage = 'Events Founded.'
-		for event in events:
-			start = event['start'].get('dateTime', event['start'].get('date'))
+		calendar_list_entry = service.calendarList().get(calendarId='calendarId').execute()
 
-		self.render('calendar.html',errMessage=errMessage)
-
+		self.render('calendar.html',calendarlist=calendar_list_entry,errMessage=errMessage,credentials=credentials.__dict__,eventsResult=eventsResult,auth=http_auth,service=service)
 
 
 
