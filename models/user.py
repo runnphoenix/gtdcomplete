@@ -12,8 +12,6 @@ class User(db.Model):
 	name = db.StringProperty(required=True)
 	pw_hash = db.StringProperty(required=True)
 	email = db.StringProperty()
-	state = db.StringProperty()
-	google_credential = db.StringProperty()
 
 	@classmethod
 	def by_name(cls, name):
