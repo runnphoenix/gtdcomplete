@@ -28,6 +28,15 @@ from handlers import TimeStatistics
 
 from handlers import Calendar
 
+from handlers import Oauth2Callback
+from oauth2client.contrib.appengine import OAuth2Decorator
+from apiclient import discovery
+decorator = OAuth2Decorator(
+  client_id='616429551496-5pq095a8rujmih0l0alfrl8jgadqtaaj.apps.googleusercontent.com',
+  client_secret='7kOx9i9yDJriYbJbpFvDaizI',
+  scope='https://www.googleapis.com/auth/calendar')
+service = discovery.build('calendar', 'v3')
+
 app = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/signup', Signup),
@@ -46,5 +55,6 @@ app = webapp2.WSGIApplication([
 	('/contexts', Contexts),
     ('/statistics', TimeStatistics),
 	('/projects.json', ProjectsJson),
-    ('/calendar', Calendar)
+    ('/calendar', Calendar),
+	('oauth2callback', Oauth2Callback),
 ], debug=True)
