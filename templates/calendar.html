@@ -1,13 +1,9 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-
-	<h3>errMessage: {{errMessage}}</h3>
-	<h3>Credential: {{credentials}}</h3>	
-	<h3>auth: {{auth}}</h3>
-	<h3>service: {{service}}</h3>
-	<h3>eventsResult: {{eventsResult}}</h3>
-	<h3>calendarlist: {{calendarlist}}</h3>
-	<h3>response: {{response}}</h3>
+	<h3>Events: </h3>
+	{% for event in events %}
+		<h4>{{event}}</h4>
+	{% endfor %}
 
 	<form method='post'>
 		<input type="submit">
