@@ -25,7 +25,14 @@ from handlers import MainPage
 from handlers import TimeStatistics
 
 from handlers import Calendar
-from handlers import Oauth2Callback
+
+
+from oauth2client.contrib.appengine import OAuth2Decorator
+decorator = OAuth2Decorator(
+  client_id='616429551496-5pq095a8rujmih0l0alfrl8jgadqtaaj.apps.googleusercontent.com',
+  client_secret='7kOx9i9yDJriYbJbpFvDaizI',
+  scope='https://www.googleapis.com/auth/calendar')
+
 
 app = webapp2.WSGIApplication([
 	('/', MainPage),
@@ -46,5 +53,5 @@ app = webapp2.WSGIApplication([
     ('/statistics', TimeStatistics),
 	('/projects.json', ProjectsJson),
     ('/calendar', Calendar),
-	('oauth2callback', Oauth2Callback),
+    (decorator.callback_path, decorator.callback_handler()),
 ], debug=True)

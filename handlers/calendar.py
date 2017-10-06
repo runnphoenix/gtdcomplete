@@ -1,8 +1,8 @@
 #/usr/bin/python
 
-from apiclient import discovery
 from handler import Handler
 from httplib2 import Http
+from apiclient import discovery
 from oauth2client.contrib.appengine import OAuth2Decorator
 
 decorator = OAuth2Decorator(
