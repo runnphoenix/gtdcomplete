@@ -5,6 +5,7 @@ from models import Event
 from models import Project
 from models import Context
 from models import TimeCategory
+from models import Oauth2Service
 
 from handlers import Signup
 from handlers import Login
@@ -26,14 +27,6 @@ from handlers import TimeStatistics
 
 from handlers import Calendar
 
-
-from oauth2client.contrib.appengine import OAuth2Decorator
-decorator = OAuth2Decorator(
-  client_id='616429551496-5pq095a8rujmih0l0alfrl8jgadqtaaj.apps.googleusercontent.com',
-  client_secret='7kOx9i9yDJriYbJbpFvDaizI',
-  scope='https://www.googleapis.com/auth/calendar')
-
-
 app = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/signup', Signup),
@@ -53,5 +46,5 @@ app = webapp2.WSGIApplication([
     ('/statistics', TimeStatistics),
 	('/projects.json', ProjectsJson),
     ('/calendar', Calendar),
-    (decorator.callback_path, decorator.callback_handler()),
+    (Oauth2Service.decorator.callback_path, Oauth2Service.decorator.callback_handler()),
 ], debug=True)

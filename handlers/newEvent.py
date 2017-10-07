@@ -5,6 +5,7 @@ from models import Event
 from models import Project
 from models import Context
 from models import TimeCategory
+from models import Oauth2Service
 from google.appengine.ext import db
 import accessControl
 from datetime import datetime,date,time
@@ -32,6 +33,7 @@ class NewEvent(Handler):
         )
 
     @accessControl.user_logged_in
+    @Oauth2Service.decorator.oauth_required
     def post(self):
         title = self.request.get("title")
         content = self.request.get("content")
@@ -99,6 +101,36 @@ class NewEvent(Handler):
                 time_exe_end=exeEndTime,
                 finished=False)
             event.put()
+
+            # Add to google calendar
+            gEvent = {
+                'summary': event.title,
+                'location': '',
+                'description': event.content,
+                'start': {
+                    'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M"),
+                    'timeZone': 'Asia/Shanghai',
+                },
+                'end': {
+                    'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M"),
+                    'timeZone': 'Asia/Shanghai',
+                },
+                #'recurrence': [
+                    #'RRULE:FREQ=DAILY;COUNT=2'
+                #],
+                #'reminders': {
+                    #'useDefault': False,
+                    #'overrides': [
+                        #{'method': 'email', 'minutes': 24 * 60},
+                        #{'method': 'popup', 'minutes': 10},
+                    #],
+                #},
+            }
+            #gEvent = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent).execute()
+            request = Oauth2Service.service.events().list(calendarId='primary')
+            response = request.execute(http=Oauth2Service.decorator.http())
+            print response
+
             self.redirect("/event/%s" % str(event.key().id()))
 
     def erMessage(self, title):
