@@ -4,6 +4,7 @@ from handler import Handler
 from models import Event
 import accessControl
 from datetime import datetime,date,time,timedelta
+from models import Oauth2Service
 
 class EventPage(Handler):
     @accessControl.user_logged_in
@@ -14,10 +15,12 @@ class EventPage(Handler):
     @accessControl.user_logged_in
     @accessControl.event_exist
     @accessControl.user_own_event
+    @Oauth2Service.decorator.oauth_required
     def post(self, event_id, event):
         if "Delete" in self.request.params:
             event.delete()
             self.redirect("/projects")
+            #TODO: add delete sync to gcalendar
         else:
             title = self.request.get("title")
             content = self.request.get("content")
@@ -100,6 +103,8 @@ class EventPage(Handler):
                             time_exe_start=event.time_exe_start+timedelta(days=nextDayCount),
                             time_exe_end=event.time_exe_end+timedelta(days=nextDayCount),
                             finished=False)
+                        #TODO: add new recurrent event to gcalendar
+
 
                 event.project=project
                 event.timeCategory=timeCategory
@@ -114,8 +119,45 @@ class EventPage(Handler):
                 event.time_exe_end=exeEndTime
                 event.finished=finished
 
-
                 event.put()
+                # if event.finished, add to Execution calendar
+                if event.finished == True:
+                    exe_calendar_id = ''
+                    request = Oauth2Service.service.calendarList().list()
+                    calendars = request.execute(http=Oauth2Service.decorator.http())
+                    for calendar in calendars['items']:
+                        if calendar['summary'] == 'Execution':
+                            exe_calendar_id = calendar['id']
+                    print exe_calendar_id
+                    gEvent = {
+                        'summary': event.title,
+                        'location': '',
+                        'description': event.content,
+                        'start': {
+                            'dateTime': event.time_exe_start.strftime("%Y-%m-%dT%H:%M:%S"),
+                            'timeZone': 'Asia/Shanghai',
+                        },
+                        'end': {
+                            'dateTime': event.time_exe_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                            'timeZone': 'Asia/Shanghai',
+                        },
+                        #'recurrence': [
+                            #'RRULE:FREQ=DAILY;COUNT=2'
+                        #],
+                        #'reminders': {
+                            #'useDefault': False,
+                            #'overrides': [
+                                #{'method': 'email', 'minutes': 24 * 60},
+                                #{'method': 'popup', 'minutes': 10},
+                            #],
+                        #},
+                    }
+                    request = Oauth2Service.service.events().insert(calendarId=exe_calendar_id, body=gEvent)
+                    response = request.execute(http=Oauth2Service.decorator.http())
+                else:
+                    #TODO: update event to primary calendar
+                    pass
+
                 self.redirect("/event/%s" % str(event.key().id()))
 
     def erMessage(self, title):
