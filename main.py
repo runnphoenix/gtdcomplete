@@ -25,8 +25,6 @@ from handlers import EventPage
 from handlers import MainPage
 from handlers import TimeStatistics
 
-from handlers import Calendar
-
 app = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/signup', Signup),
@@ -45,6 +43,5 @@ app = webapp2.WSGIApplication([
 	('/contexts', Contexts),
     ('/statistics', TimeStatistics),
 	('/projects.json', ProjectsJson),
-    ('/calendar', Calendar),
     (Oauth2Service.decorator.callback_path, Oauth2Service.decorator.callback_handler()),
 ], debug=True)

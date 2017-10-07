@@ -73,18 +73,18 @@ class NewEvent(Handler):
 
         if errorMessage:
             self.render("newEvent.html",
-                        projects=self.user.projects,
-                        contexts=self.user.contexts,
-                        timeCategories=self.user.timeCategories,
-                        errorMessage=errorMessage,
-                        eventTitle=title,
-                        eventContent=content,
-                        repeat=repeat,
-                        planStartTime=planStartTime,
-                        planEndTime=planEndTime,
-                        exeStartTime=exeStartTime,
-                        exeEndTime=exeEndTime,
-                        finished=False)
+				projects=self.user.projects,
+                contexts=self.user.contexts,
+                timeCategories=self.user.timeCategories,
+                errorMessage=errorMessage,
+                eventTitle=title,
+                eventContent=content,
+                repeat=repeat,
+                planStartTime=planStartTime,
+                planEndTime=planEndTime,
+                exeStartTime=exeStartTime,
+                exeEndTime=exeEndTime,
+                finished=False)
         else:
             event = Event(
                 project=project,
@@ -108,11 +108,11 @@ class NewEvent(Handler):
                 'location': '',
                 'description': event.content,
                 'start': {
-                    'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M"),
+                    'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
                     'timeZone': 'Asia/Shanghai',
                 },
                 'end': {
-                    'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M"),
+                    'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
                     'timeZone': 'Asia/Shanghai',
                 },
                 #'recurrence': [
@@ -126,8 +126,7 @@ class NewEvent(Handler):
                     #],
                 #},
             }
-            #gEvent = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent).execute()
-            request = Oauth2Service.service.events().list(calendarId='primary')
+            request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
             response = request.execute(http=Oauth2Service.decorator.http())
             print response
 

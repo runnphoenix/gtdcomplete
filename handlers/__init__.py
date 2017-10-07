@@ -16,7 +16,4 @@ from projects import Projects
 from timeCategories import TimeCategories
 from contexts import Contexts
 from projectsJson import ProjectsJson
-
 from timeStatistics import TimeStatistics
-
-from calendar import Calendar
