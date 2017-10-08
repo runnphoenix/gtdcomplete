@@ -120,8 +120,27 @@ class EventPage(Handler):
                             time_exe_end=event.time_exe_end +
                             timedelta(days=nextDayCount),
                             finished=False)
-                        # TODO: add new recurrent event to gcalendar
-
+                        # add new recurrent event to gcalendar
+                        gEvent = {
+                            'summary': newEvent.title,
+                            'location': '',
+                            'description': newEvent.content,
+                            'start': {
+                                'dateTime':
+                                    newEvent.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
+                                'timeZone': 'Asia/Shanghai',
+                            },
+                            'end': {
+                                'dateTime':
+                                    newEvent.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                                'timeZone': 'Asia/Shanghai',
+                            },
+                        }
+                        request = Oauth2Service.service.events().insert(
+                            calendarId='primary', body=gEvent)
+                        response = request.execute(http=Oauth2Service.decorator.http())
+                        # Add to Database
+                        newEvent.google_calendar_plan_id = response['id']
                         newEvent.put()
 
                 event.project = project
