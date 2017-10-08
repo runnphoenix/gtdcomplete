@@ -7,6 +7,10 @@ from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
 
 
+def events_key(name="default"):
+    return db.Key.from_path("events", name)
+
+
 class EventPage(Handler):
 
     @accessControl.user_logged_in
@@ -81,6 +85,7 @@ class EventPage(Handler):
                     timeCategory=timeCategory,
                     context=context,
                     user=self.user,
+                    parent=events_key(),
                     title=title,
                     content=content,
                     repeat=repeat,
