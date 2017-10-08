@@ -20,9 +20,12 @@ class EventPage(Handler):
     @Oauth2Service.decorator.oauth_required
     def post(self, event_id, event):
         if "Delete" in self.request.params:
+            # add delete sync to gcalendar
+            request = Oauth2Service.service.events().delete(calendarId='primary', eventId=event.google_calendar_plan_id)
+            response = request.execute(http=Oauth2Service.decorator.http())
+            # Delete event from database
             event.delete()
             self.redirect("/projects")
-            # TODO: add delete sync to gcalendar
         else:
             title = self.request.get("title")
             content = self.request.get("content")
@@ -119,6 +122,8 @@ class EventPage(Handler):
                             finished=False)
                         # TODO: add new recurrent event to gcalendar
 
+                        newEvent.put()
+
                 event.project = project
                 event.timeCategory = timeCategory
                 event.context = context
@@ -132,7 +137,7 @@ class EventPage(Handler):
                 event.time_exe_end = exeEndTime
                 event.finished = finished
 
-                # if event.finished, add to Execution calendar
+                # if event is marked as finished, add it to Execution calendar
                 if event.finished:
                     exe_calendar_id = ''
                     request = Oauth2Service.service.calendarList().list()
@@ -164,7 +169,7 @@ class EventPage(Handler):
                         http=Oauth2Service.decorator.http())
                     event.google_calendar_exe_id = response['id']
                 else:
-                    # TODO: update event to primary calendar
+                    # update event to primary calendar
                     gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
                     gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
                     gEvent['summary'] = event.title
@@ -175,6 +180,7 @@ class EventPage(Handler):
                     response = request.execute(http=Oauth2Service.decorator.http())
                     print response
 
+                # Add event to database
                 event.put()
                 self.redirect("/event/%s" % str(event.key().id()))
 
