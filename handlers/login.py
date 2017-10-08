@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from signup import Signup
+from .signup import Signup
 from models import User
 
 

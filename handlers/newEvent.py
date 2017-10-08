@@ -1,20 +1,23 @@
 #!/usr/bin/python
 
-from handler import Handler
+from .handler import Handler
 from models import Event
 from models import Project
 from models import Context
 from models import TimeCategory
 from models import Oauth2Service
 from google.appengine.ext import db
-import accessControl
-from datetime import datetime,date,time
+from . import accessControl
+from datetime import datetime, date, time
 import pytz
+
 
 def events_key(name="default"):
     return db.Key.from_path("events", name)
 
+
 class NewEvent(Handler):
+
     @accessControl.user_logged_in
     def get(self):
         self.render(
@@ -40,16 +43,24 @@ class NewEvent(Handler):
 
         repeat = ""
         for i in range(7):
-            rep = self.request.get("repeat"+str(i))
+            rep = self.request.get("repeat" + str(i))
             if (rep != "on"):
                 repeat = repeat + '0'
             else:
                 repeat = repeat + '1'
 
-        planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
-        planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
-        exeStartTime = datetime.strptime(self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
-        exeEndTime = datetime.strptime(self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
+        planStartTime = datetime.strptime(
+            self.request.get("planStartTime"),
+            "%Y-%m-%dT%H:%M")
+        planEndTime = datetime.strptime(
+            self.request.get("planEndTime"),
+            "%Y-%m-%dT%H:%M")
+        exeStartTime = datetime.strptime(
+            self.request.get("exeStartTime"),
+            "%Y-%m-%dT%H:%M")
+        exeEndTime = datetime.strptime(
+            self.request.get("exeEndTime"),
+            "%Y-%m-%dT%H:%M")
 
         project = None
         projectName = self.request.get('projects')
@@ -73,18 +84,18 @@ class NewEvent(Handler):
 
         if errorMessage:
             self.render("newEvent.html",
-				projects=self.user.projects,
-                contexts=self.user.contexts,
-                timeCategories=self.user.timeCategories,
-                errorMessage=errorMessage,
-                eventTitle=title,
-                eventContent=content,
-                repeat=repeat,
-                planStartTime=planStartTime,
-                planEndTime=planEndTime,
-                exeStartTime=exeStartTime,
-                exeEndTime=exeEndTime,
-                finished=False)
+                        projects=self.user.projects,
+                        contexts=self.user.contexts,
+                        timeCategories=self.user.timeCategories,
+                        errorMessage=errorMessage,
+                        eventTitle=title,
+                        eventContent=content,
+                        repeat=repeat,
+                        planStartTime=planStartTime,
+                        planEndTime=planEndTime,
+                        exeStartTime=exeStartTime,
+                        exeEndTime=exeEndTime,
+                        finished=False)
         else:
             event = Event(
                 project=project,
@@ -100,7 +111,6 @@ class NewEvent(Handler):
                 time_exe_start=exeStartTime,
                 time_exe_end=exeEndTime,
                 finished=False)
-            event.put()
 
             # Add to google calendar
             gEvent = {
@@ -108,27 +118,32 @@ class NewEvent(Handler):
                 'location': '',
                 'description': event.content,
                 'start': {
-                    'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
+                    'dateTime':
+                    event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
                     'timeZone': 'Asia/Shanghai',
                 },
                 'end': {
-                    'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                    'dateTime':
+                    event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
                     'timeZone': 'Asia/Shanghai',
                 },
                 #'recurrence': [
-                    #'RRULE:FREQ=DAILY;COUNT=2'
+                #'RRULE:FREQ=DAILY;COUNT=2'
                 #],
                 #'reminders': {
-                    #'useDefault': False,
-                    #'overrides': [
-                        #{'method': 'email', 'minutes': 24 * 60},
-                        #{'method': 'popup', 'minutes': 10},
-                    #],
+                #'useDefault': False,
+                #'overrides': [
+                #{'method': 'email', 'minutes': 24 * 60},
+                #{'method': 'popup', 'minutes': 10},
+                #],
                 #},
             }
-            request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
+            request = Oauth2Service.service.events().insert(
+                calendarId='primary', body=gEvent)
             response = request.execute(http=Oauth2Service.decorator.http())
-            print response
+            # Add to Database
+            event.google_calendar_plan_id = response['id']
+            event.put()
 
             self.redirect("/event/%s" % str(event.key().id()))
 

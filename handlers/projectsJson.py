@@ -1,8 +1,9 @@
 #!/usr/bin/python
 
-import accessControl
-from handler import Handler
+from . import accessControl
+from .handler import Handler
 import json
+
 
 class ProjectsJson(Handler):
 

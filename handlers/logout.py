@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from handler import Handler
+from .handler import Handler
 
 
 class Logout(Handler):

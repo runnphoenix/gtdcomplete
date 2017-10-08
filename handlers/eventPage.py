@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
-from handler import Handler
+from .handler import Handler
 from models import Event
-import accessControl
-from datetime import datetime,date,time,timedelta
+from . import accessControl
+from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
 
+
 class EventPage(Handler):
+
     @accessControl.user_logged_in
     @accessControl.event_exist
     def get(self, event_id, event):
@@ -20,22 +22,30 @@ class EventPage(Handler):
         if "Delete" in self.request.params:
             event.delete()
             self.redirect("/projects")
-            #TODO: add delete sync to gcalendar
+            # TODO: add delete sync to gcalendar
         else:
             title = self.request.get("title")
             content = self.request.get("content")
             repeat = ""
             for i in range(7):
-                rep = self.request.get("repeat"+str(i))
+                rep = self.request.get("repeat" + str(i))
                 if (rep != "on"):
                     repeat = repeat + '0'
                 else:
                     repeat = repeat + '1'
 
-            planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
-            planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
-            exeStartTime = datetime.strptime(self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
-            exeEndTime = datetime.strptime(self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
+            planStartTime = datetime.strptime(
+                self.request.get("planStartTime"),
+                "%Y-%m-%dT%H:%M")
+            planEndTime = datetime.strptime(
+                self.request.get("planEndTime"),
+                "%Y-%m-%dT%H:%M")
+            exeStartTime = datetime.strptime(
+                self.request.get("exeStartTime"),
+                "%Y-%m-%dT%H:%M")
+            exeEndTime = datetime.strptime(
+                self.request.get("exeEndTime"),
+                "%Y-%m-%dT%H:%M")
 
             project = None
             projectName = self.request.get("projects")
@@ -75,20 +85,20 @@ class EventPage(Handler):
                     time_plan_end=planEndTime,
                     time_exe_start=exeStartTime,
                     time_exe_end=exeEndTime,
-                    finished = False)
+                    finished=False)
                 self.render("eventPage.html", event=event)
             else:
-                if finished == True and event.finished == False:
+                if finished and event.finished == False:
                     # Change event status to finished
                     # Add a new event with date+1 AT NEXT REPEAT
                     if event.repeat != "0000000":
                         # find date of next event
                         weekDayth = event.time_plan_start.date().weekday()
-                        nextDayCount=-1
-                        doubleRepeat = repeat+repeat
-                        for i in range(weekDayth+1, 14):
-                            if doubleRepeat[i]=='1':
-                                nextDayCount = i-weekDayth
+                        nextDayCount = -1
+                        doubleRepeat = repeat + repeat
+                        for i in range(weekDayth + 1, 14):
+                            if doubleRepeat[i] == '1':
+                                nextDayCount = i - weekDayth
                                 break
                         newEvent = Event(
                             project=event.project,
@@ -98,66 +108,74 @@ class EventPage(Handler):
                             title=event.title,
                             content=event.content,
                             repeat=event.repeat,
-                            time_plan_start=event.time_plan_start+timedelta(days=nextDayCount),
-                            time_plan_end=event.time_plan_end+timedelta(days=nextDayCount),
-                            time_exe_start=event.time_exe_start+timedelta(days=nextDayCount),
-                            time_exe_end=event.time_exe_end+timedelta(days=nextDayCount),
+                            time_plan_start=event.time_plan_start +
+                            timedelta(days=nextDayCount),
+                            time_plan_end=event.time_plan_end +
+                            timedelta(days=nextDayCount),
+                            time_exe_start=event.time_exe_start +
+                            timedelta(days=nextDayCount),
+                            time_exe_end=event.time_exe_end +
+                            timedelta(days=nextDayCount),
                             finished=False)
-                        #TODO: add new recurrent event to gcalendar
+                        # TODO: add new recurrent event to gcalendar
 
+                event.project = project
+                event.timeCategory = timeCategory
+                event.context = context
+                event.user = self.user
+                event.title = title
+                event.content = content
+                event.repeat = repeat
+                event.time_plan_start = planStartTime
+                event.time_plan_end = planEndTime
+                event.time_exe_start = exeStartTime
+                event.time_exe_end = exeEndTime
+                event.finished = finished
 
-                event.project=project
-                event.timeCategory=timeCategory
-                event.context=context
-                event.user=self.user
-                event.title=title
-                event.content=content
-                event.repeat=repeat
-                event.time_plan_start=planStartTime
-                event.time_plan_end=planEndTime
-                event.time_exe_start=exeStartTime
-                event.time_exe_end=exeEndTime
-                event.finished=finished
-
-                event.put()
                 # if event.finished, add to Execution calendar
-                if event.finished == True:
+                if event.finished:
                     exe_calendar_id = ''
                     request = Oauth2Service.service.calendarList().list()
-                    calendars = request.execute(http=Oauth2Service.decorator.http())
+                    calendars = request.execute(
+                        http=Oauth2Service.decorator.http())
                     for calendar in calendars['items']:
                         if calendar['summary'] == 'Execution':
                             exe_calendar_id = calendar['id']
-                    print exe_calendar_id
                     gEvent = {
                         'summary': event.title,
                         'location': '',
                         'description': event.content,
                         'start': {
-                            'dateTime': event.time_exe_start.strftime("%Y-%m-%dT%H:%M:%S"),
+                            'dateTime':
+                            event.time_exe_start.strftime(
+                                    "%Y-%m-%dT%H:%M:%S"),
                             'timeZone': 'Asia/Shanghai',
                         },
                         'end': {
-                            'dateTime': event.time_exe_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                            'dateTime':
+                            event.time_exe_end.strftime(
+                                "%Y-%m-%dT%H:%M:%S"),
                             'timeZone': 'Asia/Shanghai',
                         },
-                        #'recurrence': [
-                            #'RRULE:FREQ=DAILY;COUNT=2'
-                        #],
-                        #'reminders': {
-                            #'useDefault': False,
-                            #'overrides': [
-                                #{'method': 'email', 'minutes': 24 * 60},
-                                #{'method': 'popup', 'minutes': 10},
-                            #],
-                        #},
                     }
-                    request = Oauth2Service.service.events().insert(calendarId=exe_calendar_id, body=gEvent)
-                    response = request.execute(http=Oauth2Service.decorator.http())
+                    request = Oauth2Service.service.events().insert(
+                        calendarId=exe_calendar_id, body=gEvent)
+                    response = request.execute(
+                        http=Oauth2Service.decorator.http())
+                    event.google_calendar_exe_id = response['id']
                 else:
-                    #TODO: update event to primary calendar
-                    pass
+                    # TODO: update event to primary calendar
+                    gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
+                    gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
+                    gEvent['summary'] = event.title
+                    gEvent['description'] = event.content
+                    gEvent['start']['dateTime'] = event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S")
+                    gEvent['end']['dateTime'] = event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S")
+                    request = Oauth2Service.service.events().update(calendarId='primary', eventId=event.google_calendar_plan_id, body=gEvent)
+                    response = request.execute(http=Oauth2Service.decorator.http())
+                    print response
 
+                event.put()
                 self.redirect("/event/%s" % str(event.key().id()))
 
     def erMessage(self, title):

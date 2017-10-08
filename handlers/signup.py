@@ -2,7 +2,7 @@
 
 import re
 from google.appengine.ext import db
-from handler import Handler
+from .handler import Handler
 from models import User
 from models import Project
 
