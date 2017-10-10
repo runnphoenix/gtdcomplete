@@ -85,7 +85,6 @@ class EventPage(Handler):
                     timeCategory=timeCategory,
                     context=context,
                     user=self.user,
-                    parent=events_key(),
                     title=title,
                     content=content,
                     repeat=repeat,
@@ -114,6 +113,7 @@ class EventPage(Handler):
                             context=event.context,
                             user=self.user,
                             title=event.title,
+                            parent=events_key(),
                             content=event.content,
                             repeat=event.repeat,
                             time_plan_start=event.time_plan_start +
