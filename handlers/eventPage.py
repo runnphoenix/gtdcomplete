@@ -148,21 +148,8 @@ class EventPage(Handler):
                         newEvent.google_calendar_plan_id = response['id']
                         newEvent.put()
 
-                event.project = project
-                event.timeCategory = timeCategory
-                event.context = context
-                event.user = self.user
-                event.title = title
-                event.content = content
-                event.repeat = repeat
-                event.time_plan_start = planStartTime
-                event.time_plan_end = planEndTime
-                event.time_exe_start = exeStartTime
-                event.time_exe_end = exeEndTime
-                event.finished = finished
-
-                # if event is marked as finished, add it to Execution calendar
-                if event.finished:
+                    # The first time an event marked finished, add it to
+                    # Execution Calendar
                     exe_calendar_id = ''
                     request = Oauth2Service.service.calendarList().list()
                     calendars = request.execute(
@@ -192,17 +179,29 @@ class EventPage(Handler):
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
                     event.google_calendar_exe_id = response['id']
-                else:
-                    # update event to primary calendar
-                    gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
-                    gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
-                    gEvent['summary'] = event.title
-                    gEvent['description'] = event.content
-                    gEvent['start']['dateTime'] = event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S")
-                    gEvent['end']['dateTime'] = event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S")
-                    request = Oauth2Service.service.events().update(calendarId='primary', eventId=event.google_calendar_plan_id, body=gEvent)
-                    response = request.execute(http=Oauth2Service.decorator.http())
-                    print response
+
+                event.project = project
+                event.timeCategory = timeCategory
+                event.context = context
+                event.user = self.user
+                event.title = title
+                event.content = content
+                event.repeat = repeat
+                event.time_plan_start = planStartTime
+                event.time_plan_end = planEndTime
+                event.time_exe_start = exeStartTime
+                event.time_exe_end = exeEndTime
+                event.finished = finished
+
+                # update event to primary calendar
+                gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
+                gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
+                gEvent['summary'] = event.title
+                gEvent['description'] = event.content
+                gEvent['start']['dateTime'] = event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S")
+                gEvent['end']['dateTime'] = event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S")
+                request = Oauth2Service.service.events().update(calendarId='primary', eventId=event.google_calendar_plan_id, body=gEvent)
+                response = request.execute(http=Oauth2Service.decorator.http())
 
                 # Add event to database
                 event.put()
