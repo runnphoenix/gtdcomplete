@@ -163,13 +163,13 @@ class EventPage(Handler):
                         'description': event.content,
                         'start': {
                             'dateTime':
-                            event.time_exe_start.strftime(
+                            exeStartTime.strftime(
                                     "%Y-%m-%dT%H:%M:%S"),
                             'timeZone': 'Asia/Shanghai',
                         },
                         'end': {
                             'dateTime':
-                            event.time_exe_end.strftime(
+                            exeEndTime.strftime(
                                 "%Y-%m-%dT%H:%M:%S"),
                             'timeZone': 'Asia/Shanghai',
                         },
