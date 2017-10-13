@@ -192,6 +192,7 @@ class EventPage(Handler):
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
                     event.google_calendar_exe_id = response['id']
+                    event.put()
                     # update primary calendar(At last)
                 elif finished and event.finished:
                     # update Primary calendar(At last)
