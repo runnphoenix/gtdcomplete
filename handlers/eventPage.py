@@ -95,9 +95,28 @@ class EventPage(Handler):
                     finished=False)
                 self.render("eventPage.html", event=event)
             else:
-                if finished and event.finished == False:
-                    # Change event status to finished
-                    # Add a new event with date+1 AT NEXT REPEAT
+                event.project = project
+                event.timeCategory = timeCategory
+                event.context = context
+                event.user = self.user
+                event.title = title
+                event.content = content
+                event.repeat = repeat
+                event.time_plan_start = planStartTime
+                event.time_plan_end = planEndTime
+                event.time_exe_start = exeStartTime
+                event.time_exe_end = exeEndTime
+                event.finished = finished
+                
+                exe_calendar_id = ''
+                request = Oauth2Service.service.calendarList().list()
+                calendars = request.execute(
+                    http=Oauth2Service.decorator.http())
+                for calendar in calendars['items']:
+                    if calendar['summary'] == 'Execution':
+                        exe_calendar_id = calendar['id']
+                
+                if finished and (not event.finished):
                     if event.repeat != "0000000":
                         # find date of next event
                         weekDayth = event.time_plan_start.date().weekday()
@@ -107,6 +126,7 @@ class EventPage(Handler):
                             if doubleRepeat[i] == '1':
                                 nextDayCount = i - weekDayth
                                 break
+                        # Create new Event
                         newEvent = Event(
                             project=event.project,
                             timeCategory=event.timeCategory,
@@ -150,13 +170,6 @@ class EventPage(Handler):
 
                     # The first time an event marked finished, add it to
                     # Execution Calendar
-                    exe_calendar_id = ''
-                    request = Oauth2Service.service.calendarList().list()
-                    calendars = request.execute(
-                        http=Oauth2Service.decorator.http())
-                    for calendar in calendars['items']:
-                        if calendar['summary'] == 'Execution':
-                            exe_calendar_id = calendar['id']
                     gEvent = {
                         'summary': event.title,
                         'location': '',
@@ -179,20 +192,24 @@ class EventPage(Handler):
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
                     event.google_calendar_exe_id = response['id']
-
-                event.project = project
-                event.timeCategory = timeCategory
-                event.context = context
-                event.user = self.user
-                event.title = title
-                event.content = content
-                event.repeat = repeat
-                event.time_plan_start = planStartTime
-                event.time_plan_end = planEndTime
-                event.time_exe_start = exeStartTime
-                event.time_exe_end = exeEndTime
-                event.finished = finished
-
+                    # update primary calendar(At last)
+                elif finished and event.finished:
+                    # update Primary calendar(At last)
+                    # update Execution calendar
+                    gEventRequest = Oauth2Service.service.events().get(calendarId=exe_calendar_id, eventId=event.google_calendar_plan_id)
+                    gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
+                    gEvent['summary'] = event.title
+                    gEvent['description'] = event.content
+                    gEvent['start']['dateTime'] = event.time_exe_start.strftime("%Y-%m-%dT%H:%M:%S")
+                    gEvent['end']['dateTime'] = event.time_exe_end.strftime("%Y-%m-%dT%H:%M:%S")
+                    request = Oauth2Service.service.events().update(calendarId=exe_calendar_id, eventId=event.google_calendar_plan_id, body=gEvent)
+                    response = request.execute(http=Oauth2Service.decorator.http())
+                elif (not finished) and (not event.finished):
+                    # update primary calendar
+                else: # (not finished) and event.finished
+                    # delete event from Execution calendar
+                    # update primary calendar
+                    
                 # update event to primary calendar
                 gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
                 gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
