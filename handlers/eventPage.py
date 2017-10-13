@@ -196,7 +196,7 @@ class EventPage(Handler):
                 elif finished and event.finished:
                     # update Primary calendar(At last)
                     # update Execution calendar
-                    gEventRequest = Oauth2Service.service.events().get(calendarId=exe_calendar_id, eventId=event.google_calendar_plan_id)
+                    gEventRequest = Oauth2Service.service.events().get(calendarId=exe_calendar_id, eventId=event.google_calendar_exe_id)
                     gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
                     gEvent['summary'] = event.title
                     gEvent['description'] = event.content
