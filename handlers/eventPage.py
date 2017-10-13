@@ -206,9 +206,11 @@ class EventPage(Handler):
                     response = request.execute(http=Oauth2Service.decorator.http())
                 elif (not finished) and (not event.finished):
                     # update primary calendar
+                    pass
                 else: # (not finished) and event.finished
                     # delete event from Execution calendar
                     # update primary calendar
+                    pass
                     
                 # update event to primary calendar
                 gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
