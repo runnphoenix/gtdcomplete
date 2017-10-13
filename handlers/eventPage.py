@@ -95,18 +95,6 @@ class EventPage(Handler):
                     finished=False)
                 self.render("eventPage.html", event=event)
             else:
-                event.project = project
-                event.timeCategory = timeCategory
-                event.context = context
-                event.user = self.user
-                event.title = title
-                event.content = content
-                event.repeat = repeat
-                event.time_plan_start = planStartTime
-                event.time_plan_end = planEndTime
-                event.time_exe_start = exeStartTime
-                event.time_exe_end = exeEndTime
-                event.finished = finished
                 
                 exe_calendar_id = ''
                 request = Oauth2Service.service.calendarList().list()
@@ -192,7 +180,6 @@ class EventPage(Handler):
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
                     event.google_calendar_exec_id = response['id']
-                    event.put()
                     # update primary calendar(At last)
                 elif finished and event.finished:
                     # update Primary calendar(At last)
@@ -213,6 +200,19 @@ class EventPage(Handler):
                     # update primary calendar
                     pass
                     
+                event.project = project
+                event.timeCategory = timeCategory
+                event.context = context
+                event.user = self.user
+                event.title = title
+                event.content = content
+                event.repeat = repeat
+                event.time_plan_start = planStartTime
+                event.time_plan_end = planEndTime
+                event.time_exe_start = exeStartTime
+                event.time_exe_end = exeEndTime
+                event.finished = finished
+                
                 # update event to primary calendar
                 gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
                 gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
