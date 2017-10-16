@@ -217,14 +217,15 @@ class EventPage(Handler):
                 event.finished = finished
                 
                 # update event to primary calendar
-                gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
-                gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
-                gEvent['summary'] = event.title
-                gEvent['description'] = event.content
-                gEvent['start']['dateTime'] = event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S")
-                gEvent['end']['dateTime'] = event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S")
-                request = Oauth2Service.service.events().update(calendarId='primary', eventId=event.google_calendar_plan_id, body=gEvent)
-                response = request.execute(http=Oauth2Service.decorator.http())
+                if event.time_plan_start and event.time_plan_end:
+                    gEventRequest = Oauth2Service.service.events().get(calendarId='primary', eventId=event.google_calendar_plan_id)
+                    gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
+                    gEvent['summary'] = event.title
+                    gEvent['description'] = event.content
+                    gEvent['start']['dateTime'] = event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S")
+                    gEvent['end']['dateTime'] = event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S")
+                    request = Oauth2Service.service.events().update(calendarId='primary', eventId=event.google_calendar_plan_id, body=gEvent)
+                    response = request.execute(http=Oauth2Service.decorator.http())
 
                 # Add event to database
                 event.put()
