@@ -134,8 +134,8 @@ class NewEvent(Handler):
                 }
                 request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
                 response = request.execute(http=Oauth2Service.decorator.http())
+                event.google_calendar_plan_id = response['id']
             # Add to Database
-            event.google_calendar_plan_id = response['id']
             event.put()
 
             self.redirect("/event/%s" % str(event.key().id()))
