@@ -108,7 +108,7 @@ class NewEvent(Handler):
                 finished=False)
 
             # Add to google calendar
-            if planStarttime and planEndtime:
+            if planStartTime and planEndTime:
                 gEvent = {
                     'summary': event.title,
                     'location': '',
