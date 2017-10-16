@@ -24,9 +24,11 @@ from handlers import ContextPage
 from handlers import EventPage
 from handlers import MainPage
 from handlers import TimeStatistics
+from handlers import Instructions
 
 app = webapp2.WSGIApplication([
 	('/', MainPage),
+	('/instructions', Instructions),
 	('/signup', Signup),
 	('/login', Login),
 	('/logout', Logout),
