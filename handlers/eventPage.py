@@ -5,6 +5,7 @@ from models import Event
 from . import accessControl
 from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
+from google.appengine.ext import db
 
 
 def events_key(name="default"):
