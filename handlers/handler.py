@@ -36,6 +36,7 @@ class Handler(webapp2.RequestHandler):
 
     def render(self, template, **kw):
         kw['logged'] = self.user
+        kw['user_name'] = self.user.name
         self.write(render_str(template, **kw))
 
     def add_cookie(self, user):
