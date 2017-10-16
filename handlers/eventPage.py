@@ -28,6 +28,10 @@ class EventPage(Handler):
             # add delete sync to gcalendar
             request = Oauth2Service.service.events().delete(calendarId='primary', eventId=event.google_calendar_plan_id)
             response = request.execute(http=Oauth2Service.decorator.http())
+            
+            # TODO: delete Execution calendar events
+            # have to judge first: wether added to calendar, which calendars?
+            
             # Delete event from database
             event.delete()
             self.redirect("/projects")
