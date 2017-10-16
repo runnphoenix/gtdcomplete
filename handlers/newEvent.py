@@ -46,8 +46,14 @@ class NewEvent(Handler):
             else:
                 repeat = repeat + '1'
 
-        planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
-        planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
+        if self.request.get('planStartTime'):
+            planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
+        else:
+            planStartTime = ''
+        if self.request.get('planEndTime'):
+            planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
+        else:
+            planEndTime = ''
         exeStartTime = datetime.strptime(self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
         exeEndTime = datetime.strptime(self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
 
@@ -102,31 +108,32 @@ class NewEvent(Handler):
                 finished=False)
 
             # Add to google calendar
-            gEvent = {
-                'summary': event.title,
-                'location': '',
-                'description': event.content,
-                'start': {
-                    'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
-                    'timeZone': 'Asia/Shanghai',
-                },
-                'end': {
-                    'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
-                    'timeZone': 'Asia/Shanghai',
-                },
-                #'recurrence': [
-                    #'RRULE:FREQ=DAILY;COUNT=2'
-                #],
-                #'reminders': {
-                    #'useDefault': False,
-                    #'overrides': [
-                        #{'method': 'email', 'minutes': 24 * 60},
-                        #{'method': 'popup', 'minutes': 10},
+            if planStarttime and planEndtime:
+                gEvent = {
+                    'summary': event.title,
+                    'location': '',
+                    'description': event.content,
+                    'start': {
+                        'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
+                        'timeZone': 'Asia/Shanghai',
+                    },
+                    'end': {
+                        'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
+                        'timeZone': 'Asia/Shanghai',
+                    },
+                    #'recurrence': [
+                        #'RRULE:FREQ=DAILY;COUNT=2'
                     #],
-                #},
-            }
-            request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
-            response = request.execute(http=Oauth2Service.decorator.http())
+                    #'reminders': {
+                        #'useDefault': False,
+                        #'overrides': [
+                            #{'method': 'email', 'minutes': 24 * 60},
+                            #{'method': 'popup', 'minutes': 10},
+                        #],
+                    #},
+                }
+                request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
+                response = request.execute(http=Oauth2Service.decorator.http())
             # Add to Database
             event.google_calendar_plan_id = response['id']
             event.put()

@@ -24,12 +24,20 @@
 		<br>
 		<label>
 			<div>Plan Start Time</div>
-			<input type="datetime-local" name="planStartTime" value={{event.time_plan_start.strftime("%Y-%m-%dT%H:%M")}}>
+			{% if event.time_plan_start %}
+				<input type="datetime-local" name="planStartTime" value={{event.time_plan_start.strftime("%Y-%m-%dT%H:%M")}}>
+			{% else %}
+				<input type="datetime-local" name="planStartTime">
+			{% endif %}
 		</label>
 		<br>
 		<label>
 			<div>Plan End Time</div>
-			<input type="datetime-local" name="planEndTime" value={{event.time_plan_end.strftime("%Y-%m-%dT%H:%M")}}>
+			{% if event.time_plan_end %}
+				<input type="datetime-local" name="planEndTime" value={{event.time_plan_end.strftime("%Y-%m-%dT%H:%M")}}>
+			{% else %}
+				<input type="datetime-local" name="planEndTime">
+			{% endif %}
 		</label>
 		<br>
 		<label>

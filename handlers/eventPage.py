@@ -42,12 +42,14 @@ class EventPage(Handler):
                 else:
                     repeat = repeat + '1'
 
-            planStartTime = datetime.strptime(
-                self.request.get("planStartTime"),
-                "%Y-%m-%dT%H:%M")
-            planEndTime = datetime.strptime(
-                self.request.get("planEndTime"),
-                "%Y-%m-%dT%H:%M")
+            if self.request.get('planStartTime'):
+                planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
+            else:
+                planStartTime = ''
+            if self.request.get('planEndTime'):
+                planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
+            else:
+                planEndTime = ''
             exeStartTime = datetime.strptime(
                 self.request.get("exeStartTime"),
                 "%Y-%m-%dT%H:%M")
