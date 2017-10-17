@@ -21,15 +21,15 @@
 						<a href="/instructions">Instructions</a>
 					</div>
 					<div class="col-md-1" style="float:right;">
-						{% if logged %}
-							{{user_name}}
-						{% endif %}
-					</div>
-					<div class="col-md-1" style="float:right;">
 						{% if not logged %}
 							<a href="/login">login</a>
 						{% else %}
 							<a href="/logout">logout</a>
+						{% endif %}
+					</div>
+					<div class="col-md-1" style="float:right;">
+						{% if logged %}
+							{{user_name}}
 						{% endif %}
 					</div>
 					<div class="col-md-1" style="float:right;">
