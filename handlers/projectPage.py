@@ -14,10 +14,10 @@ class ProjectPage(Handler):
         unfinished_events = {}
         for event in project.events:
             if event.finished:
-                if not finished_events.get(str(event.time_plan_start.date())):
-                    finished_events[str(event.time_plan_start.date())] = [event]
+                if not finished_events.get(str(event.time_exe_start.date())):
+                    finished_events[str(event.time_exe_start.date())] = [event]
                 else:
-                    finished_events[str(event.time_plan_start.date())].append(event)
+                    finished_events[str(event.time_exe_start.date())].append(event)
             else:
                 if not unfinished_events.get(str(event.time_plan_start.date())):
                     unfinished_events[str(event.time_plan_start.date())] = [event]
