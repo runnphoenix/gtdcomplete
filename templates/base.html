@@ -18,8 +18,11 @@
 				</div>
 				<div class="row">
 					<div class="col-md-1" style="float:right;">
-						{% if not logged %}
-							<a href="/signup">signup</a>
+						<a href="/instructions">Instructions</a>
+					</div>
+					<div class="col-md-1" style="float:right;">
+						{% if logged %}
+							{{user_name}}
 						{% endif %}
 					</div>
 					<div class="col-md-1" style="float:right;">
@@ -30,12 +33,9 @@
 						{% endif %}
 					</div>
 					<div class="col-md-1" style="float:right;">
-						{% if logged %}
-							{{user_name}}
+						{% if not logged %}
+							<a href="/signup">signup</a>
 						{% endif %}
-					</div>
-					<div class="col-md-1" style="float:right;">
-						<a href="/instructions"><h4>Instructions</h4></a>
 					</div>
 				</div>
 			</header>
