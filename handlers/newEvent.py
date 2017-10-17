@@ -75,7 +75,7 @@ class NewEvent(Handler):
             if con.name == contextName:
                 context = con
 
-        errorMessage = self.erMessage(title)
+        errorMessage = self.erMessage(title，exeStartTime, exeEndTime)
 
         if errorMessage:
             self.render("newEvent.html",
