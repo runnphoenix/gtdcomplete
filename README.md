@@ -11,10 +11,9 @@ Once installed, you can run by command:
 
 `[path to google-cloud-sdk]/bin/dev_appserver [path to gtdcomplete]/.`
 
+## LICENSE
+Released under the MIT License
+
 ## Progressing
 1. Task magagement almost done. 2017-09-13
-
-## TODOs
-1. Snyc with calendar
-2. Time consume Statistics
-3. Json communication interface
+2. Synced with Google calendar. 2017-10-17
