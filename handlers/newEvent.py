@@ -140,10 +140,12 @@ class NewEvent(Handler):
 
             self.redirect("/event/%s" % str(event.key().id()))
 
-    def erMessage(self, title):
+    def erMessage(self, title, exeStartTime, exeEndTime):
         if not title:
             return "Field is empty."
         elif ' ' in title:
             return "No space allowed in title."
+        elif (not exeStartTime) or (not exeEndTime):
+            return "Execution time can not be empty."
         else:
             return None

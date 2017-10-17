@@ -19,10 +19,10 @@ class ContextPage(Handler):
                 else:
                     finished_events[str(event.time_exe_start.date())].append(event)
             else:
-                if not unfinished_events.get(str(event.time_plan_start.date())):
-                    unfinished_events[str(event.time_plan_start.date())] = [event]
+                if not unfinished_events.get(str(event.time_exe_start.date())):
+                    unfinished_events[str(event.time_exe_start.date())] = [event]
                 else:
-                    unfinished_events[str(event.time_plan_start.date())].append(event)
+                    unfinished_events[str(event.time_exe_start.date())].append(event)
         self.render("contextPage.html",
             context_name=context.name,
             finished_events=finished_events,
