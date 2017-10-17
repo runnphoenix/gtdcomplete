@@ -1,18 +1,31 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-	<h4>{{project.name}}</h4>
-	{% if project.name != "inbox" %}
+	<h4>{{project_name}}</h4>
+	{% if project_name != "inbox" %}
 		<form method="post">
 			<input type="submit" value="Delete Project">
 		</form>
 	{% endif %}
 	<br>
-	<h4>Events:</h4>
-	{% for event in project.events %}
-		{% if event.finished == False %}
+	<h4>Unfinished Events:</h4>
+	{% for (date,events) in unfinished_events.items() %}
+		<div>{{date}}</div>
+		{% for event in events %}
 			<div>
 				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
 			</div>
-		{% endif %}
+		{% endfor %}
 	{% endfor %}
+	<br>
+	<hr>
+	<h4>Finished Events:</h4>
+	{% for (date,events) in finished_events.items() %}
+		<div>{{date}}</div>
+		{% for event in events %}
+			<div>
+				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
+			</div>
+		{% endfor %}
+	{% endfor %}
+	<br>
 {% endblock %}

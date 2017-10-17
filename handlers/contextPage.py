@@ -10,7 +10,23 @@ class ContextPage(Handler):
     @accessControl.user_logged_in
     @accessControl.context_exist
     def get(self, context_id, context):
-        self.render("contextPage.html", context=context)
+        finished_events = {}
+        unfinished_events = {}
+        for event in context.events:
+            if event.finished:
+                if not finished_events.get(str(event.time_plan_start.date())):
+                    finished_events[str(event.time_plan_start.date())] = [event]
+                else:
+                    finished_events[str(event.time_plan_start.date())].append(event)
+            else:
+                if not unfinished_events.get(str(event.time_plan_start.date())):
+                    unfinished_events[str(event.time_plan_start.date())] = [event]
+                else:
+                    unfinished_events[str(event.time_plan_start.date())].append(event)
+        self.render("contextPage.html",
+            context_name=context.name,
+            finished_events=finished_events,
+            unfinished_events=unfinished_events)
 
     @accessControl.user_logged_in
     @accessControl.context_exist
