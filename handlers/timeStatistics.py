@@ -45,32 +45,26 @@ class TimeStatistics(Handler):
         for timeCategory in timeCategories:
             categoryTime = 0
             for event in timeCategory.events:
-                eventStartT = event.time_exe_start
-                eventEndT = event.time_exe_end
-                # Event across Midnight: 0.whole event in 1.first half in
-                # 2.second half in
-                if eventStartT.date() >= startDate.date() and eventEndT.date() <= endDate.date():
-                    categoryTime = categoryTime + \
-                        (eventEndT - eventStartT).seconds / 60
-                elif eventStartT.date() == startDate.date() and (eventEndT.date() - endDate.date()).days == 1:
-                    categoryTime = categoryTime + \
-                        (23 - eventStartT.hour) * 60 + 60 - eventStartT.minute
-                elif (startDate.date() - eventStartT.date()).days == 1 and eventEndT.date() == endDate.date():
-                    categoryTime = categoryTime + \
-                        eventEndT.hour * 60 + eventEndT.minute
+                if event.finished:
+                    eventStartT = event.time_exe_start
+                    eventEndT = event.time_exe_end
+                    # Event across Midnight: 0.whole event in 1.first half in
+                    # 2.second half in
+                    if eventStartT.date() >= startDate.date() and eventEndT.date() <= endDate.date():
+                        categoryTime = categoryTime + (eventEndT - eventStartT).seconds / 60
+                    elif eventStartT.date() == startDate.date() and (eventEndT.date() - endDate.date()).days == 1:
+                        categoryTime = categoryTime + (23 - eventStartT.hour) * 60 + 60 - eventStartT.minute
+                    elif (startDate.date() - eventStartT.date()).days == 1 and eventEndT.date() == endDate.date():
+                        categoryTime = categoryTime + eventEndT.hour * 60 + eventEndT.minute
             if categoryTime > 0:
                 result[timeCategory.name] = [
                     categoryTime, float(categoryTime) / 24 / 60 / days * 100]
             # For time that not recorded
             recordedTimeCount = recordedTimeCount + categoryTime
+            
         recordedTime = [
             recordedTimeCount,
-            float(
-                recordedTimeCount) /
-            24 /
-            60 /
-            days *
-            100]
+            float(recordedTimeCount) / 24 / 60 / days *100]
 
         self.render("statistics.html",
                     startDate=startDate,
