@@ -31,11 +31,11 @@ class EventPage(Handler):
             try:
                 response = request.execute(http=Oauth2Service.decorator.http())
             except HttpError, e:
-                self.render("eventPage.html", event=event,errorMessage=e)
-            else:
-                self.redirect("/projects")
-            finally:
                 event.delete()
+                self.redirect("/projects")
+            else:
+                event.delete()
+                self.redirect("/projects")
 
             # TODO: delete Execution calendar events
             # have to judge first: wether added to calendar, which calendars?
