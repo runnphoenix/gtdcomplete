@@ -39,7 +39,7 @@ class TimeCategoryPage(Handler):
             self.redirect("/timeCategories")
         else: #Update
             category_name = self.request.get('timeCategory_name')
-            timeCategory.name = timeCategory_name
+            timeCategory.name = category_name
             timeCategory.put()
             self.render("timeCategoryPage.html",
                 timeCategory_name=timeCategory.name,
