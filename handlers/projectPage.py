@@ -27,11 +27,16 @@ class ProjectPage(Handler):
             project_name=project.name,
             finished_events=finished_events,
             unfinished_events=unfinished_events)
-                
+
     @accessControl.user_logged_in
     @accessControl.project_exist
     def post(self, project_id, project):
-        for event in project.events:
-            event.delete()
-        project.delete()
-        self.redirect("/projects")
+        if 'Delete Project' in self.request.params:
+            for event in project.events:
+                event.delete()
+            project.delete()
+            self.redirect("/projects")
+        else: #Update
+            project_name = self.reqeust.get('project_name')
+            project.name = project_name
+            project.put()
