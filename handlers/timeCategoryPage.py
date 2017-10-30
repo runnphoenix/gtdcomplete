@@ -6,28 +6,27 @@ from . import accessControl
 
 
 class TimeCategoryPage(Handler):
-    finished_events = {}
-    unfinished_events = {}
 
     @accessControl.user_logged_in
     @accessControl.timeCategory_exist
     def get(self, timeCategory_id, timeCategory):
-
+        finished_events = {}
+        unfinished_events = {}
         for event in timeCategory.events:
             if event.finished:
-                if not self.finished_events.get(str(event.time_exe_start.date())):
-                    self.finished_events[str(event.time_exe_start.date())] = [event]
+                if not finished_events.get(str(event.time_exe_start.date())):
+                    finished_events[str(event.time_exe_start.date())] = [event]
                 else:
-                    self.finished_events[str(event.time_exe_start.date())].append(event)
+                    finished_events[str(event.time_exe_start.date())].append(event)
             else:
-                if not self.unfinished_events.get(str(event.time_exe_start.date())):
-                    self.unfinished_events[str(event.time_exe_start.date())] = [event]
+                if not unfinished_events.get(str(event.time_exe_start.date())):
+                    unfinished_events[str(event.time_exe_start.date())] = [event]
                 else:
-                    self.unfinished_events[str(event.time_exe_start.date())].append(event)
+                    unfinished_events[str(event.time_exe_start.date())].append(event)
         self.render("timeCategoryPage.html",
             timeCategory_name=timeCategory.name,
-            finished_events=self.finished_events,
-            unfinished_events=self.unfinished_events)
+            finished_events=finished_events,
+            unfinished_events=unfinished_events)
 
     @accessControl.user_logged_in
     @accessControl.timeCategory_exist
@@ -41,6 +40,20 @@ class TimeCategoryPage(Handler):
             category_name = self.request.get('timeCategory_name')
             timeCategory.name = category_name
             timeCategory.put()
+
+            finished_events = {}
+            unfinished_events = {}
+            for event in timeCategory.events:
+                if event.finished:
+                    if not finished_events.get(str(event.time_exe_start.date())):
+                        finished_events[str(event.time_exe_start.date())] = [event]
+                    else:
+                        finished_events[str(event.time_exe_start.date())].append(event)
+                else:
+                    if not unfinished_events.get(str(event.time_exe_start.date())):
+                        unfinished_events[str(event.time_exe_start.date())] = [event]
+                    else:
+                        unfinished_events[str(event.time_exe_start.date())].append(event)
             self.render("timeCategoryPage.html",
                 timeCategory_name=timeCategory.name,
                 finished_events=self.finished_events,
