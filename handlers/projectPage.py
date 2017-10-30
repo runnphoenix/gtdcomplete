@@ -16,19 +16,19 @@ class ProjectPage(Handler):
 
         for event in project.events:
             if event.finished:
-                if not finished_events.get(str(event.time_exe_start.date())):
-                    finished_events[str(event.time_exe_start.date())] = [event]
+                if not self.finished_events.get(str(event.time_exe_start.date())):
+                    self.finished_events[str(event.time_exe_start.date())] = [event]
                 else:
-                    finished_events[str(event.time_exe_start.date())].append(event)
+                    self.finished_events[str(event.time_exe_start.date())].append(event)
             else:
-                if not unfinished_events.get(str(event.time_exe_start.date())):
-                    unfinished_events[str(event.time_exe_start.date())] = [event]
+                if not self.unfinished_events.get(str(event.time_exe_start.date())):
+                    self.unfinished_events[str(event.time_exe_start.date())] = [event]
                 else:
-                    unfinished_events[str(event.time_exe_start.date())].append(event)
+                    self.unfinished_events[str(event.time_exe_start.date())].append(event)
         self.render("projectPage.html",
             project_name=project.name,
-            finished_events=finished_events,
-            unfinished_events=unfinished_events)
+            finished_events=self.finished_events,
+            unfinished_events=self.unfinished_events)
 
     @accessControl.user_logged_in
     @accessControl.project_exist
@@ -44,5 +44,5 @@ class ProjectPage(Handler):
             project.put()
             self.render("projectPage.html",
                 project_name=project.name,
-                finished_events=finished_events,
-                unfinished_events=unfinished_events)
+                finished_events=self.finished_events,
+                unfinished_events=self.unfinished_events)
