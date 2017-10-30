@@ -1,8 +1,11 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-	<h4>{{context_name}}</h4>
-	<form method="post">
-		<input type="submit" value="Delete Context">
+		<form method="post">
+      <h4>{{context_name}}</h4>
+		  <input type="submit" value="Delete Context">
+      <br><br>
+      <input type='text' name='context_name' value={{context_name}}>
+      <input type='submit' value='Update Name'>
 	</form>
 
 	<br>
