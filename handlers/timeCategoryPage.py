@@ -10,19 +10,7 @@ class TimeCategoryPage(Handler):
     @accessControl.user_logged_in
     @accessControl.timeCategory_exist
     def get(self, timeCategory_id, timeCategory):
-        finished_events = {}
-        unfinished_events = {}
-        for event in timeCategory.events:
-            if event.finished:
-                if not finished_events.get(str(event.time_exe_start.date())):
-                    finished_events[str(event.time_exe_start.date())] = [event]
-                else:
-                    finished_events[str(event.time_exe_start.date())].append(event)
-            else:
-                if not unfinished_events.get(str(event.time_exe_start.date())):
-                    unfinished_events[str(event.time_exe_start.date())] = [event]
-                else:
-                    unfinished_events[str(event.time_exe_start.date())].append(event)
+        (finished_events, unfinished_events) = self.eventsInContainer(timeCategory)
         self.render("timeCategoryPage.html",
             timeCategory_name=timeCategory.name,
             finished_events=finished_events,
@@ -41,20 +29,24 @@ class TimeCategoryPage(Handler):
             timeCategory.name = category_name
             timeCategory.put()
 
-            finished_events = {}
-            unfinished_events = {}
-            for event in timeCategory.events:
-                if event.finished:
-                    if not finished_events.get(str(event.time_exe_start.date())):
-                        finished_events[str(event.time_exe_start.date())] = [event]
-                    else:
-                        finished_events[str(event.time_exe_start.date())].append(event)
-                else:
-                    if not unfinished_events.get(str(event.time_exe_start.date())):
-                        unfinished_events[str(event.time_exe_start.date())] = [event]
-                    else:
-                        unfinished_events[str(event.time_exe_start.date())].append(event)
+            (finished_events, unfinished_events) = self.eventsInContainer(timeCategory)
             self.render("timeCategoryPage.html",
                 timeCategory_name=timeCategory.name,
                 finished_events=finished_events,
                 unfinished_events=unfinished_events)
+
+    def eventsInContainer(container):
+        finished_events = {}
+        unfinished_events = {}
+        for event in container.events:
+            if event.finished:
+                if not finished_events.get(str(event.time_exe_start.date())):
+                    finished_events[str(event.time_exe_start.date())] = [event]
+                else:
+                    finished_events[str(event.time_exe_start.date())].append(event)
+            else:
+                if not unfinished_events.get(str(event.time_exe_start.date())):
+                    unfinished_events[str(event.time_exe_start.date())] = [event]
+                else:
+                    unfinished_events[str(event.time_exe_start.date())].append(event)
+        return (finished_events, unfinished_events)
