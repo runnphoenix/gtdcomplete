@@ -11,7 +11,7 @@ class ProjectPage(Handler):
     @accessControl.project_exist
     def get(self, project_id, project):
 
-        (finished_events,. unfinished_events) = self.eventsInContainer(project)
+        (finished_events, unfinished_events) = self.eventsInContainer(project)
         self.render("projectPage.html",
             project_name=project.name,
             finished_events=self.finished_events,
