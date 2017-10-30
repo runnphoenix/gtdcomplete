@@ -6,24 +6,11 @@ from . import accessControl
 
 
 class ContextPage(Handler):
-    finished_events = {}
-    unfinished_events = {}
-
     @accessControl.user_logged_in
     @accessControl.context_exist
     def get(self, context_id, context):
 
-        for event in context.events:
-            if event.finished:
-                if not self.finished_events.get(str(event.time_exe_start.date())):
-                    self.finished_events[str(event.time_exe_start.date())] = [event]
-                else:
-                    self.finished_events[str(event.time_exe_start.date())].append(event)
-            else:
-                if not self.unfinished_events.get(str(event.time_exe_start.date())):
-                    self.unfinished_events[str(event.time_exe_start.date())] = [event]
-                else:
-                    self.unfinished_events[str(event.time_exe_start.date())].append(event)
+        (finished_events, unfinished_events) = self.eventsInContainer(context)
         self.render("contextPage.html",
             context_name=context.name,
             finished_events=self.finished_events,
@@ -41,7 +28,25 @@ class ContextPage(Handler):
             context_name = self.request.get('context_name')
             context.name = context_name
             context.put()
+
+            (finished_events, unfinished_events) = self.eventsInContainer(context)
             self.render("contextPage.html",
                 context_name=context.name,
                 finished_events=self.finished_events,
                 unfinished_events=self.unfinished_events)
+
+    def eventsInContainer(self, container):
+        finished_events = {}
+        unfinished_events = {}
+        for event in container.events:
+            if event.finished:
+                if not finished_events.get(str(event.time_exe_start.date())):
+                    finished_events[str(event.time_exe_start.date())] = [event]
+                else:
+                    finished_events[str(event.time_exe_start.date())].append(event)
+            else:
+                if not unfinished_events.get(str(event.time_exe_start.date())):
+                    unfinished_events[str(event.time_exe_start.date())] = [event]
+                else:
+                    unfinished_events[str(event.time_exe_start.date())].append(event)
+        return (finished_events, unfinished_events)
