@@ -56,5 +56,5 @@ class TimeCategoryPage(Handler):
                         unfinished_events[str(event.time_exe_start.date())].append(event)
             self.render("timeCategoryPage.html",
                 timeCategory_name=timeCategory.name,
-                finished_events=self.finished_events,
-                unfinished_events=self.unfinished_events)
+                finished_events=finished_events,
+                unfinished_events=unfinished_events)
