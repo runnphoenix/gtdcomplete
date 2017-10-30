@@ -35,7 +35,7 @@ class TimeCategoryPage(Handler):
                 finished_events=finished_events,
                 unfinished_events=unfinished_events)
 
-    def eventsInContainer(container):
+    def eventsInContainer(self, container):
         finished_events = {}
         unfinished_events = {}
         for event in container.events:
