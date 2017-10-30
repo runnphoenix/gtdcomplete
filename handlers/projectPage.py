@@ -7,11 +7,13 @@ from . import accessControl
 
 class ProjectPage(Handler):
 
+    finished_events = {}
+    unfinished_events = {}
+
     @accessControl.user_logged_in
     @accessControl.project_exist
     def get(self, project_id, project):
-        finished_events = {}
-        unfinished_events = {}
+
         for event in project.events:
             if event.finished:
                 if not finished_events.get(str(event.time_exe_start.date())):
