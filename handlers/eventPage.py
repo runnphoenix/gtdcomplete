@@ -25,16 +25,17 @@ class EventPage(Handler):
     @Oauth2Service.decorator.oauth_required
     def post(self, event_id, event):
         if "Delete" in self.request.params:
+            event.delete()
             # add delete sync to gcalendar
-            request = Oauth2Service.service.events().delete(
-                calendarId='primary', eventId=event.google_calendar_plan_id)
             try:
+                request = Oauth2Service.service.events().delete(
+                    calendarId='primary', eventId=event.google_calendar_plan_id)
                 response = request.execute(http=Oauth2Service.decorator.http())
             except HttpError, e:
-                event.delete()
+                self.redirect("/projects")
+            except TypeError, e:
                 self.redirect("/projects")
             else:
-                event.delete()
                 self.redirect("/projects")
 
             # TODO: delete Execution calendar events
