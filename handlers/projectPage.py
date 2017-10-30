@@ -40,3 +40,7 @@ class ProjectPage(Handler):
             project_name = self.request.get('project_name')
             project.name = project_name
             project.put()
+            self.render("projectPage.html",
+                project_name=project.name,
+                finished_events=finished_events,
+                unfinished_events=unfinished_events)
