@@ -14,8 +14,8 @@ class ProjectPage(Handler):
         (finished_events, unfinished_events) = self.eventsInContainer(project)
         self.render("projectPage.html",
             project_name=project.name,
-            finished_events=self.finished_events,
-            unfinished_events=self.unfinished_events)
+            finished_events=finished_events,
+            unfinished_events=unfinished_events)
 
     @accessControl.user_logged_in
     @accessControl.project_exist
@@ -33,8 +33,8 @@ class ProjectPage(Handler):
             (finished_events, unfinished_events) = self.eventsInContainer(project)
             self.render("projectPage.html",
                 project_name=project.name,
-                finished_events=self.finished_events,
-                unfinished_events=self.unfinished_events)
+                finished_events=finished_events,
+                unfinished_events=unfinished_events)
 
     def eventsInContainer(self, container):
         finished_events = {}

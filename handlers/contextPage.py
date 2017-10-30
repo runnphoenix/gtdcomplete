@@ -13,8 +13,8 @@ class ContextPage(Handler):
         (finished_events, unfinished_events) = self.eventsInContainer(context)
         self.render("contextPage.html",
             context_name=context.name,
-            finished_events=self.finished_events,
-            unfinished_events=self.unfinished_events)
+            finished_events=finished_events,
+            unfinished_events=unfinished_events)
 
     @accessControl.user_logged_in
     @accessControl.context_exist
@@ -32,8 +32,8 @@ class ContextPage(Handler):
             (finished_events, unfinished_events) = self.eventsInContainer(context)
             self.render("contextPage.html",
                 context_name=context.name,
-                finished_events=self.finished_events,
-                unfinished_events=self.unfinished_events)
+                finished_events=finished_events,
+                unfinished_events=unfinished_events)
 
     def eventsInContainer(self, container):
         finished_events = {}
