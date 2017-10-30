@@ -37,6 +37,6 @@ class ProjectPage(Handler):
             project.delete()
             self.redirect("/projects")
         else: #Update
-            project_name = self.reqeust.get('project_name')
+            project_name = self.request.get('project_name')
             project.name = project_name
             project.put()
