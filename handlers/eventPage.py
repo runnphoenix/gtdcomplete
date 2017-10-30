@@ -6,7 +6,7 @@ from . import accessControl
 from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
 from google.appengine.ext import db
-from urllib2 import HttpError
+from urllib2 import HTTPError
 
 
 def events_key(name="default"):
@@ -32,7 +32,7 @@ class EventPage(Handler):
                 request = Oauth2Service.service.events().delete(
                     calendarId='primary', eventId=event.google_calendar_plan_id)
                 response = request.execute(http=Oauth2Service.decorator.http())
-            except HttpError, e:
+            except HTTPError, e:
                 self.redirect("/projects")
             except TypeError, e:
                 self.redirect("/projects")
