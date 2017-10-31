@@ -17,19 +17,20 @@ class ProjectPage(Handler):
             finished_events=finished_events,
             unfinished_events=unfinished_events,
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            xxx=self.request.params)
+            endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
 
     @accessControl.user_logged_in
     @accessControl.project_exist
     def post(self, project_id, project):
+        for x,y in self.request.params.items():
+            print(x,y)
         if 'Delete' in self.request.params:
             for event in project.events:
                 event.delete()
             project.delete()
             self.redirect("/projects")
-        elif 'Update' in self.request.params: #Update
+        elif "Update" in self.request.params:
             project_name = self.request.get('project_name')
             project.name = project_name
             project.put()

@@ -1,29 +1,27 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-		<form method="post">
-      <h4>{{project_name}}</h4>
-	    {% if project_name != "inbox" %}
-			  <input type="submit" value="Delete">
-        <br><br>
-        <input type='text' name='project_name' value={{project_name}}>
-        <input type='submit' value='Update'>
-		</form>
-	{% endif %}
-	<br>
-	<h4>Unfinished Events:</h4>
-	{% for (date,events) in unfinished_events.items() %}
-		<div>{{date}}</div>
-		{% for event in events %}
-			<div>
-				<a href="/event/{{event.key().id()}}">{{event.title}}</a>
-			</div>
-		{% endfor %}
-	{% endfor %}
-	<br>
-	<hr>
-	<h4>Finished Events:</h4>
+	<form method="post">
+    <h4>{{project_name}}</h4>
+	  {% if project_name != "inbox" %}
+			<input type="submit" name="Delete" value="Delete">
+      <br><br>
+      <input type='text' name='project_name' value={{project_name}}>
+      <input type='submit' name="Update" value='Update'>
+    {% endif %}
+	  <br>
+	  <h4>Unfinished Events:</h4>
+	  {% for (date,events) in unfinished_events.items() %}
+		  <div>{{date}}</div>
+		  {% for event in events %}
+			  <div>
+				  <a href="/event/{{event.key().id()}}">{{event.title}}</a>
+			  </div>
+		  {% endfor %}
+	  {% endfor %}
+	  <br>
+	  <hr>
+	  <h4>Finished Events:</h4>
 
-  <form method="post">
 		<label>
 			<div>Start Date</div>
 			<input type="date-local" name="startDate" value={{startDate.strftime("%Y-%m-%d")}}>
@@ -49,10 +47,4 @@
 	{% endfor %}
 	<br>
 
-  <div>
-    {%for x,y in xxx.items() %}
-      {{x}}:{{y}}<br>
-    {% endfor %}
-  </div>
-  
 {% endblock %}
