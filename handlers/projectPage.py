@@ -4,19 +4,21 @@ from .handler import Handler
 from models import Project
 from . import accessControl
 from datetime import datetime
-
+import pytz
 
 class ProjectPage(Handler):
 
     @accessControl.user_logged_in
     @accessControl.project_exist
     def get(self, project_id, project):
-
         (finished_events, unfinished_events) = self.eventsInContainer(project)
         self.render("projectPage.html",
             project_name=project.name,
             finished_events=finished_events,
-            unfinished_events=unfinished_events)
+            unfinished_events=unfinished_events,
+            startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+            endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+
 
     @accessControl.user_logged_in
     @accessControl.project_exist
@@ -35,7 +37,9 @@ class ProjectPage(Handler):
             self.render("projectPage.html",
                 project_name=project.name,
                 finished_events=finished_events,
-                unfinished_events=unfinished_events)
+                unfinished_events=unfinished_events,
+                startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
         else: #Look up throught date
             startDate = datetime.strptime(self.request.get("startDate"),"%Y-%m-%d")
             endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
@@ -45,6 +49,8 @@ class ProjectPage(Handler):
                     project_name=project.name,
                     finished_events=[],
                     unfinished_events=[],
+                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
                     errMessage=errMessage)
             else:  # with duration
                 days = (endDate - startDate).days + 1
@@ -53,7 +59,9 @@ class ProjectPage(Handler):
                 self.render("projectPage.html",
                     project_name=project.name,
                     finished_events=finished_events,
-                    unfinished_events=unfinished_events)
+                    unfinished_events=unfinished_events,
+                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
     def eventsInContainer(self, container, lookupDates=[]):
         finished_events = {}
