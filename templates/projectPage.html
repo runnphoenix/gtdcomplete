@@ -50,7 +50,9 @@
 	<br>
 
   <div>
-    {{xxx}}
+    {%for x,y in xxx %}
+      {{x}}:{{y}}<br>
+    {% enfor %}
   </div>
   
 {% endblock %}

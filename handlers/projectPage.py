@@ -18,12 +18,23 @@ class ProjectPage(Handler):
             unfinished_events=unfinished_events,
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            xxx=dir(self.request.params))
+            xxx=self.request.params)
 
 
     @accessControl.user_logged_in
     @accessControl.project_exist
     def post(self, project_id, project):
+
+
+        self.render("projectPage.html",
+            project_name=project.name,
+            finished_events=finished_events,
+            unfinished_events=unfinished_events,
+            startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+            endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+            xxx=self.request.params)
+
+
         if 'Delete' in self.request.params:
             for event in project.events:
                 event.delete()
