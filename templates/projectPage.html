@@ -45,6 +45,10 @@
 			</div>
 		{% endfor %}
 	{% endfor %}
+
+  {% for date in dates %}
+  <div>{{date.strftime("%Y-%m-%d")}}</div>
+  {% endfor %}
 	<br>
 
 {% endblock %}

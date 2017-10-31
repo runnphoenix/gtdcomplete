@@ -63,7 +63,8 @@ class ProjectPage(Handler):
                     finished_events=finished_events,
                     unfinished_events=unfinished_events,
                     startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    dates=dates)
 
     def eventsInContainer(self, container, lookupDates=[]):
         finished_events = {}
