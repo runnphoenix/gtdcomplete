@@ -3,7 +3,7 @@
 from .handler import Handler
 from models import Project
 from . import accessControl
-from datetime import datetime
+from datetime import datetime,timedelta
 import pytz
 
 class ProjectPage(Handler):
@@ -17,7 +17,8 @@ class ProjectPage(Handler):
             finished_events=finished_events,
             unfinished_events=unfinished_events,
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+            endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+            xxx=self.request.params)
 
 
     @accessControl.user_logged_in
@@ -54,7 +55,7 @@ class ProjectPage(Handler):
                     errMessage=errMessage)
             else:  # with duration
                 days = (endDate - startDate).days + 1
-                dates = (startDate + timeDelta(i) for i in range(days))
+                dates = (startDate + timedelta(i) for i in range(days))
                 (finished_events, unfinished_events) = self.eventsInContainer(project, dates)
                 self.render("projectPage.html",
                     project_name=project.name,
