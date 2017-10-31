@@ -18,7 +18,7 @@ class ProjectPage(Handler):
             unfinished_events=unfinished_events,
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            xxx=self.request.params)
+            xxx=dir(self.request.params))
 
 
     @accessControl.user_logged_in
