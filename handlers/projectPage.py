@@ -28,8 +28,8 @@ class ProjectPage(Handler):
 
         self.render("projectPage.html",
             project_name=project.name,
-            finished_events=finished_events,
-            unfinished_events=unfinished_events,
+            finished_events=[],
+            unfinished_events=[],
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             xxx=self.request.params)
