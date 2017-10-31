@@ -33,6 +33,7 @@ class ProjectPage(Handler):
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             xxx=self.request.params)
+        return
 
 
         if 'Delete' in self.request.params:
