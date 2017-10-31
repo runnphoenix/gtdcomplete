@@ -21,7 +21,6 @@
 	  <br>
 	  <hr>
 	  <h4>Finished Events:</h4>
-
 		<label>
 			<div>Start Date</div>
 			<input type="date-local" name="startDate" value={{startDate.strftime("%Y-%m-%d")}}>
@@ -30,7 +29,7 @@
 			<div>End Date</div>
 			<input type="date-local" name="endDate" value={{endDate.strftime("%Y-%m-%d")}}>
 		</label>
-		<br>
+    <br><br>
 		<input type="submit" name='lookup'>
     {% if errMessage %}
       <h4>{{errMessage}}</h4>
@@ -38,6 +37,7 @@
 	</form>
 
 	{% for (date,events) in finished_events.items() %}
+    <br>
 		<div>{{date}}</div>
 		{% for event in events %}
 			<div>
@@ -45,10 +45,5 @@
 			</div>
 		{% endfor %}
 	{% endfor %}
-
-  {% for date in dates %}
-  <div>{{date.strftime("%Y-%m-%d")}}</div>
-  {% endfor %}
-	<br>
 
 {% endblock %}

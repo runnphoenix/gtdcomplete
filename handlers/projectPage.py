@@ -23,8 +23,6 @@ class ProjectPage(Handler):
     @accessControl.user_logged_in
     @accessControl.project_exist
     def post(self, project_id, project):
-        for x,y in self.request.params.items():
-            print(x,y)
         if 'Delete' in self.request.params:
             for event in project.events:
                 event.delete()
@@ -56,15 +54,14 @@ class ProjectPage(Handler):
                     errMessage=errMessage)
             else:  # with duration
                 days = (endDate - startDate).days + 1
-                dates = (startDate + timedelta(i) for i in range(days))
+                dates = [(startDate + timedelta(i)).date() for i in range(days)]
                 (finished_events, unfinished_events) = self.eventsInContainer(project, dates)
                 self.render("projectPage.html",
                     project_name=project.name,
                     finished_events=finished_events,
                     unfinished_events=unfinished_events,
                     startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                    dates=dates)
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
     def eventsInContainer(self, container, lookupDates=[]):
         finished_events = {}
