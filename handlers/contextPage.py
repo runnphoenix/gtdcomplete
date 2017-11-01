@@ -3,18 +3,21 @@
 from .handler import Handler
 from models import Context
 from . import accessControl
+from datetime import datetime, timedelta
+import pytz
 
 
 class ContextPage(Handler):
     @accessControl.user_logged_in
     @accessControl.context_exist
     def get(self, context_id, context):
-
         (finished_events, unfinished_events) = self.eventsInContainer(context)
         self.render("contextPage.html",
             context_name=context.name,
             finished_events=finished_events,
-            unfinished_events=unfinished_events)
+            unfinished_events=unfinished_events,
+            startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+            endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
     @accessControl.user_logged_in
     @accessControl.context_exist
@@ -24,16 +27,39 @@ class ContextPage(Handler):
                 event.delete()
             context.delete()
             self.redirect("/contexts")
-        else: #Update
+        elif "Update" in self.request.params:
             context_name = self.request.get('context_name')
             context.name = context_name
             context.put()
-
             (finished_events, unfinished_events) = self.eventsInContainer(context)
             self.render("contextPage.html",
                 context_name=context.name,
                 finished_events=finished_events,
-                unfinished_events=unfinished_events)
+                unfinished_events=unfinished_events,
+                startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+        else: #Look up finished events
+            startDate = datetime.strptime(self.request.get("startDate"),"%Y-%m-%d")
+            endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
+            if startDate > endDate:
+                errMessage = "End date MUST be bigger than start date."
+                self.render("contextPage.html",
+                    context_name=context.name,
+                    finished_events=[],
+                    unfinished_events=[],
+                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    errMessage=errMessage)
+            else:  # with duration
+                days = (endDate - startDate).days + 1
+                dates = [(startDate + timedelta(i)).date() for i in range(days)]
+                (finished_events, unfinished_events) = self.eventsInContainer(context, dates)
+                self.render("contextPage.html",
+                    context_name=context.name,
+                    finished_events=finished_events,
+                    unfinished_events=unfinished_events,
+                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
     def eventsInContainer(self, container):
         finished_events = {}

@@ -19,7 +19,6 @@ class ProjectPage(Handler):
             startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
             endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
-
     @accessControl.user_logged_in
     @accessControl.project_exist
     def post(self, project_id, project):
@@ -32,7 +31,6 @@ class ProjectPage(Handler):
             project_name = self.request.get('project_name')
             project.name = project_name
             project.put()
-
             (finished_events, unfinished_events) = self.eventsInContainer(project)
             self.render("projectPage.html",
                 project_name=project.name,
