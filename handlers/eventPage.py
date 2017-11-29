@@ -166,6 +166,7 @@ class EventPage(Handler):
                             calendarId='primary', body=gEvent)
                         response = request.execute(
                             http=Oauth2Service.decorator.http())
+                        print 'new event response: ' + response
                         # Add to Database
                         newEvent.google_calendar_plan_id = response['id']
                         newEvent.put()
@@ -193,6 +194,7 @@ class EventPage(Handler):
                         calendarId=exe_calendar_id, body=gEvent)
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
+                    print 'add to exe calendar response: ' + response
                     event.google_calendar_exec_id = response['id']
                     # update primary calendar(At last)
                 elif finished and event.finished:
@@ -212,6 +214,7 @@ class EventPage(Handler):
                         calendarId=exe_calendar_id, eventId=event.google_calendar_exec_id, body=gEvent1)
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
+                    print 'update exe calendar response: ' + response
                 elif (not finished) and (not event.finished):
                     # update primary calendar
                     pass
@@ -249,6 +252,8 @@ class EventPage(Handler):
                         calendarId='primary', eventId=event.google_calendar_plan_id, body=gEvent)
                     response = request.execute(
                         http=Oauth2Service.decorator.http())
+                    print 'update plan calendar response: '
+                    print response['status']
 
                 # Add event to database
                 event.put()
