@@ -1,0 +1,10 @@
+{% extends "sectionBase.html" %}
+{% block contentSection %}
+	<h3>Unfinished Events</h3>
+	<br>
+	{% for event in events %}
+		<h4>
+			<a href="/event/{{event.key().id()}}">{{event.name}}</a>
+		</h4>
+	{% endfor %}
+{% endblock%}

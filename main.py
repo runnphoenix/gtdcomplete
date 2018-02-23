@@ -11,6 +11,7 @@ from handlers import Signup
 from handlers import Login
 from handlers import Logout
 from handlers import Projects
+from handlers import UnfinishedEvents
 from handlers import TimeCategories
 from handlers import Contexts
 from handlers import ProjectsJson
@@ -41,9 +42,10 @@ app = webapp2.WSGIApplication([
 	('/context/([0-9]+)', ContextPage),
 	('/event/([0-9]+)', EventPage),
 	('/projects', Projects),
+	('/unfinishedEvents', UnfinishedEvents),
 	('/timeCategories', TimeCategories),
 	('/contexts', Contexts),
-    ('/statistics', TimeStatistics),
+	('/statistics', TimeStatistics),
 	('/projects.json', ProjectsJson),
-    (Oauth2Service.decorator.callback_path, Oauth2Service.decorator.callback_handler()),
-], debug=True)
+	(Oauth2Service.decorator.callback_path, Oauth2Service.decorator.callback_handler()),
+	], debug=True)
