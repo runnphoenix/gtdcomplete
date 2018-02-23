@@ -11,15 +11,20 @@ class UnfinishedEvents(Handler):
         self.render("unfinishedEvents.html", events=self.unfinishedEvents())
 
     def unfinishedEvents(self):
-        unfinishedEvents = []
+        unfinishedEvents = {}
+        unfinishedEvents['notScheduled'] = []
         for project in self.user.projects:
-            print project.name
             events = project.events
             if events is not None:
                 for event in events:
-                    print event.title
                     if event.finished == False:
-                        unfinishedEvents.append(event)
+                        if not event.time_plan_start:
+                            unfinishedEvents['notScheduled'].append(event)
+                        else:
+                            if not unfinishedEvents.get(str(event.time_plan_start.date())):
+                                unfinishedEvents[str(event.time_plan_start.date())] = [event]
+                            else:
+                                unfinishedEvents[str(event.time_plan_start.date())].append(event)
         return unfinishedEvents
 
     @accessControl.user_logged_in
