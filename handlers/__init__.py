@@ -9,6 +9,7 @@ from .projectPage import ProjectPage
 from .timeCategoryPage import TimeCategoryPage
 from .contextPage import ContextPage
 from .login import Login
+from .loginJson import LoginJson
 from .logout import Logout
 from .signup import Signup
 from .mainPage import MainPage
