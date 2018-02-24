@@ -8,7 +8,7 @@ import json
 class ProjectsJson(Handler):
 
     @accessControl.user_logged_in
-    def get(self):
+    def post(self):
         self.response.headers['Content-Type'] = 'application/json'
         projects = []
         for project in self.user.projects:

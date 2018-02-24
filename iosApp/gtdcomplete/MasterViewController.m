@@ -26,30 +26,41 @@
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
     //login first
-    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"wanger",@"12345"] forKeys:@[@"userName",@"password"]];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"runnphoenix",@"runn2reborngc"] forKeys:@[@"username",@"password"]];
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
     NSURL *url = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/login.json"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:@"POST"];
     [request setHTTPBody:jsonData];
+    NSLog(@"%@",request.mainDocumentURL);
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSLog(@"%@",error.description);
         NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"%@", str);
+        // save user_id
+        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSLog(@"%@",jsonDic);
+        NSString *user_id = [jsonDic objectForKey:@"uid"];
+        NSLog(@"%@",user_id);
+        [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"uid"];
     }];
     [task resume];
     
     // Look up projects data
-    NSURL *url2 = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
-    NSURLRequest *request2 = [NSURLRequest requestWithURL:url2];
-    NSURLSession *session2 = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task2 = [session2 dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"%@",error.description);
-        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", str);
-    }];
-    [task2 resume];
+//    NSDictionary *dic2 = [NSDictionary dictionaryWithObjects:@[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]] forKeys:@[@"uid"]];
+//    NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:dic2 options:NSJSONWritingPrettyPrinted error:nil];
+//    NSURL *url2 = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
+//    NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL:url2];
+//    [request2 setHTTPMethod:@"POST"];
+//    [request2 setHTTPBody:jsonData2];
+//    NSURLSession *session2 = [NSURLSession sharedSession];
+//    NSURLSessionDataTask *task2 = [session2 dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//        NSLog(@"%@",error.description);
+//        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@", str);
+//    }];
+//    [task2 resume];
 }
 
 

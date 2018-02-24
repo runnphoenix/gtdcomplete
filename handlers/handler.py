@@ -4,6 +4,7 @@ import hmac
 import os
 import webapp2
 import jinja2
+import json
 from models import User
 
 template_dir = os.path.join(os.path.dirname(__file__), '../templates')
@@ -56,4 +57,5 @@ class Handler(webapp2.RequestHandler):
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uid = self.read_cookie()
+        #json uid
         self.user = uid and User.by_id(int(uid))
