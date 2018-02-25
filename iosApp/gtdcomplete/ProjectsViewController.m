@@ -40,7 +40,6 @@
                                                                          options:NSJSONReadingAllowFragments
                                                                            error:nil];
             _projects = [projects_dic allValues];
-            _projects = _projects[0];
             NSLog(@"%@", _projects);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
