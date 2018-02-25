@@ -5,6 +5,8 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -73,6 +75,35 @@
             </objects>
             <point key="canvasLocation" x="-1574" y="1969"/>
         </scene>
+        <!--Projects View Controller-->
+        <scene sceneID="jdd-Sx-pNY">
+            <objects>
+                <tableViewController id="KVt-xL-M4s" customClass="ProjectsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="rvN-By-vSZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="HYM-f4-cwX">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HYM-f4-cwX" id="xoD-oX-jrY">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="KVt-xL-M4s" id="5EH-1h-o7p"/>
+                            <outlet property="delegate" destination="KVt-xL-M4s" id="moT-GN-7IZ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Prc-0T-mrM"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PhU-to-NzE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3159" y="2678"/>
+        </scene>
         <!--Tasks-->
         <scene sceneID="7Bz-AJ-nz7">
             <objects>
@@ -80,7 +111,40 @@
                     <view key="view" contentMode="scaleToFill" id="IR2-BQ-Iti">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRb-Ja-Ogx">
+                                <rect key="frame" x="46" y="272" width="94" height="94"/>
+                                <state key="normal" title="Projects"/>
+                                <connections>
+                                    <segue destination="KVt-xL-M4s" kind="push" id="U9L-LX-h8b"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Tk-U5-Ief">
+                                <rect key="frame" x="140" y="272" width="94" height="94"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="3Tk-U5-Ief" secondAttribute="height" multiplier="1:1" id="Hgq-nV-VZQ"/>
+                                </constraints>
+                                <state key="normal" title="Contexts"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Sm-eg-NRz">
+                                <rect key="frame" x="234" y="272" width="94" height="94"/>
+                                <state key="normal" title="Time Categories"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3Tk-U5-Ief" firstAttribute="leading" secondItem="eRb-Ja-Ogx" secondAttribute="trailing" id="08z-iC-fUX"/>
+                            <constraint firstItem="3Tk-U5-Ief" firstAttribute="centerX" secondItem="mxt-GK-Mxz" secondAttribute="centerX" id="39S-hm-H2r"/>
+                            <constraint firstItem="9Sm-eg-NRz" firstAttribute="centerY" secondItem="3Tk-U5-Ief" secondAttribute="centerY" id="4Pf-JV-WYg"/>
+                            <constraint firstItem="9Sm-eg-NRz" firstAttribute="width" secondItem="3Tk-U5-Ief" secondAttribute="width" id="51p-mO-oio"/>
+                            <constraint firstItem="eRb-Ja-Ogx" firstAttribute="width" secondItem="3Tk-U5-Ief" secondAttribute="width" id="5k4-6i-epo"/>
+                            <constraint firstItem="9Sm-eg-NRz" firstAttribute="height" secondItem="3Tk-U5-Ief" secondAttribute="height" id="Egk-HD-29J"/>
+                            <constraint firstItem="eRb-Ja-Ogx" firstAttribute="height" secondItem="3Tk-U5-Ief" secondAttribute="height" id="Fnc-S4-XZS"/>
+                            <constraint firstItem="3Tk-U5-Ief" firstAttribute="centerY" secondItem="mxt-GK-Mxz" secondAttribute="centerY" id="ZUG-up-eAX"/>
+                            <constraint firstItem="3Tk-U5-Ief" firstAttribute="width" secondItem="IR2-BQ-Iti" secondAttribute="width" multiplier="0.25" id="h7H-Lr-vG4"/>
+                            <constraint firstItem="9Sm-eg-NRz" firstAttribute="leading" secondItem="3Tk-U5-Ief" secondAttribute="trailing" id="mgp-sk-i5v"/>
+                            <constraint firstItem="eRb-Ja-Ogx" firstAttribute="centerY" secondItem="3Tk-U5-Ief" secondAttribute="centerY" id="wYr-iQ-46G"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="mxt-GK-Mxz"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Tasks" id="yRf-Qu-8Rf"/>
