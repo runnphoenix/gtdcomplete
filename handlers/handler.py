@@ -58,4 +58,9 @@ class Handler(webapp2.RequestHandler):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uid = self.read_cookie()
         #json uid
+        if not uid:
+            if self.request.body:
+                #self.write(self.request.body)
+                if json.loads(self.request.body).get('uid'):
+                    uid = json.loads(self.request.body).get('uid')
         self.user = uid and User.by_id(int(uid))
