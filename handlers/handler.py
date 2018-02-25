@@ -63,4 +63,5 @@ class Handler(webapp2.RequestHandler):
                 #self.write(self.request.body)
                 if json.loads(self.request.body).get('uid'):
                     uid = json.loads(self.request.body).get('uid')
+                    uid = check_secure_val(uid)
         self.user = uid and User.by_id(int(uid))

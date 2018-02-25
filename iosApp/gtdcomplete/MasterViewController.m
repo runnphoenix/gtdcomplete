@@ -26,49 +26,59 @@
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
     //login first
-    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"runnphoenix",@"runn2reborngc"] forKeys:@[@"username",@"password"]];
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    NSURL *url = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/login.json"];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"POST"];
-    [request setHTTPBody:jsonData];
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@",str);
-        // save user_id
-        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSString *user_id = [jsonDic objectForKey:@"uid"];
-        NSLog(@"%@",user_id);
-        [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"uid"];
-    }];
-    [task resume];
-
+//    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"runnphoenix",@"runn2reborngc"] forKeys:@[@"username",@"password"]];
+//    //NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"oldman",@"123"] forKeys:@[@"username",@"password"]];
+//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+//    NSURL *url = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/login.json"];
+//    //NSURL *url = [NSURL URLWithString:@"http://localhost:8080/login.json"];
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+//    [request setHTTPMethod:@"POST"];
+//    [request setHTTPBody:jsonData];
+//    NSURLSession *session = [NSURLSession sharedSession];
+//    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+//        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@",str);
+//        // save user_id
+//        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+//        NSString *user_id = [jsonDic objectForKey:@"uid"];
+//        NSLog(@"%@",user_id);
+//        [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"uid"];
+//    }];
+//    [task resume];
+    
     // Look up projects data
-//    NSString *uud = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-//    NSLog(@"%@", uud);
-//    if (uud != nil){
-//        NSDictionary *dic2 = [NSDictionary dictionaryWithObjects:@[uud] forKeys:@[@"uid"]];
-//        NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:dic2 options:NSJSONWritingPrettyPrinted error:nil];
-//        NSURL *url2 = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
-//        NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL:url2];
-//        [request2 setHTTPMethod:@"POST"];
-//        [request2 setHTTPBody:jsonData2];
-//        NSURLSession *session2 = [NSURLSession sharedSession];
-//        NSURLSessionDataTask *task2 = [session2 dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//            NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//            NSLog(@"%@", str);
-//        }];
-//        [task2 resume];
-//    }
+    NSString *uud = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    NSLog(@"%@", uud);
+    if (uud != nil){
+        NSDictionary *dic2 = [NSDictionary dictionaryWithObjects:@[uud] forKeys:@[@"uid"]];
+        NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:dic2 options:NSJSONWritingPrettyPrinted error:nil];
+        NSURL *url2 = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
+        //NSURL *url2 = [NSURL URLWithString:@"http://localhost:8080/projects.json"];
+        NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL:url2];
+        [request2 setHTTPMethod:@"POST"];
+        [request2 setHTTPBody:jsonData2];
+        NSURLSession *session2 = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task2 = [session2 dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            NSLog(@"%@", str);
+            NSDictionary *projects_dic = [NSJSONSerialization JSONObjectWithData:data
+                                                                         options:NSJSONReadingAllowFragments
+                                                                           error:nil];
+            NSArray *projects = [projects_dic allValues];
+            self.objects = [NSMutableArray arrayWithObjects:projects, nil];
+            NSLog(@"%@", projects);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        }];
+        [task2 resume];
+    }
 }
-
 
 - (void)viewWillAppear:(BOOL)animated {
     self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
     [super viewWillAppear:animated];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
