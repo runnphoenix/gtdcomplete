@@ -102,9 +102,26 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PhU-to-NzE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3159" y="2678"/>
+            <point key="canvasLocation" x="-3359" y="3473"/>
         </scene>
         <!--Tasks-->
+        <scene sceneID="P8e-1e-0z4">
+            <objects>
+                <navigationController id="O7Q-BA-Rkn" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Tasks" id="t5s-D6-ax8"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6np-Cb-sa7">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="6aQ-4v-tSg" kind="relationship" relationship="rootViewController" id="GvR-YE-SMK"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2TT-rc-mbC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3359" y="1969"/>
+        </scene>
+        <!--View Controller-->
         <scene sceneID="7Bz-AJ-nz7">
             <objects>
                 <viewController id="6aQ-4v-tSg" sceneMemberID="viewController">
@@ -113,21 +130,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eRb-Ja-Ogx">
-                                <rect key="frame" x="46" y="272" width="94" height="94"/>
+                                <rect key="frame" x="46" y="294" width="94" height="94"/>
                                 <state key="normal" title="Projects"/>
                                 <connections>
                                     <segue destination="KVt-xL-M4s" kind="push" id="U9L-LX-h8b"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Tk-U5-Ief">
-                                <rect key="frame" x="140" y="272" width="94" height="94"/>
+                                <rect key="frame" x="140" y="294" width="94" height="94"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="3Tk-U5-Ief" secondAttribute="height" multiplier="1:1" id="Hgq-nV-VZQ"/>
                                 </constraints>
                                 <state key="normal" title="Contexts"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Sm-eg-NRz">
-                                <rect key="frame" x="234" y="272" width="94" height="94"/>
+                                <rect key="frame" x="234" y="294" width="94" height="94"/>
                                 <state key="normal" title="Time Categories"/>
                             </button>
                         </subviews>
@@ -147,11 +164,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="mxt-GK-Mxz"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Tasks" id="yRf-Qu-8Rf"/>
+                    <navigationItem key="navigationItem" id="dgU-To-T6z"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xi9-nJ-qzW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2380" y="1969"/>
+            <point key="canvasLocation" x="-3359" y="2733"/>
         </scene>
         <!--ViewController-->
         <scene sceneID="RFo-I4-6F2">
@@ -163,11 +180,11 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="6aQ-4v-tSg" kind="relationship" relationship="viewControllers" id="faH-9x-KMl"/>
-                        <segue destination="I8e-8m-AAq" kind="relationship" relationship="viewControllers" id="d83-V8-jbj"/>
-                        <segue destination="a6t-wi-hID" kind="relationship" relationship="viewControllers" id="JVq-G3-g8D"/>
-                        <segue destination="xPw-XQ-Coz" kind="relationship" relationship="viewControllers" id="Fa4-Hc-Hg3"/>
-                        <segue destination="gsF-ZY-hPb" kind="relationship" relationship="viewControllers" id="deC-hl-eay"/>
+                        <segue destination="O7Q-BA-Rkn" kind="relationship" relationship="viewControllers" id="Rv1-s7-59a"/>
+                        <segue destination="I8e-8m-AAq" kind="relationship" relationship="viewControllers" id="N40-fA-Bka"/>
+                        <segue destination="a6t-wi-hID" kind="relationship" relationship="viewControllers" id="5dD-mV-N3M"/>
+                        <segue destination="xPw-XQ-Coz" kind="relationship" relationship="viewControllers" id="4CE-wm-9YW"/>
+                        <segue destination="gsF-ZY-hPb" kind="relationship" relationship="viewControllers" id="aYL-wK-K9D"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3OO-7r-Jxn" userLabel="First Responder" sceneMemberID="firstResponder"/>

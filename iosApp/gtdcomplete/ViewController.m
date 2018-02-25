@@ -37,32 +37,6 @@
     //        [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"uid"];
     //    }];
     //    [task resume];
-    
-    // Look up projects data
-    NSString *uud = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-    NSLog(@"%@", uud);
-    if (uud != nil){
-        NSDictionary *dic2 = [NSDictionary dictionaryWithObjects:@[uud] forKeys:@[@"uid"]];
-        NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:dic2 options:NSJSONWritingPrettyPrinted error:nil];
-        NSURL *url2 = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
-        //NSURL *url2 = [NSURL URLWithString:@"http://localhost:8080/projects.json"];
-        NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL:url2];
-        [request2 setHTTPMethod:@"POST"];
-        [request2 setHTTPBody:jsonData2];
-        NSURLSession *session2 = [NSURLSession sharedSession];
-        NSURLSessionDataTask *task2 = [session2 dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-            NSLog(@"%@", str);
-            NSDictionary *projects_dic = [NSJSONSerialization JSONObjectWithData:data
-                                                                         options:NSJSONReadingAllowFragments
-                                                                           error:nil];
-            NSArray *projects = [projects_dic allValues];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //[self.tableView reloadData];
-            });
-        }];
-        [task2 resume];
-    }
 }
 
 - (void)didReceiveMemoryWarning {
