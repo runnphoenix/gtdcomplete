@@ -65,8 +65,8 @@
                                                                          options:NSJSONReadingAllowFragments
                                                                            error:nil];
             NSArray *projects = [projects_dic allValues];
-            self.objects = [NSMutableArray arrayWithObjects:projects, nil];
-            NSLog(@"%@", projects);
+            self.objects = [NSMutableArray arrayWithObjects:projects[0], nil];
+            self.objects = self.objects[0];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
