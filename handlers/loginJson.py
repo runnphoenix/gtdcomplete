@@ -17,11 +17,11 @@ class LoginJson(Signup):
         params = dict(username=username, password=password)
 
         if not self.username_valid(username):
-            params['error_username'] = "Not a valid user name."
+            params['error'] = "Not a valid user name."
             has_error = True
 
         if not self.password_valid(password):
-            params['error_password'] = "Not a valid password."
+            params['error'] = "Not a valid password."
             has_error = True
 
         if has_error:
@@ -32,14 +32,14 @@ class LoginJson(Signup):
                 if User.valid_hash(username, password, user.pw_hash):
                     user_id = str(user.key().id())
                     secure_id = make_secure_val(user_id)
-                    self.write(json.dumps(dict(uid=secure_id)))
+                    self.write(json.dumps(dict(uid=secure_id, uname=user.name)))
                     #self.redirect('/projects')
                 else:
-                    params['passwd_unmatch'] = "Password unmatch"
+                    params['error'] = "Password unmatch."
                     self.response.out.write(json.dumps(params))
             else:
-                params['user_noexist'] = "User not exist"
-                self.response.out.write(json.dumps(request))
+                params['error'] = "User not exist."
+                self.response.out.write(json.dumps(params))
 
 
 secret = 'BurningPyre'

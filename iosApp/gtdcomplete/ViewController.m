@@ -16,27 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //login first
-    //    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"runnphoenix",@"runn2reborngc"] forKeys:@[@"username",@"password"]];
-    //    //NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"oldman",@"123"] forKeys:@[@"username",@"password"]];
-    //    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
-    //    NSURL *url = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/login.json"];
-    //    //NSURL *url = [NSURL URLWithString:@"http://localhost:8080/login.json"];
-    //    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    //    [request setHTTPMethod:@"POST"];
-    //    [request setHTTPBody:jsonData];
-    //    NSURLSession *session = [NSURLSession sharedSession];
-    //    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-    //        NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-    //        NSLog(@"%@",str);
-    //        // save user_id
-    //        NSDictionary *jsonDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-    //        NSString *user_id = [jsonDic objectForKey:@"uid"];
-    //        NSLog(@"%@",user_id);
-    //        [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"uid"];
-    //    }];
-    //    [task resume];
 }
 
 - (void)didReceiveMemoryWarning {

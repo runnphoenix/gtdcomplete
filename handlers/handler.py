@@ -61,7 +61,7 @@ class Handler(webapp2.RequestHandler):
         if not uid:
             if self.request.body:
                 #self.write(self.request.body)
-                if json.loads(self.request.body).get('uid'):
+                if 'uid' in self.request.body:
                     uid = json.loads(self.request.body).get('uid')
                     uid = check_secure_val(uid)
         self.user = uid and User.by_id(int(uid))

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		248832F5204395A000E0E5DF /* UserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 248832F4204395A000E0E5DF /* UserViewController.m */; };
+		248832F82043A0F900E0E5DF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 248832F72043A0F900E0E5DF /* LoginViewController.m */; };
 		24E1B8BB2040FDA400FA7B70 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 24E1B8BA2040FDA400FA7B70 /* AppDelegate.m */; };
 		24E1B8C42040FDA400FA7B70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24E1B8C22040FDA400FA7B70 /* Main.storyboard */; };
 		24E1B8C62040FDA400FA7B70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24E1B8C52040FDA400FA7B70 /* Assets.xcassets */; };
@@ -17,6 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		248832F3204395A000E0E5DF /* UserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserViewController.h; sourceTree = "<group>"; };
+		248832F4204395A000E0E5DF /* UserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserViewController.m; sourceTree = "<group>"; };
+		248832F62043A0F900E0E5DF /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		248832F72043A0F900E0E5DF /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		24E1B8B62040FDA400FA7B70 /* gtdcomplete.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = gtdcomplete.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24E1B8B92040FDA400FA7B70 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		24E1B8BA2040FDA400FA7B70 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -68,6 +74,10 @@
 				24F5A7CB2042B332005E1AC6 /* ViewController.m */,
 				24F5A7CD2042B9A9005E1AC6 /* ProjectsViewController.h */,
 				24F5A7CE2042B9A9005E1AC6 /* ProjectsViewController.m */,
+				248832F3204395A000E0E5DF /* UserViewController.h */,
+				248832F4204395A000E0E5DF /* UserViewController.m */,
+				248832F62043A0F900E0E5DF /* LoginViewController.h */,
+				248832F72043A0F900E0E5DF /* LoginViewController.m */,
 				24E1B8C22040FDA400FA7B70 /* Main.storyboard */,
 				24E1B8C52040FDA400FA7B70 /* Assets.xcassets */,
 				24E1B8C72040FDA400FA7B70 /* LaunchScreen.storyboard */,
@@ -156,6 +166,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				24F5A7CF2042B9A9005E1AC6 /* ProjectsViewController.m in Sources */,
+				248832F5204395A000E0E5DF /* UserViewController.m in Sources */,
+				248832F82043A0F900E0E5DF /* LoginViewController.m in Sources */,
 				24E1B8BB2040FDA400FA7B70 /* AppDelegate.m in Sources */,
 				24E1B8CC2040FDA400FA7B70 /* main.m in Sources */,
 				24F5A7CC2042B332005E1AC6 /* ViewController.m in Sources */,
