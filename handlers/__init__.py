@@ -6,6 +6,7 @@ from .newProject import NewProject
 from .newTimeCategory import NewTimeCategory
 from .newContext import NewContext
 from .projectPage import ProjectPage
+from .projectPageJson import ProjectPageJson
 from .timeCategoryPage import TimeCategoryPage
 from .contextPage import ContextPage
 from .login import Login

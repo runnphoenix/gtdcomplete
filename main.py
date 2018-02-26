@@ -20,6 +20,7 @@ from handlers import NewProject
 from handlers import NewTimeCategory
 from handlers import NewContext
 from handlers import ProjectPage
+from handlers import ProjectPageJson
 from handlers import TimeCategoryPage
 from handlers import ContextPage
 from handlers import EventPage

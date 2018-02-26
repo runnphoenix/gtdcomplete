@@ -1,20 +1,19 @@
 //
-//  ProjectsViewController.m
+//  ProjectTableViewController.m
 //  gtdcomplete
 //
-//  Created by temp on 2018/2/25.
+//  Created by temp on 2018/2/26.
 //  Copyright © 2018年 self. All rights reserved.
 //
 
-#import "ProjectsViewController.h"
 #import "ProjectTableViewController.h"
 
-@interface ProjectsViewController ()
+@interface ProjectTableViewController ()
 
 @end
 
-@implementation ProjectsViewController{
-    NSDictionary *_projects;
+@implementation ProjectTableViewController{
+    NSDictionary *_events;
 }
 
 - (void)viewDidLoad {
@@ -25,26 +24,26 @@
     NSString *uud = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSLog(@"%@", uud);
     if (uud != nil){
-        NSDictionary *dic2 = [NSDictionary dictionaryWithObjects:@[uud] forKeys:@[@"uid"]];
-        NSData *jsonData2 = [NSJSONSerialization dataWithJSONObject:dic2 options:NSJSONWritingPrettyPrinted error:nil];
-        //NSURL *url2 = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
-        NSURL *url2 = [NSURL URLWithString:@"http://localhost:8080/projects.json"];
-        NSMutableURLRequest *request2 = [NSMutableURLRequest requestWithURL:url2];
-        [request2 setHTTPMethod:@"POST"];
-        [request2 setHTTPBody:jsonData2];
-        NSURLSession *session2 = [NSURLSession sharedSession];
-        NSURLSessionDataTask *task2 = [session2 dataTaskWithRequest:request2 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[uud, self.projectId] forKeys:@[@"uid", @"project_id"]];
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:nil];
+        //NSURL *url = [NSURL URLWithString:@"https://gtdcomplete-171902.appspot.com/projects.json"];
+        NSURL *url = [NSURL URLWithString:@"http://localhost:8080/projects.json"];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:jsonData];
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             NSString *str = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             NSLog(@"%@", str);
-             _projects = [NSJSONSerialization JSONObjectWithData:data
-                                                         options:NSJSONReadingAllowFragments
-                                                           error:nil];
-            NSLog(@"%@", _projects);
+            _events = [NSJSONSerialization JSONObjectWithData:data
+                                                        options:NSJSONReadingAllowFragments
+                                                          error:nil];
+            NSLog(@"%@", _events);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView reloadData];
             });
         }];
-        [task2 resume];
+        [task resume];
     }
 }
 
@@ -60,29 +59,18 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_projects allValues].count;
+    return _events.count;
 }
 
-
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuseIdentifier"];
-    }
-    
-    cell.textLabel.text = [[_projects allValues][indexPath.row] description];
+    // Configure the cell...
     
     return cell;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *project_id = [_projects allKeys][indexPath.row];
-    ProjectTableViewController *controller = [ProjectTableViewController new];
-    controller.projectId = project_id;
-    [self.navigationController pushViewController:controller animated:YES];
-}
-
+*/
 
 /*
 // Override to support conditional editing of the table view.

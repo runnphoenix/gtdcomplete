@@ -49,8 +49,9 @@
                                                     [[NSUserDefaults standardUserDefaults] setObject:user_id forKey:@"uid"];
                                                     [[NSUserDefaults standardUserDefaults] setObject:user_name forKey:@"uname"];
                                                     // 跳转到用户页面
-                                                    NSLog(@"xxxxxxx");
-                                                    [self.navigationController popToRootViewControllerAnimated:YES];
+                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                        [self.navigationController popViewControllerAnimated:YES];
+                                                    });
                                                 }else{
                                                     // 显示错误信息
                                                 }
