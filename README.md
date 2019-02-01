@@ -17,3 +17,7 @@ Released under the MIT License
 ## Progressing
 1. Task magagement almost done. 2017-09-13
 2. Synced with Google calendar. 2017-10-17
+
+## TODO
+1. 更改流程：Inbox -> 计划 -> 执行
+2. 添加Today选项，默认显示当天的所有计划安排和执行情况
