@@ -3,10 +3,9 @@
 from . import accessControl
 from .handler import Handler
 
-
 class TimeCategories(Handler):
 
-    @accessControl.user_logged_in
+    #@accessControl.user_logged_in
     def get(self):
         self.render(
             "timeCategories.html",

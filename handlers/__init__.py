@@ -7,7 +7,7 @@ from .newTimeCategory import NewTimeCategory
 from .newContext import NewContext
 from .projectPage import ProjectPage
 from .projectPageJson import ProjectPageJson
-from .timeCategoryPage import TimeCategoryPage
+#from .timeCategoryPage import TimeCategoryPage
 from .contextPage import ContextPage
 from .login import Login
 from .loginJson import LoginJson
@@ -17,6 +17,7 @@ from .mainPage import MainPage
 from .projects import Projects
 from .unfinishedEvents import UnfinishedEvents
 from .timeCategories import TimeCategories
+from .timeCategoriesW import TimeCategoriesW
 from .contexts import Contexts
 from .projectsJson import ProjectsJson
 from .timeStatistics import TimeStatistics
