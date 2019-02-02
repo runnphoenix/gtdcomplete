@@ -29,6 +29,8 @@ from handlers import MainPage
 from handlers import TimeStatistics
 from handlers import Instructions
 from handlers import LoginJson
+from handlers import Today
+from handlers import Collection
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -52,5 +54,7 @@ app = webapp2.WSGIApplication([
     ('/contexts', Contexts),
     ('/statistics', TimeStatistics),
     ('/projects.json', ProjectsJson),
+    ('/today', Today),
+    ('/collection', Collection),
     (Oauth2Service.decorator.callback_path, Oauth2Service.decorator.callback_handler()),
     ], debug=True)
