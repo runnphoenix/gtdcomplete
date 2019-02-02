@@ -5,14 +5,14 @@
   <h4>Finished</h4>
   {% for event in events['finished'] %}
 		<h4>
-      <a href="/event/{{event.key().id()}}">{{event.title}} ----------- {{event.time_exe_start.time().hour}}:{{event.time_exe_start.time().minute}}-{{event.time_exe_end.time().hour}}:{{event.time_exe_end.time().minute}}</a>
+      <a href="/event/{{event[0].key().id()}}">{{event[0].title}} ----------- {{event[0].time_exe_start.time().hour}}:{{event[0].time_exe_start.time().minute}}-{{event[0].time_exe_end.time().hour}}:{{event[0].time_exe_end.time().minute}} ({{event[1]}} minutes)</a>
     </h4>
   {% endfor %}
   <hr>
   <h4>Unfinished</h4>
 	{% for event in events['unfinished'] %}
 		<h4>
-      <a href="/event/{{event.key().id()}}">{{event.title}} ----------- {{event.time_plan_start.time().hour}}:{{event.time_plan_start.time().minute}}-{{event.time_plan_end.time().hour}}:{{event.time_plan_end.time().minute}}</a>
+      <a href="/event/{{event[0].key().id()}}">{{event[0].title}} ----------- {{event[0].time_plan_start.time().hour}}:{{event[0].time_plan_start.time().minute}}-{{event[0].time_plan_end.time().hour}}:{{event[0].time_plan_end.time().minute}} ({{event[1]}} minutes)</a>
 		</h4>
   {% endfor %}
     <hr>

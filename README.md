@@ -21,3 +21,5 @@ Released under the MIT License
 ## TODO
 1. 更改流程：Inbox -> 计划 -> 执行
 2. 添加Today选项，默认显示当天的所有计划安排和执行情况
+3. Today页面按照时间先后排序
+

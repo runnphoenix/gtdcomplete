@@ -21,10 +21,18 @@ class Today(Handler):
                 for event in events:
                     if event.time_plan_start.date() == today or event.time_exe_end.date() == today:
                         if event.finished == True:
-                            events_today['finished'].append(event)
+                            timeD = self.times_diff(event.time_exe_end, event.time_exe_start)
+                            events_today['finished'].append([event, timeD])
                         else:
-                            events_today['unfinished'].append(event)
+                            timeD = self.times_diff(event.time_plan_end, event.time_plan_start)
+                            events_today['unfinished'].append([event, timeD])
         return events_today
+
+    def times_diff(self, time1, time2):
+        if time1 < time2:
+            return
+        else:
+            return (time1 - time2).seconds / 60
 
     @accessControl.user_logged_in
     def post(self):
