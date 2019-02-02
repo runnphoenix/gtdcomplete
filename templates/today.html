@@ -1,11 +1,13 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-	<h3>Projects</h3>
+	<h3>Today</h3>
 	<br>
-	<h4><a href="/project/new">+</a></h4>
-	{% for project in projects %}
-		<h4>
-			<a href="/project/{{project.key().id()}}">{{project.name}}</a>
-		</h4>
+	{% for (finish,today_events) in events.items() %}
+    <div>{{finish}}</div>
+    {% for event in today_events %}
+		  <h4>
+			  <a href="/event/{{event.key().id()}}">{{event.title}}</a>
+		  </h4>
+    {% endfor %}
 	{% endfor %}
 {% endblock%}
