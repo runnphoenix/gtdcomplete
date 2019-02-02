@@ -26,14 +26,6 @@ class Today(Handler):
                         else:
                             timeD = self.times_diff(event.time_plan_end, event.time_plan_start)
                             self.insert_event_by_time(events_today['unfinished'], event, timeD, 'plan')
-                            #if len(events_today['unfinished']) == 0:
-                                #events_today['unfinished'].append([event, timeD])
-                            #3else:
-                                #for i in range(len(events_today['unfinished'])):
-                                    #if events_today['unfinished'][i][0].time_plan_start <= event.time_plan_start:
-                                        #i += 1
-                                    #else:
-                                        #events_today['unfinished'].insert(i, [event, timeD])
         return events_today
 
     def times_diff(self, time1, time2):
@@ -50,18 +42,12 @@ class Today(Handler):
                 for i in range(len(events)):
                     if events[i][0].time_plan_start < event.time_plan_start:
                         i += 1
-                    else:
-                        print "plan add"
-                        events.insert(i,[event, duration])
-                        break
+                events.insert(i,[event, duration])
             elif phase == 'exe':
                 for i in range(len(events)):
                     if events[i][0].time_exe_start <= event.time_exe_start:
                         i += 1
-                    else:
-                        print 'exe add'
-                        events.insert(i, [event, duration])
-                        break
+                events.insert(i, [event, duration])
             else:
                 return
 
