@@ -2,12 +2,18 @@
 {% block contentSection %}
 	<h3>Today</h3>
 	<br>
-	{% for (finish,today_events) in events.items() %}
-    <div>{{finish}}</div>
-    {% for event in today_events %}
-		  <h4>
-			  <a href="/event/{{event.key().id()}}">{{event.title}}</a>
-		  </h4>
-    {% endfor %}
-	{% endfor %}
+  <h4>Finished</h4>
+  {% for event in events['finished'] %}
+		<h4>
+      <a href="/event/{{event.key().id()}}">{{event.title}} ----------- {{event.time_exe_start.time().hour}}:{{event.time_exe_start.time().minute}}-{{event.time_exe_end.time().hour}}:{{event.time_exe_end.time().minute}}</a>
+    </h4>
+  {% endfor %}
+  <hr>
+  <h4>Unfinished</h4>
+	{% for event in events['unfinished'] %}
+		<h4>
+      <a href="/event/{{event.key().id()}}">{{event.title}} ----------- {{event.time_plan_start.time().hour}}:{{event.time_plan_start.time().minute}}-{{event.time_plan_end.time().hour}}:{{event.time_plan_end.time().minute}}</a>
+		</h4>
+  {% endfor %}
+    <hr>
 {% endblock%}
