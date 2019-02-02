@@ -1,11 +1,33 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
-	<h3>Projects</h3>
+	<h2>Collection</h2>
+	<h3>Add New</h3>
+
+	<form method="post">
+		<label>
+			<div>Title</div>
+			<input type="text" name="title" value={{eventTitle}}>
+		</label>
+		<br>
+		<label>
+			<div>Content</div>
+			<input type="text" name="content" value={{eventContent}}>
+		</label>
+
+		<br>
+		{% if errorMessage %}
+			<div style="color:red;">{{errorMessage}}</div>
+		{% endif %}
+		<br>
+		<input type="submit">
+	</form>
+
+	<hr>
+	<h3>Inboxes</h3>
 	<br>
-	<h4><a href="/project/new">+</a></h4>
-	{% for project in projects %}
+	{% for event in events %}
 		<h4>
-			<a href="/project/{{project.key().id()}}">{{project.name}}</a>
+			<a href="/event/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
 		</h4>
 	{% endfor %}
 {% endblock%}
