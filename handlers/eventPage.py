@@ -7,6 +7,7 @@ from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
 from google.appengine.ext import db
 from urllib2 import HTTPError
+import pytz
 
 
 def events_key(name="default"):
@@ -18,7 +19,10 @@ class EventPage(Handler):
     @accessControl.user_logged_in
     @accessControl.event_exist
     def get(self, event_id, event):
-        self.render("eventPage.html", event=event)
+        self.render("eventPage.html",
+            event=event,
+            exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
+            exeEndTime=datetime.now(pytz.timezone("Asia/Shanghai")))
 
     @accessControl.user_logged_in
     @accessControl.event_exist
@@ -96,7 +100,9 @@ class EventPage(Handler):
             else:
                 finished = False
 
-            errorMessage = self.erMessage(title)
+            errorMessage = self.errMessage(title, planStartTime,
+                planEndTime, exeStartTime, exeEndTime, project,
+                context, timeCategory)
 
             if errorMessage:
                 event = Event(
@@ -112,7 +118,7 @@ class EventPage(Handler):
                     time_exe_start=exeStartTime,
                     time_exe_end=exeEndTime,
                     finished=False)
-                self.render("eventPage.html", event=event,errorMessage=e)
+                self.render("eventPage.html", event=event,errorMessage=errorMessage)
             else:
                 exe_calendar_id = ''
                 request = Oauth2Service.service.calendarList().list()
@@ -257,8 +263,25 @@ class EventPage(Handler):
                 event.put()
                 self.redirect("/event/%s" % str(event.key().id()))
 
-    def erMessage(self, title):
-        if not title:
-            return "Field is empty."
-        else:
-            return None
+    def errMessage(self, title, planStartTime, planEndTime, exeStartTime, exeEndTime, project, context, category):
+        if title == '':
+            return 'Title can not be empty.'
+        if planStartTime == '':
+            return 'Plan Start time can not be empty.'
+        if planEndTime == '':
+            return "Plan end time can not be empty."
+        if planStartTime >= planEndTime:
+            return "Plan time range is invalid."
+        if exeStartTime == '':
+            return 'Execution start time can not be empty.'
+        if exeEndTime == '':
+            return "Execution end time can not be empty."
+        if exeStartTime >= exeEndTime:
+            return "Execution time range is invalid."
+        if not project:
+            return "Must choose a project type."
+        if not context:
+            return "Must choose a context type."
+        if not category:
+            return "Must choose a category type."
+        return None

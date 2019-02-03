@@ -10,14 +10,17 @@
 			</h4>
 		{% endfor %}
 	</div>
+
 	<div class="col-md-3">
 			<form method="post">
     <h3>{{timeCategory_name}}</h3>
 		<input type="submit" name="Delete" value="Delete Category">
-    <br><br>
+    <br><hr>
     <input type='text' name='timeCategory_name' value={{timeCategory_name}}>
+		<br>
     <input type='submit' name="Update" value='Update Name'>
-	  <br>
+	  <br><hr>
+
 	  <h4>Unfinished Events:</h4>
 	  {% for (date,events) in unfinished_events.items() %}
 		  <div>{{date}}</div>

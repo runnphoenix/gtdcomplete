@@ -10,15 +10,8 @@ def events_key(name="default"):
 
 class Collection(Handler):
     @accessControl.user_logged_in
-
     def get(self):
-        events = []
-        for event in self.user.events:
-            print(event.project.name, event.title)
-            if event.project.name == 'inbox':
-                print('added')
-                events.append(event)
-        self.render("collection.html", events=events)
+        self.render("collection.html", events=self.events_in_project('inbox'))
 
     @accessControl.user_logged_in
     def post(self):
@@ -42,3 +35,8 @@ class Collection(Handler):
             if project.name == 'inbox':
                 pro = project
         return pro
+
+    def events_in_project(self, project_name):
+        for project in self.user.projects:
+            if project.name == project_name:
+                return project.events

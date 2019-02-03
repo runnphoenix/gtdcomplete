@@ -38,6 +38,7 @@ class Today(Handler):
 
     # Sort events by time when adding new event
     def insert_event_by_time(self, events, event, duration, phase):
+        print
         if len(events) == 0:
             events.append([event,duration])
         else:
@@ -45,12 +46,18 @@ class Today(Handler):
                 i = 0
                 while events[i][0].time_plan_start < event.time_plan_start:
                     i += 1
-                events.insert(i, [event, duration])
+                    if i == len(events):
+                        events.append([event,duration])
+                    else:
+                        events.insert(i, [event, duration])
             elif phase == 'exe':
                 i = 0
                 while events[i][0].time_exe_start < event.time_exe_start:
                     i += 1
-                events.insert(i, [event, duration])
+                    if i == len(events):
+                        events.append([events, duration])
+                    else:
+                        events.insert(i, [event, duration])
             else:
                 return
 
