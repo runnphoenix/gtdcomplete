@@ -13,7 +13,7 @@ class Collection(Handler):
     def get(self):
         events = []
         for event in self.user.events:
-            if event.project == None:
+            if event.project.name == 'inbox':
                 events.append(event)
         self.render("collection.html", events=events)
 
@@ -22,7 +22,6 @@ class Collection(Handler):
         title = self.request.get("title")
         content = self.request.get("content")
 
-        errorMessage = self.erMessage(title)
         if errorMessage:
             self.render("collection.html",
                 eventTitle=title,
@@ -35,16 +34,15 @@ class Collection(Handler):
                 content=content,
                 finished=False,
                 user=self.user,
+                project=self.get_inbox_project(),
                 parent=events_key()
             )
             event.put()
             self.redirect("/collection")
 
-
-    def erMessage(self, title):
-        if not title:
-            return "Field is Empty."
-        elif ' ' in title:
-            return "No space allowed in title."
-        else:
-            return None
+    def get_inbox_project(self):
+        pro = None
+        for project in self.user.projects:
+            if project.name == 'inbox':
+                pro = project
+        return pro

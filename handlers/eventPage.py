@@ -62,12 +62,16 @@ class EventPage(Handler):
                     self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
             else:
                 planEndTime = ''
-            exeStartTime = datetime.strptime(
-                self.request.get("exeStartTime"),
-                "%Y-%m-%dT%H:%M")
-            exeEndTime = datetime.strptime(
-                self.request.get("exeEndTime"),
-                "%Y-%m-%dT%H:%M")
+            if self.request.get('exeStartTime'):
+                exeStartTime = datetime.strptime(
+                    self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
+            else:
+                exeStartTime = ''
+            if self.request.get('exeEndTime'):
+                exeEndTime = datetime.strptime(
+                    self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
+            else:
+                exeEndTime = ''
 
             project = None
             projectName = self.request.get("projects")
@@ -110,7 +114,6 @@ class EventPage(Handler):
                     finished=False)
                 self.render("eventPage.html", event=event,errorMessage=e)
             else:
-
                 exe_calendar_id = ''
                 request = Oauth2Service.service.calendarList().list()
                 calendars = request.execute(

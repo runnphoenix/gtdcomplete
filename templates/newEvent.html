@@ -2,16 +2,21 @@
 {% block contentSection %}
 	<h3>New Event</h3>
 	<form method="post">
+
 		<label>
 			<div>Title</div>					
-			<input type="text" name="title" value={{eventTitle}}>
+			<input type="text" name="title" value="{{eventTitle}}">
 		</label>
+
 		<br>
+
 		<label>
 			<div>Content</div>
-			<input type="text" name="content" value={{eventContent}}>
+			<input type="text" name="content" value="{{eventContent}}">
 		</label>
+
 		<br>
+
 			<div>Repeat</div>
 			{% for i in range(7) %}
 				{% if repeat[i] == "1" %}
@@ -21,15 +26,17 @@
 				{% endif %}
 			{% endfor %}
 		<br>
+
 		<label>
 			<div>Plan Start Time</div>
-			{% if planStartTime %}
+			{% if planStartTime is not none %}
 				<input type="datetime-local" name="planStartTime" value={{planStartTime.strftime("%Y-%m-%dT%H:%M")}}>
 			{% else %}
 				<input type="datetime-local" name="planStartTime">
 			{% endif %}
 		</label>
 		<br>
+
 		<label>
 			<div>Plan End Time</div>
 			{% if planEndTime %}
@@ -39,16 +46,7 @@
 			{% endif %}
 		</label>
 		<br>
-		<label>
-			<div>Exe Start Time</div>
-			<input type="datetime-local" name="exeStartTime" value={{exeStartTime.strftime("%Y-%m-%dT%H:%M")}}>
-		</label>
-		<br>
-		<label>
-			<div>Exe End Time</div>
-			<input type="datetime-local" name="exeEndTime" value={{exeEndTime.strftime("%Y-%m-%dT%H:%M")}}>
-		</label>
-		<br>
+
 		<label>
 			<div>Select from Projects</div>
 		</label>
@@ -58,15 +56,7 @@
 			{% endfor %}
 		</select>
 		<br>
-		<label>
-			<div>Select from timeCategories</div>
-		</label>
-		<select name='timeCategories'>
-			{% for timeCategory in timeCategories %}
-				<option value={{timeCategory.name}}>{{timeCategory.name}}</option>
-			{% endfor %}
-		</select>
-		<br>
+
 		<label>
 			<div>Select from Contexts</div>
 		</label>
@@ -75,11 +65,13 @@
 				<option value={{context.name}}>{{context.name}}</option>
 			{% endfor %}
 		</select>
+
 		<br><br>
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>
 		{% endif %}
 		<br><br>
+
 		<input type="submit">
 	</form>
 {% endblock %}

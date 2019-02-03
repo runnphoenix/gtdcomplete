@@ -6,12 +6,12 @@
 	<form method="post">
 		<label>
 			<div>Title</div>
-			<input type="text" name="title" value={{eventTitle}}>
+			<input type="text" name="title" value="{{eventTitle}}">
 		</label>
 		<br>
 		<label>
 			<div>Content</div>
-			<input type="text" name="content" value={{eventContent}}>
+			<input type="text" name="content" value="{{eventContent}}">
 		</label>
 
 		<br>
@@ -27,7 +27,7 @@
 	<br>
 	{% for event in events %}
 		<h4>
-			<a href="/event/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
+			<a href="/event/new/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
 		</h4>
 	{% endfor %}
 {% endblock%}

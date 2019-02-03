@@ -16,25 +16,33 @@ def events_key(name="default"):
 
 class NewEvent(Handler):
     @accessControl.user_logged_in
-    def get(self):
+    @accessControl.event_exist
+    def get(self, event_id, event):
+
+
+        projects = []
+        for project in self.user.projects:
+            if not project.name == 'inbox':
+                projects.append(project)
+
+
         self.render(
             "newEvent.html",
-            projects=self.user.projects,
+            projects=projects,
             contexts=self.user.contexts,
             timeCategories=self.user.timeCategories,
             repeat='0000000',
-            eventTitle='',
-            eventContent='',
+            eventTitle=event.title,
+            eventContent=event.content,
             finished=False,
             planStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
-            planEndTime=datetime.now(pytz.timezone('Asia/Shanghai')),
-            exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
-            exeEndTime=datetime.now(pytz.timezone('Asia/Shanghai'))
+            planEndTime=datetime.now(pytz.timezone('Asia/Shanghai'))
         )
 
     @accessControl.user_logged_in
+    @accessControl.event_exist
     @Oauth2Service.decorator.oauth_required
-    def post(self):
+    def post(self, event_id, event):
         title = self.request.get("title")
         content = self.request.get("content")
 
@@ -54,8 +62,6 @@ class NewEvent(Handler):
             planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
         else:
             planEndTime = ''
-        exeStartTime = datetime.strptime(self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
-        exeEndTime = datetime.strptime(self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
 
         project = None
         projectName = self.request.get('projects')
@@ -63,19 +69,11 @@ class NewEvent(Handler):
             if pro.name == projectName:
                 project = pro
 
-        timeCategory = None
-        timeCategoryName = self.request.get("timeCategories")
-        for category in self.user.timeCategories:
-            if category.name == timeCategoryName:
-                timeCategory = category
-
         context = None
         contextName = self.request.get("contexts")
         for con in self.user.contexts:
             if con.name == contextName:
                 context = con
-
-        errorMessage = self.erMessage(title, exeStartTime, exeEndTime)
 
         if errorMessage:
             self.render("newEvent.html",
@@ -94,7 +92,6 @@ class NewEvent(Handler):
         else:
             event = Event(
                 project=project,
-                timeCategory=timeCategory,
                 context=context,
                 user=self.user,
                 parent=events_key(),
@@ -103,8 +100,6 @@ class NewEvent(Handler):
                 repeat=repeat,
                 time_plan_start=planStartTime,
                 time_plan_end=planEndTime,
-                time_exe_start=exeStartTime,
-                time_exe_end=exeEndTime,
                 finished=False)
 
             # Add to google calendar
@@ -139,13 +134,3 @@ class NewEvent(Handler):
             event.put()
 
             self.redirect("/event/%s" % str(event.key().id()))
-
-    def erMessage(self, title, exeStartTime, exeEndTime):
-        if not title:
-            return "Field is empty."
-        elif ' ' in title:
-            return "No space allowed in title."
-        elif (not exeStartTime) or (not exeEndTime):
-            return "Execution time can not be empty."
-        else:
-            return None
