@@ -35,6 +35,7 @@ class Today(Handler):
         else:
             return (time1 - time2).seconds / 60
 
+    # Sort events by time when adding new event
     def insert_event_by_time(self, events, event, duration, phase):
         if len(events) == 0:
             events.append([event,duration])

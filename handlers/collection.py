@@ -14,7 +14,6 @@ class Collection(Handler):
         events = []
         for event in self.user.events:
             if event.project == None:
-                print(event.key().id())
                 events.append(event)
         self.render("collection.html", events=events)
 
