@@ -10,10 +10,13 @@ def events_key(name="default"):
 
 class Collection(Handler):
     @accessControl.user_logged_in
+
     def get(self):
         events = []
         for event in self.user.events:
+            print(event.project.name, event.title)
             if event.project.name == 'inbox':
+                print('added')
                 events.append(event)
         self.render("collection.html", events=events)
 
@@ -22,23 +25,16 @@ class Collection(Handler):
         title = self.request.get("title")
         content = self.request.get("content")
 
-        if errorMessage:
-            self.render("collection.html",
-                eventTitle=title,
-                eventContent=content,
-                finished=False,
-                errorMessage=errorMessage)
-        else:
-            event = Event(
-                title=title,
-                content=content,
-                finished=False,
-                user=self.user,
-                project=self.get_inbox_project(),
-                parent=events_key()
-            )
-            event.put()
-            self.redirect("/collection")
+        event = Event(
+            title=title,
+            content=content,
+            finished=False,
+            user=self.user,
+            project=self.get_inbox_project(),
+            parent=events_key()
+        )
+        event.put()
+        self.redirect("/collection")
 
     def get_inbox_project(self):
         pro = None

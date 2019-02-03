@@ -19,13 +19,14 @@ class Today(Handler):
             events = project.events
             if events is not None:
                 for event in events:
-                    if event.time_plan_start.date() == today or event.time_exe_end.date() == today:
-                        if event.finished == True:
-                            timeD = self.times_diff(event.time_exe_end, event.time_exe_start)
-                            self.insert_event_by_time(events_today['finished'], event, timeD, 'exe')
-                        else:
-                            timeD = self.times_diff(event.time_plan_end, event.time_plan_start)
-                            self.insert_event_by_time(events_today['unfinished'], event, timeD, 'plan')
+                    if event.time_plan_start and event.time_plan_end:
+                        if event.time_plan_start.date() == today or event.time_exe_end.date() == today:
+                            if event.finished == True:
+                                timeD = self.times_diff(event.time_exe_end, event.time_exe_start)
+                                self.insert_event_by_time(events_today['finished'], event, timeD, 'exe')
+                            else:
+                                timeD = self.times_diff(event.time_plan_end, event.time_plan_start)
+                                self.insert_event_by_time(events_today['unfinished'], event, timeD, 'plan')
         return events_today
 
     # Calculate time diff in minutes

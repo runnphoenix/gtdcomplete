@@ -18,17 +18,9 @@ class NewEvent(Handler):
     @accessControl.user_logged_in
     @accessControl.event_exist
     def get(self, event_id, event):
-
-
-        projects = []
-        for project in self.user.projects:
-            if not project.name == 'inbox':
-                projects.append(project)
-
-
         self.render(
             "newEvent.html",
-            projects=projects,
+            projects=self.projects_without_inbox(),
             contexts=self.user.contexts,
             timeCategories=self.user.timeCategories,
             repeat='0000000',
@@ -58,6 +50,7 @@ class NewEvent(Handler):
             planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
         else:
             planStartTime = ''
+        
         if self.request.get('planEndTime'):
             planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
         else:
@@ -74,33 +67,30 @@ class NewEvent(Handler):
         for con in self.user.contexts:
             if con.name == contextName:
                 context = con
-
+                
+        errorMessage = self.errMessage(title, planStartTime, planEndTime, project, context)
         if errorMessage:
-            self.render("newEvent.html",
-				projects=self.user.projects,
+            self.render(
+                "newEvent.html",
+                projects=self.projects_without_inbox(),
                 contexts=self.user.contexts,
                 timeCategories=self.user.timeCategories,
-                errorMessage=errorMessage,
+                repeat=repeat,
                 eventTitle=title,
                 eventContent=content,
-                repeat=repeat,
+                finished=False,
+                errorMessage=errorMessage,
                 planStartTime=planStartTime,
-                planEndTime=planEndTime,
-                exeStartTime=exeStartTime,
-                exeEndTime=exeEndTime,
-                finished=False)
+                planEndTime=planEndTime)
         else:
-            event = Event(
-                project=project,
-                context=context,
-                user=self.user,
-                parent=events_key(),
-                title=title,
-                content=content,
-                repeat=repeat,
-                time_plan_start=planStartTime,
-                time_plan_end=planEndTime,
-                finished=False)
+            event.title = title
+            event.content = content
+            event.repeat = repeat
+            event.time_plan_start = planStartTime
+            event.time_plan_end = planEndTime
+            event.project = project
+            event.context = context
+            event.put()
 
             # Add to google calendar
             if planStartTime and planEndTime:
@@ -130,7 +120,27 @@ class NewEvent(Handler):
                 request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
                 response = request.execute(http=Oauth2Service.decorator.http())
                 event.google_calendar_plan_id = response['id']
-            # Add to Database
-            event.put()
 
             self.redirect("/event/%s" % str(event.key().id()))
+       
+    def projects_without_inbox(self):
+        projects = []
+        for project in self.user.projects:
+            if not project.name == 'inbox':
+                projects.append(project)
+        return projects
+        
+    def errMessage(self, title, planStartTime, planEndTime, project, context):
+        if title == '':
+            return 'Title can not be empty.'
+        if planStartTime == '':
+            return 'Start time can not be empty.'
+        if planEndTime == '':
+            return "End time can not be empty."
+        if planStartTime >= planEndTime:
+            return "Time range is invalid."
+        if not project:
+            return "Must choose a project type."
+        if not context:
+            return "Must choose a context type."
+        return None
