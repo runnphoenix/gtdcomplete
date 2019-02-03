@@ -28,6 +28,7 @@ class Today(Handler):
                             self.insert_event_by_time(events_today['unfinished'], event, timeD, 'plan')
         return events_today
 
+    # Calculate time diff in minutes
     def times_diff(self, time1, time2):
         if time1 < time2:
             return
@@ -39,14 +40,14 @@ class Today(Handler):
             events.append([event,duration])
         else:
             if phase == 'plan':
-                for i in range(len(events)):
-                    if events[i][0].time_plan_start < event.time_plan_start:
-                        i += 1
-                events.insert(i,[event, duration])
+                i = 0
+                while events[i][0].time_plan_start < event.time_plan_start:
+                    i += 1
+                events.insert(i, [event, duration])
             elif phase == 'exe':
-                for i in range(len(events)):
-                    if events[i][0].time_exe_start <= event.time_exe_start:
-                        i += 1
+                i = 0
+                while events[i][0].time_exe_start < event.time_exe_start:
+                    i += 1
                 events.insert(i, [event, duration])
             else:
                 return
