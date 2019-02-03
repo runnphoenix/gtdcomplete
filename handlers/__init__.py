@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from .eventPage import EventPage
-from .newEvent import NewEvent
+from .eventSchedule import EventSchedule
 from .newProject import NewProject
 from .newTimeCategory import NewTimeCategory
 from .newContext import NewContext

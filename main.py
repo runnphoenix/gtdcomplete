@@ -16,13 +16,12 @@ from handlers import TimeCategories
 from handlers import TimeCategoriesW
 from handlers import Contexts
 from handlers import ProjectsJson
-from handlers import NewEvent
+from handlers import EventSchedule
 from handlers import NewProject
 from handlers import NewTimeCategory
 from handlers import NewContext
 from handlers import ProjectPage
 from handlers import ProjectPageJson
-#from handlers import TimeCategoryPage
 from handlers import ContextPage
 from handlers import EventPage
 from handlers import MainPage
@@ -42,9 +41,8 @@ app = webapp2.WSGIApplication([
     ('/project/new', NewProject),
     ('/timeCategory/new', NewTimeCategory),
     ('/context/new', NewContext),
-    ('/event/new/([0-9]+)', NewEvent),
+    ('/event/schedule/([0-9]+)', EventSchedule),
     ('/project/([0-9]+)', ProjectPage),
-    #('/timeCategory/([0-9]+)', TimeCategoryPage),
     ('/context/([0-9]+)', ContextPage),
     ('/event/([0-9]+)', EventPage),
     ('/projects', Projects),

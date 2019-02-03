@@ -14,12 +14,12 @@ import pytz
 def events_key(name="default"):
     return db.Key.from_path("events", name)
 
-class NewEvent(Handler):
+class EventSchedule(Handler):
     @accessControl.user_logged_in
     @accessControl.event_exist
     def get(self, event_id, event):
         self.render(
-            "newEvent.html",
+            "eventSchedule.html",
             projects=self.projects_without_inbox(),
             contexts=self.user.contexts,
             timeCategories=self.user.timeCategories,
@@ -50,7 +50,7 @@ class NewEvent(Handler):
             planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
         else:
             planStartTime = ''
-        
+
         if self.request.get('planEndTime'):
             planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
         else:
@@ -67,11 +67,11 @@ class NewEvent(Handler):
         for con in self.user.contexts:
             if con.name == contextName:
                 context = con
-                
+
         errorMessage = self.errMessage(title, planStartTime, planEndTime, project, context)
         if errorMessage:
             self.render(
-                "newEvent.html",
+                "eventSchedule.html",
                 projects=self.projects_without_inbox(),
                 contexts=self.user.contexts,
                 timeCategories=self.user.timeCategories,
@@ -122,14 +122,14 @@ class NewEvent(Handler):
                 event.google_calendar_plan_id = response['id']
 
             self.redirect("/event/%s" % str(event.key().id()))
-       
+
     def projects_without_inbox(self):
         projects = []
         for project in self.user.projects:
             if not project.name == 'inbox':
                 projects.append(project)
         return projects
-        
+
     def errMessage(self, title, planStartTime, planEndTime, project, context):
         if title == '':
             return 'Title can not be empty.'
