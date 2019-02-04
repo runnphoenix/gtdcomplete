@@ -90,7 +90,6 @@ class EventSchedule(Handler):
             event.time_plan_end = planEndTime
             event.project = project
             event.context = context
-            event.put()
 
             # Add to google calendar
             if planStartTime and planEndTime:
@@ -120,8 +119,10 @@ class EventSchedule(Handler):
                 request = Oauth2Service.service.events().insert(calendarId='primary', body=gEvent)
                 response = request.execute(http=Oauth2Service.decorator.http())
                 event.google_calendar_plan_id = response['id']
+            event.put()
 
-            self.redirect("/event/%s" % str(event.key().id()))
+            #self.redirect("/event/schedule/%s" % str(event.key().id()))
+            self.redirect("/collection")
 
     def projects_without_inbox(self):
         projects = []
