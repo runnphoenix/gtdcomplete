@@ -19,6 +19,7 @@ class Today(Handler):
             events = project.events
             if events is not None:
                 for event in events:
+                    #print(event.title)
                     if event.time_exe_start and event.time_exe_end:
                         if event.time_exe_start.date() == today or event.time_exe_end.date() == today:
                             timeD = self.times_diff(event.time_exe_end, event.time_exe_start)
@@ -38,7 +39,6 @@ class Today(Handler):
 
     # Sort events by time when adding new event
     def insert_event_by_time(self, events, event, duration, phase):
-        print
         if len(events) == 0:
             events.append([event, duration])
         else:
@@ -47,7 +47,7 @@ class Today(Handler):
                     if events[i][0].time_plan_start < event.time_plan_start:
                         i += 1
                 if i == len(events):
-                    events.append([event,duration])
+                    events.append([event, duration])
                 else:
                     events.insert(i, [event, duration])
             elif phase == 'exe':
@@ -55,7 +55,7 @@ class Today(Handler):
                     if events[i][0].time_exe_start < event.time_exe_start:
                         i += 1
                 if i == len(events):
-                    events.append([events, duration])
+                    events.append([event, duration])
                 else:
                     events.insert(i, [event, duration])
             else:
