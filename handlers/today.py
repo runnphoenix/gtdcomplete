@@ -40,24 +40,24 @@ class Today(Handler):
     def insert_event_by_time(self, events, event, duration, phase):
         print
         if len(events) == 0:
-            events.append([event,duration])
+            events.append([event, duration])
         else:
             if phase == 'plan':
-                i = 0
-                while events[i][0].time_plan_start < event.time_plan_start:
-                    i += 1
-                    if i == len(events):
-                        events.append([event,duration])
-                    else:
-                        events.insert(i, [event, duration])
+                for i in range(len(events)):
+                    if events[i][0].time_plan_start < event.time_plan_start:
+                        i += 1
+                if i == len(events):
+                    events.append([event,duration])
+                else:
+                    events.insert(i, [event, duration])
             elif phase == 'exe':
-                i = 0
-                while events[i][0].time_exe_start < event.time_exe_start:
-                    i += 1
-                    if i == len(events):
-                        events.append([events, duration])
-                    else:
-                        events.insert(i, [event, duration])
+                for i in range(len(events)):
+                    if events[i][0].time_exe_start < event.time_exe_start:
+                        i += 1
+                if i == len(events):
+                    events.append([events, duration])
+                else:
+                    events.insert(i, [event, duration])
             else:
                 return
 
