@@ -43,7 +43,7 @@ app = webapp2.WSGIApplication([
     ('/context/new', NewContext),
     ('/event/schedule/([0-9]+)', EventSchedule),
     ('/projects/([0-9]+)', ProjectPage),
-    ('/context/([0-9]+)', ContextPage),
+    ('/contexts/([0-9]+)', ContextPage),
     ('/event/([0-9]+)', EventPage),
     ('/projects', Projects),
     ('/unfinishedEvents', UnfinishedEvents),

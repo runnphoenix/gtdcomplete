@@ -13,6 +13,7 @@ class ContextPage(Handler):
     def get(self, context_id, context):
         (finished_events, unfinished_events) = self.eventsInContainer(context)
         self.render("contextPage.html",
+            contexts=self.user.contexts,
             context_name=context.name,
             finished_events=finished_events,
             unfinished_events=unfinished_events,
@@ -22,7 +23,7 @@ class ContextPage(Handler):
     @accessControl.user_logged_in
     @accessControl.context_exist
     def post(self, context_id, context):
-        if 'Delete Context' in self.request.params:
+        if 'Delete' in self.request.params:
             for event in context.events:
                 event.delete()
             context.delete()
@@ -33,6 +34,7 @@ class ContextPage(Handler):
             context.put()
             (finished_events, unfinished_events) = self.eventsInContainer(context)
             self.render("contextPage.html",
+                contexts=self.user.contexts,
                 context_name=context.name,
                 finished_events=finished_events,
                 unfinished_events=unfinished_events,
@@ -44,6 +46,7 @@ class ContextPage(Handler):
             if startDate > endDate:
                 errMessage = "End date MUST be bigger than start date."
                 self.render("contextPage.html",
+                    contexts=self.user.contexts,
                     context_name=context.name,
                     finished_events=[],
                     unfinished_events=[],
@@ -55,6 +58,7 @@ class ContextPage(Handler):
                 dates = [(startDate + timedelta(i)).date() for i in range(days)]
                 (finished_events, unfinished_events) = self.eventsInContainer(context, dates)
                 self.render("contextPage.html",
+                    contexts=self.user.contexts,
                     context_name=context.name,
                     finished_events=finished_events,
                     unfinished_events=unfinished_events,
