@@ -33,18 +33,21 @@ class EventPage(Handler):
             event.delete()
             # add delete sync to gcalendar
             try:
-                request = Oauth2Service.service.events().delete(
+                request1 = Oauth2Service.service.events().delete(
                     calendarId='primary', eventId=event.google_calendar_plan_id)
-                response = request.execute(http=Oauth2Service.decorator.http())
+                response1 = request1.execute(http=Oauth2Service.decorator.http())
+                request2 = Oauth2Service.service.events().delete(
+                    calendarId=self.get_execution_calendar_id(), eventId=event.google_calendar_exec_id)
+                response2 = request2.execute(http=Oauth2Service.decorator.http())
             except HTTPError, e:
-                self.redirect("/projects")
+                self.redirect("/today")
             except TypeError, e:
-                self.redirect("/projects")
+                self.redirect("/today")
             else:
-                self.redirect("/projects")
+                self.redirect("/today")
 
             # TODO: delete Execution calendar events
-            # have to judge first: wether added to calendar, which calendars?
+            # have to judge first: whether added to calendar, which calendars?
         else:
             title = self.request.get("title")
             content = self.request.get("content")
@@ -56,22 +59,37 @@ class EventPage(Handler):
                 else:
                     repeat = repeat + '1'
 
-            if self.request.get('planStartTime'):
+            if self.request.get('planStartTimeText'):
+                planStartTime = datetime.strptime(
+                    self.request.get("planStartTimeText"), "%Y%m%d%H%M")
+            elif self.request.get('planStartTime'):
                 planStartTime = datetime.strptime(
                     self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
             else:
                 planStartTime = ''
-            if self.request.get('planEndTime'):
+
+            if self.request.get('planEndTimeText'):
+                planEndTime = datetime.strptime(
+                    self.request.get("planEndTimeText"), "%Y%m%d%H%M")
+            elif self.request.get('planEndTime'):
                 planEndTime = datetime.strptime(
                     self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
             else:
                 planEndTime = ''
-            if self.request.get('exeStartTime'):
+
+            if self.request.get('exeStartTimeText'):
+                exeStartTime = datetime.strptime(
+                    self.request.get("exeStartTimeText"), "%Y%m%d%H%M")
+            elif self.request.get('exeStartTime'):
                 exeStartTime = datetime.strptime(
                     self.request.get("exeStartTime"), "%Y-%m-%dT%H:%M")
             else:
                 exeStartTime = ''
-            if self.request.get('exeEndTime'):
+
+            if self.request.get('exeEndTimeText'):
+                exeEndTime = datetime.strptime(
+                    self.request.get("exeEndTimeText"), "%Y%m%d%H%M")
+            elif self.request.get('exeEndTime'):
                 exeEndTime = datetime.strptime(
                     self.request.get("exeEndTime"), "%Y-%m-%dT%H:%M")
             else:
@@ -120,13 +138,7 @@ class EventPage(Handler):
                     finished=False)
                 self.render("eventPage.html", event=event,errorMessage=errorMessage)
             else:
-                exe_calendar_id = ''
-                request = Oauth2Service.service.calendarList().list()
-                calendars = request.execute(
-                    http=Oauth2Service.decorator.http())
-                for calendar in calendars['items']:
-                    if calendar['summary'] == 'Execution':
-                        exe_calendar_id = calendar['id']
+                exe_calendar_id = self.get_execution_calendar_id()
 
                 if finished and (not event.finished):
                     if event.repeat != "0000000":
@@ -285,3 +297,13 @@ class EventPage(Handler):
         if not category:
             return "Must choose a category type."
         return None
+
+    def get_execution_calendar_id(self):
+        exe_calendar_id = ''
+        request = Oauth2Service.service.calendarList().list()
+        calendars = request.execute(
+            http=Oauth2Service.decorator.http())
+        for calendar in calendars['items']:
+            if calendar['summary'] == 'Execution':
+                exe_calendar_id = calendar['id']
+        return exe_calendar_id

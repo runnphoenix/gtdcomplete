@@ -31,8 +31,9 @@
 			<div>Plan Start Time</div>
 			{% if planStartTime is not none %}
 				<input type="datetime-local" name="planStartTime" value={{planStartTime.strftime("%Y-%m-%dT%H:%M")}}>
+				<input type="text" name="planStartTimeText" value={{planStartTime.strftime("%Y%m%d%H%M")}}>
 			{% else %}
-				<input type="datetime-local" name="planStartTime">
+				<input type="datetime-local" name="planStartTimeText">
 			{% endif %}
 		</label>
 		<br>
@@ -41,8 +42,10 @@
 			<div>Plan End Time</div>
 			{% if planEndTime %}
 				<input type="datetime-local" name="planEndTime" value={{planEndTime.strftime("%Y-%m-%dT%H:%M")}}>
+				<input type="text" name="planEndTimeText" value={{planEndTime.strftime("%Y%m%d%H%M")}}>
 			{% else %}
-				<input type="datetime-local" name="planEndTime">
+				<input type="datetime-local" name="planEndTimeText">
+
 			{% endif %}
 		</label>
 		<br><br>

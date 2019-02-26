@@ -50,12 +50,16 @@ class EventSchedule(Handler):
                 else:
                     repeat = repeat + '1'
 
-            if self.request.get('planStartTime'):
+            if self.request.get('planStartTimeText'):
+                planStartTime = datetime.strptime(self.request.get("planStartTimeText"), "%Y%m%d%H%M")
+            elif self.request.get('planStartTime'):
                 planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
             else:
                 planStartTime = ''
 
-            if self.request.get('planEndTime'):
+            if self.request.get('planEndTimeText'):
+                planEndTime = datetime.strptime(self.request.get("planEndTimeText"), "%Y%m%d%H%M")
+            elif self.request.get('planEndTime'):
                 planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
             else:
                 planEndTime = ''
