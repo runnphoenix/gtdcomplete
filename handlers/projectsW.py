@@ -21,8 +21,48 @@ class ProjectsW(Handler):
             endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
     @accessControl.user_logged_in
-    def post(self):
-        pass
+    @accessControl.project_exist
+    def post(self, project_id, project):
+        if 'Delete' in self.request.params:
+            for event in project.events:
+                event.delete()
+            project.delete()
+            self.redirect("/projects")
+        elif "Update" in self.request.params:
+            project_name = self.request.get('project_name')
+            project.name = project_name
+            project.put()
+            (finished_events, unfinished_events) = self.eventsInContainer(project)
+            self.render("projectPage.html",
+                project_name=project.name,
+                finished_events=finished_events,
+                unfinished_events=unfinished_events,
+                startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+        else: #Look up throught date
+            startDate = datetime.strptime(self.request.get("startDate"),"%Y-%m-%d")
+            endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
+            if startDate > endDate:
+                errMessage = "End date MUST be bigger than start date."
+                self.render("projectsW.html",
+                    projects=self.projects_without_inbox(),
+                    project_name=project.name,
+                    finished_events=[],
+                    unfinished_events=[],
+                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    errMessage=errMessage)
+            else:  # with duration
+                days = (endDate - startDate).days + 1
+                dates = [(startDate + timedelta(i)).date() for i in range(days)]
+                (finished_events, unfinished_events) = self.eventsInContainer(project, dates)
+                self.render("projectsW.html",
+                    projects=self.projects_without_inbox(),
+                    project_name=project.name,
+                    finished_events=finished_events,
+                    unfinished_events=unfinished_events,
+                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
 
     def projects_without_inbox(self):
         projects = []
