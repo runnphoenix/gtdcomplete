@@ -1,9 +1,9 @@
-#!/usr/bin/python
+#/usr/bin/python
 
-from .handler import Handler
-from models import Project
 from . import accessControl
-from datetime import datetime,timedelta
+from .handler import Handler
+
+from datetime import datetime, timedelta
 import pytz
 
 class ProjectPage(Handler):
@@ -13,6 +13,7 @@ class ProjectPage(Handler):
     def get(self, project_id, project):
         (finished_events, unfinished_events) = self.eventsInContainer(project)
         self.render("projectPage.html",
+            projects=self.projects_without_inbox(),
             project_name=project.name,
             finished_events=finished_events,
             unfinished_events=unfinished_events,
@@ -33,6 +34,7 @@ class ProjectPage(Handler):
             project.put()
             (finished_events, unfinished_events) = self.eventsInContainer(project)
             self.render("projectPage.html",
+                projects=self.projects_without_inbox(),
                 project_name=project.name,
                 finished_events=finished_events,
                 unfinished_events=unfinished_events,
@@ -44,6 +46,7 @@ class ProjectPage(Handler):
             if startDate > endDate:
                 errMessage = "End date MUST be bigger than start date."
                 self.render("projectPage.html",
+                    projects=self.projects_without_inbox(),
                     project_name=project.name,
                     finished_events=[],
                     unfinished_events=[],
@@ -55,11 +58,19 @@ class ProjectPage(Handler):
                 dates = [(startDate + timedelta(i)).date() for i in range(days)]
                 (finished_events, unfinished_events) = self.eventsInContainer(project, dates)
                 self.render("projectPage.html",
+                    projects=self.projects_without_inbox(),
                     project_name=project.name,
                     finished_events=finished_events,
                     unfinished_events=unfinished_events,
                     startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
                     endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+
+    def projects_without_inbox(self):
+        projects = []
+        for project in self.user.projects:
+            if not project.name == 'inbox':
+                projects.append(project)
+        return projects
 
     def eventsInContainer(self, container, lookupDates=[]):
         finished_events = {}

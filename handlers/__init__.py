@@ -5,7 +5,7 @@ from .eventSchedule import EventSchedule
 from .newProject import NewProject
 from .newTimeCategory import NewTimeCategory
 from .newContext import NewContext
-#from .projectPage import ProjectPage
+from .projectPage import ProjectPage
 from .projectPageJson import ProjectPageJson
 #from .timeCategoryPage import TimeCategoryPage
 from .contextPage import ContextPage
@@ -15,7 +15,7 @@ from .logout import Logout
 from .signup import Signup
 from .mainPage import MainPage
 from .projects import Projects
-from .projectsW import ProjectsW
+#from .projectsW import ProjectsW
 from .unfinishedEvents import UnfinishedEvents
 from .timeCategories import TimeCategories
 from .timeCategoriesW import TimeCategoriesW
