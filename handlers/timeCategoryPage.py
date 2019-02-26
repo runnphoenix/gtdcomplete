@@ -6,7 +6,7 @@ from .handler import Handler
 from datetime import datetime, timedelta
 import pytz
 
-class TimeCategoriesW(Handler):
+class TimeCategoryPage(Handler):
 
     @accessControl.user_logged_in
     @accessControl.timeCategory_exist
@@ -14,7 +14,7 @@ class TimeCategoriesW(Handler):
         timeCategories=self.user.timeCategories
         (finished_events, unfinished_events) = self.eventsInContainer(timeCategory)
         self.render(
-            "timeCategoriesW.html",
+            "timeCategoryPage.html",
             timeCategories=timeCategories,
             timeCategory_name=timeCategory.name,
             finished_events=finished_events,
@@ -35,7 +35,7 @@ class TimeCategoriesW(Handler):
             timeCategory.name = timeCategory_name
             timeCategory.put()
             (finished_events, unfinished_events) = self.eventsInContainer(timeCategory)
-            self.render("timeCategoriesW.html",
+            self.render("timeCategoryPage.html",
                 timeCategories=self.user.timeCategories,
                 timeCategory_name=timeCategory.name,
                 finished_events=finished_events,
@@ -47,7 +47,7 @@ class TimeCategoriesW(Handler):
             endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
             if startDate > endDate:
                 errMessage = "End date MUST be bigger than start date."
-                self.render("timeCategoriesW.html",
+                self.render("timeCategoryPage.html",
                     timeCategories=self.user.timeCategories,
                     timeCategory_name=timeCategory.name,
                     finished_events=[],
@@ -59,7 +59,7 @@ class TimeCategoriesW(Handler):
                 days = (endDate - startDate).days + 1
                 dates = [(startDate + timedelta(i)).date() for i in range(days)]
                 (finished_events, unfinished_events) = self.eventsInContainer(timeCategory, dates)
-                self.render("timeCategoriesW.html",
+                self.render("timeCategoryPage.html",
                     timeCategories=self.user.timeCategories,
                     timeCategory_name=timeCategory.name,
                     finished_events=finished_events,

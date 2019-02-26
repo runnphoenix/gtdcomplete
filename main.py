@@ -11,10 +11,9 @@ from handlers import Signup
 from handlers import Login
 from handlers import Logout
 from handlers import Projects
-#from handlers import ProjectsW
 from handlers import UnfinishedEvents
 from handlers import TimeCategories
-from handlers import TimeCategoriesW
+from handlers import TimeCategoryPage
 from handlers import Contexts
 from handlers import ProjectsJson
 from handlers import EventSchedule
@@ -47,10 +46,9 @@ app = webapp2.WSGIApplication([
     ('/context/([0-9]+)', ContextPage),
     ('/event/([0-9]+)', EventPage),
     ('/projects', Projects),
-    #('/projects/([0-9]+)', ProjectsW),
     ('/unfinishedEvents', UnfinishedEvents),
     ('/timeCategories', TimeCategories),
-    ('/timeCategories/([0-9]+)', TimeCategoriesW),
+    ('/timeCategories/([0-9]+)', TimeCategoryPage),
     ('/contexts', Contexts),
     ('/statistics', TimeStatistics),
     ('/projects.json', ProjectsJson),
