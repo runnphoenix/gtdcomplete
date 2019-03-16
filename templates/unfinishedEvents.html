@@ -15,7 +15,7 @@
 			<div>{{date}}</div>
 			{% for event in date_events %}
 				<h4>
-					<a href="/event/schedule/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
+					<a href="/event/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
 				</h4>
 			{% endfor %}
 			<hr>
