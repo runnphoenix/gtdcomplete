@@ -35,10 +35,17 @@ class EventSchedule(Handler):
     @accessControl.event_exist
     @Oauth2Service.decorator.oauth_required
     def post(self, event_id, event):
-        if "Delete" in self.request.params:
+        if "Change" in self.request.params: # only change title and content
+            title = self.request.get("title")
+            content = self.request.get("content")
+            event.title = title
+            event.content = content
+            event.put()
+            self.redirect("/collection")
+        elif "Delete" in self.request.params:
             event.delete()
             self.redirect("/collection")
-        else:
+        else: #Update
             title = self.request.get("title")
             content = self.request.get("content")
 

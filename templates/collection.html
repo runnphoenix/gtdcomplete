@@ -26,14 +26,9 @@
 	<h3>Inboxes</h3>
 	<br>
 	{% for event in events %}
-		<div class="col-md-11">
 		<h4 class='col-md-10'>
 			<a href="/event/schedule/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
 		</h4>
-		<form method="post" class="col-md-1">
-			<input type="Submit" name="Edit" value="Edit">
-		</form>
-		</div>
-
 	{% endfor %}
+
 {% endblock%}

@@ -7,24 +7,25 @@
 			<div>Title</div>
 			<input type="text" name="title" value="{{eventTitle}}">
 		</label>
-
 		<br>
 
 		<label>
 			<div>Content</div>
 			<input type="text" name="content" value="{{eventContent}}">
 		</label>
+		<br><br>
 
-		<br>
+		<input type="submit" name="Change" value="Change">
+		<br><hr>
 
-			<div>Repeat</div>
-			{% for i in range(7) %}
-				{% if repeat[i] == "1" %}
-					<input type="checkbox" name="repeat{{i}}" checked="checked">
-				{% else %}
-					<input type="checkbox" name="repeat{{i}}">
-				{% endif %}
-			{% endfor %}
+		<div>Repeat</div>
+		{% for i in range(7) %}
+			{% if repeat[i] == "1" %}
+				<input type="checkbox" name="repeat{{i}}" checked="checked">
+			{% else %}
+				<input type="checkbox" name="repeat{{i}}">
+			{% endif %}
+		{% endfor %}
 		<br><br>
 
 		<label>
@@ -73,7 +74,7 @@
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>
 		{% endif %}
-		<br><br>
+		<hr><br><br>
 
 		<input type="submit" name="Update" value="Update">
 		<input type="submit" name="Delete" value="Delete">
