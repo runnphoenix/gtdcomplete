@@ -9,13 +9,10 @@ from google.appengine.ext import db
 from urllib2 import HTTPError
 import pytz
 
-
 def events_key(name="default"):
     return db.Key.from_path("events", name)
 
-
 class EventPage(Handler):
-
     @accessControl.user_logged_in
     @accessControl.event_exist
     def get(self, event_id, event):
@@ -49,6 +46,7 @@ class EventPage(Handler):
             # TODO: delete Execution calendar events
             # have to judge first: whether added to calendar, which calendars?
         else:
+            # Collect information
             title = self.request.get("title")
             content = self.request.get("content")
             repeat = ""
@@ -136,11 +134,11 @@ class EventPage(Handler):
                     time_exe_start=exeStartTime,
                     time_exe_end=exeEndTime,
                     finished=False)
-                self.render("eventPage.html", event=event,errorMessage=errorMessage)
-            else:
+                self.render("eventPage.html", event=event, errorMessage=errorMessage)
+            else: # no error, begin update
                 exe_calendar_id = self.get_execution_calendar_id()
 
-                if finished and (not event.finished):
+                if finished and (not event.finished): # finished on page and event not finished
                     if event.repeat != "0000000":
                         # find date of next event
                         weekDayth = event.time_plan_start.date().weekday()
@@ -216,6 +214,7 @@ class EventPage(Handler):
                         http=Oauth2Service.decorator.http())
                     event.google_calendar_exec_id = response['id']
                     # update primary calendar(At last)
+                # page finished and event finished, update exe calendar
                 elif finished and event.finished:
                     # update Primary calendar(At last)
                     # update Execution calendar
