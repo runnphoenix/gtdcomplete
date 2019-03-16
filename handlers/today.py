@@ -43,21 +43,15 @@ class Today(Handler):
             events.append([event, duration])
         else:
             if phase == 'plan':
-                for i in range(len(events)):
-                    if events[i][0].time_plan_start < event.time_plan_start:
-                        i += 1
-                if i == len(events):
-                    events.append([event, duration])
-                else:
-                    events.insert(i, [event, duration])
+                i = 0
+                while i < len(events) and events[i][0].time_plan_start < event.time_plan_start:
+                    i += 1
+                events.insert(i, [event, duration])
             elif phase == 'exe':
-                for i in range(len(events)):
-                    if events[i][0].time_exe_start < event.time_exe_start:
-                        i += 1
-                if i == len(events):
-                    events.append([event, duration])
-                else:
-                    events.insert(i, [event, duration])
+                i = 0
+                while i < len(events) and events[i][0].time_exe_start < event.time_exe_start:
+                    i += 1
+                events.insert(i, [event, duration])
             else:
                 return
 
