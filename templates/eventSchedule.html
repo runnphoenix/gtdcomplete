@@ -2,6 +2,11 @@
 {% block contentSection %}
 	<h3>Event Schedule</h3>
 	<form method="post">
+		<input type="submit" name="Delete" value="Delete">
+	</form>
+	<hr>
+
+	<form method="post">
 
 		<label>
 			<div>Title</div>
@@ -69,14 +74,13 @@
 				<option value={{context.name}}>{{context.name}}</option>
 			{% endfor %}
 		</select>
-
 		<br><br>
+		<input type="submit" name="Update" value="Update">
+		<br><hr>
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>
 		{% endif %}
-		<hr><br><br>
+		<br>
 
-		<input type="submit" name="Update" value="Update">
-		<input type="submit" name="Delete" value="Delete">
 	</form>
 {% endblock %}

@@ -35,55 +35,15 @@ class EventSchedule(Handler):
     @accessControl.event_exist
     @Oauth2Service.decorator.oauth_required
     def post(self, event_id, event):
-        if "Change" in self.request.params: # only change title and content
-            title = self.request.get("title")
-            content = self.request.get("content")
-            event.title = title
-            event.content = content
-            event.put()
-            self.redirect("/collection")
-        elif "Delete" in self.request.params:
+        # Collect information
+        title, content, repeat, planStartTime, planEndTime, project, context = self.get_page_info()
+
+        # Process requests
+        if "Delete" in self.request.params:
             event.delete()
             self.redirect("/collection")
-        else: #Update
-            title = self.request.get("title")
-            content = self.request.get("content")
-
-            repeat = ""
-            for i in range(7):
-                rep = self.request.get("repeat"+str(i))
-                if (rep != "on"):
-                    repeat = repeat + '0'
-                else:
-                    repeat = repeat + '1'
-
-            if self.request.get('planStartTimeText'):
-                planStartTime = datetime.strptime(self.request.get("planStartTimeText"), "%Y%m%d%H%M")
-            elif self.request.get('planStartTime'):
-                planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
-            else:
-                planStartTime = ''
-
-            if self.request.get('planEndTimeText'):
-                planEndTime = datetime.strptime(self.request.get("planEndTimeText"), "%Y%m%d%H%M")
-            elif self.request.get('planEndTime'):
-                planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
-            else:
-                planEndTime = ''
-
-            project = None
-            projectName = self.request.get('projects')
-            for pro in self.user.projects:
-                if pro.name == projectName:
-                    project = pro
-
-            context = None
-            contextName = self.request.get("contexts")
-            for con in self.user.contexts:
-                if con.name == contextName:
-                    context = con
-
-            errorMessage = self.errMessage(title, planStartTime, planEndTime, project, context)
+        elif "Change" in self.request.params: # only change title and content
+            errorMessage = self.errMessage_1st_part(title, content)
             if errorMessage:
                 self.render(
                     "eventSchedule.html",
@@ -94,9 +54,40 @@ class EventSchedule(Handler):
                     eventTitle=title,
                     eventContent=content,
                     finished=False,
-                    errorMessage=errorMessage,
                     planStartTime=planStartTime,
-                    planEndTime=planEndTime)
+                    planEndTime=planEndTime,
+                    errorMessage=errorMessage)
+            else:
+                event.title = title
+                event.content = content
+                event.put()
+                self.render(
+                    "eventSchedule.html",
+                    projects=self.projects_without_inbox(),
+                    contexts=self.user.contexts,
+                    timeCategories=self.user.timeCategories,
+                    repeat=repeat,
+                    eventTitle=title,
+                    eventContent=content,
+                    finished=False,
+                    planStartTime=planStartTime,
+                    planEndTime=planEndTime,
+                    errorMessage=errorMessage)
+        else: #Update
+            errorMessage = self.errMessage_2nd_part(planStartTime, planEndTime, project, context)
+            if errorMessage:
+                self.render(
+                    "eventSchedule.html",
+                    projects=self.projects_without_inbox(),
+                    contexts=self.user.contexts,
+                    timeCategories=self.user.timeCategories,
+                    repeat=repeat,
+                    eventTitle=title,
+                    eventContent=content,
+                    finished=False,
+                    planStartTime=planStartTime,
+                    planEndTime=planEndTime,
+                    errorMessage=errorMessage)
             else:
                 event.title = title
                 event.content = content
@@ -146,11 +137,16 @@ class EventSchedule(Handler):
                 projects.append(project)
         return projects
 
-    def errMessage(self, title, planStartTime, planEndTime, project, context):
+    def errMessage_1st_part(self, title, content):
         if title == '':
             return 'Title can not be empty.'
+        if content == '':
+            return 'Content can not be empty.'
+        return None
+
+    def errMessage_2nd_part(self, planStartTime, planEndTime, project, context):
         if planStartTime == '':
-            return 'Start time can not be empty.'
+            return "Start time can not be empty."
         if planEndTime == '':
             return "End time can not be empty."
         if planStartTime >= planEndTime:
@@ -160,3 +156,42 @@ class EventSchedule(Handler):
         if not context:
             return "Must choose a context type."
         return None
+
+    def get_page_info(self):
+        title = self.request.get("title")
+        content = self.request.get("content")
+
+        repeat = ""
+        for i in range(7):
+            rep = self.request.get("repeat"+str(i))
+            if (rep != "on"):
+                repeat = repeat + '0'
+            else:
+                repeat = repeat + '1'
+
+        if self.request.get('planStartTimeText'):
+            planStartTime = datetime.strptime(self.request.get("planStartTimeText"), "%Y%m%d%H%M")
+        elif self.request.get('planStartTime'):
+            planStartTime = datetime.strptime(self.request.get("planStartTime"), "%Y-%m-%dT%H:%M")
+        else:
+            planStartTime = ''
+
+        if self.request.get('planEndTimeText'):
+            planEndTime = datetime.strptime(self.request.get("planEndTimeText"), "%Y%m%d%H%M")
+        elif self.request.get('planEndTime'):
+            planEndTime = datetime.strptime(self.request.get("planEndTime"), "%Y-%m-%dT%H:%M")
+        else:
+            planEndTime = ''
+
+        project = None
+        projectName = self.request.get('projects')
+        for pro in self.user.projects:
+            if pro.name == projectName:
+                project = pro
+
+        context = None
+        contextName = self.request.get("contexts")
+        for con in self.user.contexts:
+            if con.name == contextName:
+                context = con
+        return (title, content, repeat, planStartTime, planEndTime, project, context)
