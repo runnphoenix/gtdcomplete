@@ -76,8 +76,9 @@ class ContextPage(Handler):
                     else:
                         finished_events[str(event.time_exe_start.date())].append(event)
             else:
-                if not unfinished_events.get(str(event.time_plan_start.date())):
-                    unfinished_events[str(event.time_plan_start.date())] = [event]
-                else:
-                    unfinished_events[str(event.time_plan_start.date())].append(event)
+                if event.time_plan_start:
+                    if not unfinished_events.get(str(event.time_plan_start.date())):
+                        unfinished_events[str(event.time_plan_start.date())] = [event]
+                    else:
+                        unfinished_events[str(event.time_plan_start.date())].append(event)
         return (finished_events, unfinished_events)

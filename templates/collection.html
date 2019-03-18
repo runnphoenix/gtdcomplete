@@ -25,10 +25,12 @@
 	<hr>
 	<h3>Inboxes</h3>
 	<br>
-	{% for event in events %}
-		<h4 class='col-md-10'>
-			<a href="/event/schedule/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
-		</h4>
-	{% endfor %}
+	{% if events %}
+		{% for event in events %}
+			<h4 class='col-md-10'>
+				<a href="/event/schedule/{{event.key().id()}}">{{event.title}}</a> ---> {{event.content}}
+			</h4>
+		{% endfor %}
+	{% endif %}
 
 {% endblock%}
