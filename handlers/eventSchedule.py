@@ -43,7 +43,7 @@ class EventSchedule(Handler):
             event.delete()
             self.redirect("/collection")
         elif "Change" in self.request.params: # only change title and content
-            errorMessage = self.errMessage_1st_part(title, content)
+            errorMessage = self.errMessage_1st_part(title)
             if errorMessage:
                 self.render(
                     "eventSchedule.html",
@@ -74,8 +74,14 @@ class EventSchedule(Handler):
                     planEndTime=planEndTime,
                     errorMessage=errorMessage)
         else: #Update
-            errorMessage = self.errMessage_2nd_part(planStartTime, planEndTime, project, context)
-            if errorMessage:
+            errorMessage_1st_part = self.errMessage_1st_part(title)
+            errorMessage_2nd_part = self.errMessage_2nd_part(planStartTime, planEndTime, project, context)
+            if errorMessage_1st_part or errorMessage_2nd_part:
+                errorMessage = ''
+                if errorMessage_1st_part:
+                    errorMessage = errorMessage_1st_part
+                else:
+                    errorMessage = errorMessage_2nd_part
                 self.render(
                     "eventSchedule.html",
                     projects=self.projects_without_inbox(),
@@ -96,6 +102,7 @@ class EventSchedule(Handler):
                 event.time_plan_end = planEndTime
                 event.project = project
                 event.context = context
+                event.scheduled = True
 
                 # Add to google calendar
                 if planStartTime and planEndTime:
@@ -137,11 +144,9 @@ class EventSchedule(Handler):
                 projects.append(project)
         return projects
 
-    def errMessage_1st_part(self, title, content):
+    def errMessage_1st_part(self, title):
         if title == '':
             return 'Title can not be empty.'
-        if content == '':
-            return 'Content can not be empty.'
         return None
 
     def errMessage_2nd_part(self, planStartTime, planEndTime, project, context):

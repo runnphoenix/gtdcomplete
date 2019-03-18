@@ -12,6 +12,7 @@ class Event(db.Model):
     content = db.StringProperty(required=False)
     repeat = db.StringProperty(required=False)
     finished = db.BooleanProperty(required=True)
+    scheduled = db.BooleanProperty(required=True)
     time_plan_start = db.DateTimeProperty(auto_now_add=False)
     time_plan_end = db.DateTimeProperty(auto_now_add=False)
     time_exe_start = db.DateTimeProperty(auto_now_add=False)

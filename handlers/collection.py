@@ -22,6 +22,7 @@ class Collection(Handler):
             title=title,
             content=content,
             finished=False,
+            scheduled=False,
             user=self.user,
             project=self.get_inbox_project(),
             parent=events_key()

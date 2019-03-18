@@ -1,20 +1,23 @@
 {% extends "sectionBase.html" %}
 {% block contentSection %}
 	<h3>{{event.title}}</h3>
+	<br>
+	<form method="post">
+		<input type="submit" name="Delete" value="Delete">
+	</form>
+	<hr>
 
 	<form method="post">
 		<label>
 			<div>Title</div>
 			<input type="text" name="title" value="{{event.title}}">
 		</label>
-
 		<br>
 
 		<label>
 			<div>Content</div>
 			<input type="text" name="content" value="{{event.content}}">
 		</label>
-
 		<br>
 
 		<div>Repeat</div>
@@ -25,8 +28,7 @@
 				<input type="checkbox" name="repeat{{i}}">
 			{% endif %}
 		{% endfor %}
-
-		<br><br>
+		<br>
 
 		<label>
 			<div>Plan Start Time</div>
@@ -38,7 +40,6 @@
 				<input type="text" name="planStartTimeText">
 			{% endif %}
 		</label>
-
 		<br>
 
 		<label>
@@ -51,34 +52,7 @@
 				<input type="text" name="planEndTimeText">
 			{% endif %}
 		</label>
-
 		<br>
-
-		<label>
-			<div>Exe Start Time</div>
-      {% if event.time_exe_start is not none %}
-			  <input type="datetime-local" name="exeStartTime" value={{event.time_exe_start.strftime("%Y-%m-%dT%H:%M")}}>
-				<input type="text" name="exeStartTimeText" value={{event.time_exe_start.strftime("%Y%m%d%H%M")}}>
-      {% else %}
-        <input type="datetime-local" name="exeStartTime" value={{exeStartTime.strftime("%Y-%m-%dT%H:%M")}}>
-				<input type="text" name="exeStartTimeText" value={{exeStartTime.strftime("%Y%m%d%H%M")}}>
-      {% endif %}
-		</label>
-
-		<br>
-
-		<label>
-			<div>Exe End Time</div>
-      {% if event.time_exe_end is not none %}
-			  <input type="datetime-local" name="exeEndTime" value={{event.time_exe_end.strftime("%Y-%m-%dT%H:%M")}}>
-				<input type="text" name="exeEndTimeText" value={{event.time_exe_end.strftime("%Y%m%d%H%M")}}>
-      {% else %}
-        <input type="datetime-local" name="exeEndTime" value={{exeEndTime.strftime("%Y-%m-%dT%H:%M")}}>
-				<input type="text" name="exeEndTimeText" value={{exeEndTime.strftime("%Y%m%d%H%M")}}>
-      {% endif %}
-		</label>
-
-    <br><br>
 
 		<label>
 			<div>Select from Projects</div>
@@ -92,7 +66,6 @@
 				{% endif %}
 			{% endfor %}
 		</select>
-
 		<br>
 
 		<label>
@@ -107,6 +80,45 @@
 				{% endif %}
 			{% endfor %}
 		</select>
+		<br><br>
+
+		<label>
+		  <div>
+			  {% if event.scheduled %}
+					Set to unscheduled
+			  {% else %}
+					Set to scheduled
+			  {% endif %}
+				<input type="checkbox" name="Schedulement">
+		  </div>
+	  </label>
+
+		<input type="submit" name="Change" value="Change">
+		<br><hr>
+
+		<label>
+			<div>Exe Start Time</div>
+      {% if event.time_exe_start is not none %}
+			  <input type="datetime-local" name="exeStartTime" value={{event.time_exe_start.strftime("%Y-%m-%dT%H:%M")}}>
+				<input type="text" name="exeStartTimeText" value={{event.time_exe_start.strftime("%Y%m%d%H%M")}}>
+      {% else %}
+        <input type="datetime-local" name="exeStartTime" value={{exeStartTime.strftime("%Y-%m-%dT%H:%M")}}>
+				<input type="text" name="exeStartTimeText" value={{exeStartTime.strftime("%Y%m%d%H%M")}}>
+      {% endif %}
+		</label>
+		<br>
+
+		<label>
+			<div>Exe End Time</div>
+      {% if event.time_exe_end is not none %}
+			  <input type="datetime-local" name="exeEndTime" value={{event.time_exe_end.strftime("%Y-%m-%dT%H:%M")}}>
+				<input type="text" name="exeEndTimeText" value={{event.time_exe_end.strftime("%Y%m%d%H%M")}}>
+      {% else %}
+        <input type="datetime-local" name="exeEndTime" value={{exeEndTime.strftime("%Y-%m-%dT%H:%M")}}>
+				<input type="text" name="exeEndTimeText" value={{exeEndTime.strftime("%Y%m%d%H%M")}}>
+      {% endif %}
+		</label>
+    <br><br>
 
 		<label>
 			<div>Select from TimeCategories</div>
@@ -123,23 +135,22 @@
 		<br><br>
 
 	  <label>
-		  <div>Finished
+		  <div>
 			  {% if event.finished %}
-				  <input type="checkbox" name="finished" checked="checked">
+					Set to unfinished
 			  {% else %}
-				  <input type="checkbox" name="finished">
+					Set to finished
 			  {% endif %}
+				<input type="checkbox" name="FinishMent">
 		  </div>
 	  </label>
-		<br>
+
+		<input type="submit" name="Update" value="Update">
+		<br><hr>
+	</form>
 
 		{% if errorMessage%}
 			<div style="color:red;">{{errorMessage}}</div>
 		{% endif %}
-		<br><br>
-
-		<input type="submit" name="Update" value="Update">
-		<input type="submit" name="Delete" value="Delete">
-
-	</form>
+		<br>
 {% endblock %}
