@@ -20,7 +20,7 @@ class ContextPage(Handler):
             finished_events=finished_events,
             unfinished_events=unfinished_events,
             startDate=datetime.now(rome),
-            endDate=datetime.now(rome)
+            endDate=datetime.now(rome))
 
     @accessControl.user_logged_in
     @accessControl.context_exist

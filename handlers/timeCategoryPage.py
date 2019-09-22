@@ -17,7 +17,7 @@ class TimeCategoryPage(Handler):
         (finished_events, unfinished_events) = self.eventsInContainer(timeCategory)
         self.render(
             "timeCategoryPage.html",
-            timeCategories=timeCategories,rome
+            timeCategories=timeCategories,
             timeCategory_name=timeCategory.name,
             finished_events=finished_events,
             unfinished_events=unfinished_events,

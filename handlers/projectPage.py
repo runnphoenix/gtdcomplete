@@ -18,7 +18,7 @@ class ProjectPage(Handler):
             projects=self.projects_without_inbox(),
             project_name=project.name,
             finished_events=finished_events,
-            unfinished_events=unfinished_events,rome
+            unfinished_events=unfinished_events,
             startDate=datetime.now(rome),
             endDate=datetime.now(rome))
 
