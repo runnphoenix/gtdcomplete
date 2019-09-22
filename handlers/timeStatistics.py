@@ -11,14 +11,16 @@ from google.appengine.ext import db
 
 import pytz
 
+shanghai = pytz.timezone('Asia/Shanghai')
+rome = pytz.timezone('Europe/Rome')
 
 class TimeStatistics(Handler):
 
     @accessControl.user_logged_in
     def get(self):
         self.render("statistics.html",
-                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                    endDate=datetime.now(pytz.timezone('Asia/Shanghai'))
+                    startDate=datetime.now(rome),
+                    endDate=datetime.now(rome)
                     )
 
     @accessControl.user_logged_in

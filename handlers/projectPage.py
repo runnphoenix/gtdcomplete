@@ -5,6 +5,8 @@ from .handler import Handler
 
 from datetime import datetime, timedelta
 import pytz
+shanghai = pytz.timezone('Asia/Shanghai')
+rome = pytz.timezone('Europe/Rome')
 
 class ProjectPage(Handler):
 
@@ -16,9 +18,9 @@ class ProjectPage(Handler):
             projects=self.projects_without_inbox(),
             project_name=project.name,
             finished_events=finished_events,
-            unfinished_events=unfinished_events,
-            startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+            unfinished_events=unfinished_events,rome
+            startDate=datetime.now(rome),
+            endDate=datetime.now(rome))
 
     @accessControl.user_logged_in
     @accessControl.project_exist
@@ -38,8 +40,8 @@ class ProjectPage(Handler):
                 project_name=project.name,
                 finished_events=finished_events,
                 unfinished_events=unfinished_events,
-                startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+                startDate=datetime.now(rome),
+                endDate=datetime.now(rome))
         else: #Look up throught date
             startDate = datetime.strptime(self.request.get("startDate"),"%Y-%m-%d")
             endDate = datetime.strptime(self.request.get("endDate"), "%Y-%m-%d")
@@ -50,8 +52,8 @@ class ProjectPage(Handler):
                     project_name=project.name,
                     finished_events=[],
                     unfinished_events=[],
-                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
+                    startDate=datetime.now(rome),
+                    endDate=datetime.now(rome),
                     errMessage=errMessage)
             else:  # with duration
                 days = (endDate - startDate).days + 1
@@ -62,8 +64,8 @@ class ProjectPage(Handler):
                     project_name=project.name,
                     finished_events=finished_events,
                     unfinished_events=unfinished_events,
-                    startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-                    endDate=datetime.now(pytz.timezone('Asia/Shanghai')))
+                    startDate=datetime.now(rome),
+                    endDate=datetime.now(rome))
 
     def projects_without_inbox(self):
         projects = []

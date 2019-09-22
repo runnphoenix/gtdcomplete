@@ -7,19 +7,24 @@ from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
 from google.appengine.ext import db
 from urllib2 import HTTPError
+
 import pytz
+shanghai_tz_str='Asia/Shanghai'
+rome_tz_str='Europe/Rome'
+shanghai = pytz.timezone(shanghai_tz_str)
+rome = pytz.timezone(rome_tz_str)
 
 def events_key(name="default"):
     return db.Key.from_path("events", name)
-
+rome
 class EventPage(Handler):
     @accessControl.user_logged_in
     @accessControl.event_exist
     def get(self, event_id, event):
         self.render("eventPage.html",
             event = event,
-            exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
-            exeEndTime=datetime.now(pytz.timezone("Asia/Shanghai")))
+            exeStartTime=datetime.now(rome),
+            exeEndTime=datetime.now(rome))
 
     @accessControl.user_logged_in
     @accessControl.event_exist
@@ -44,7 +49,7 @@ class EventPage(Handler):
         elif "Change" in self.request.params:
             errorMessage = self.errMessage_1st_part(title, planStartTime, planEndTime, project, context)
             if errorMessage: # render errorMessage
-                self.render("eventPage.html", event=event, exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),exeEndTime=datetime.now(pytz.timezone("Asia/Shanghai")), errorMessage=errorMessage)
+                self.render("eventPage.html", event=event, exeStartTime=datetime.now(rome),exeEndTime=datetime.now(rome), errorMessage=errorMessage)
             else: # An event must be already scheduled(otherwise it remains in schedule page)
                 # 1. set new event status locally
                 event.title = title
@@ -88,7 +93,7 @@ class EventPage(Handler):
                     errorMessage = errorMessage_1st_part
                 else:
                     errorMessage = errorMessage_2nd_part
-                self.render("eventPage.html", event=event, exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),exeEndTime=datetime.now(pytz.timezone("Asia/Shanghai")), errorMessage=errorMessage)
+                self.render("eventPage.html", event=event, exeStartTime=datetime.now(rome),exeEndTime=datetime.now(rome), errorMessage=errorMessage)
             else: # no error, begin update exec calendar
                 exe_calendar_id = self.get_execution_calendar_id()
 
@@ -186,11 +191,11 @@ class EventPage(Handler):
                 'description': event.content,
                 'start': {
                     'dateTime': eventStartTime.strftime("%Y-%m-%dT%H:%M:%S"),
-                    'timeZone': 'Asia/Shanghai',
+                    'timeZone': rome_tz_str,
                 },
                 'end': {
                     'dateTime': eventEndTime.strftime("%Y-%m-%dT%H:%M:%S"),
-                    'timeZone': 'Asia/Shanghai',
+                    'timeZone': rome_tz_str,
                 },
             }
             request = Oauth2Service.service.events().insert(calendarId=calendarName, body=gEvent)

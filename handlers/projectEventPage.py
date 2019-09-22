@@ -7,7 +7,12 @@ from datetime import datetime, date, time, timedelta
 from models import Oauth2Service
 from google.appengine.ext import db
 from urllib2 import HTTPError
+
 import pytz
+shanghai_tz_str='Asia/Shanghai'
+rome_tz_str='Europe/Rome'
+shanghai = pytz.timezone(shanghai_tz_str)
+rome = pytz.timezone(rome_tz_str)
 
 def events_key(name="default"):
     return db.Key.from_path("events", name)
@@ -16,7 +21,7 @@ class ProjectEventPage(Handler):
 
     @accessControl.user_logged_in
     @accessControl.event_exist_and_belong_Project
-    def get(self, project_id, project, event_id, event):
+    def get(self, project_id, project, event_id, event):rome
         (finished_events, unfinished_events) = self.eventsInContainer(project)
         self.render("projectEventPage.html",
             projects = self.projects_without_inbox(),
@@ -24,10 +29,10 @@ class ProjectEventPage(Handler):
             finished_events=finished_events,
             unfinished_events=unfinished_events,
             event=event,
-            startDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            endDate=datetime.now(pytz.timezone('Asia/Shanghai')),
-            exeStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
-            exeEndTime=datetime.now(pytz.timezone("Asia/Shanghai")))
+            startDate=datetime.now(rome),
+            endDate=datetime.now(rome),
+            exeStartTime=datetime.now(rome),
+            exeEndTime=datetime.now(rome)
 
     def projects_without_inbox(self):
         projects = []
@@ -180,11 +185,11 @@ class ProjectEventPage(Handler):
                             'description': newEvent.content,
                             'start': {
                                 'dateTime': newEvent.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
-                                'timeZone': 'Asia/Shanghai',
+                                'timeZone': rome_tz_str,
                             },
                             'end': {
                                 'dateTime': newEvent.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
-                                'timeZone': 'Asia/Shanghai',
+                                'timeZone': rome_tz_str,
                             },
                         }
                         request = Oauth2Service.service.events().insert(
@@ -205,13 +210,13 @@ class ProjectEventPage(Handler):
                             'dateTime':
                             exeStartTime.strftime(
                                     "%Y-%m-%dT%H:%M:%S"),
-                            'timeZone': 'Asia/Shanghai',
+                            'timeZone': rome_tz_str,
                         },
                         'end': {
                             'dateTime':
                             exeEndTime.strftime(
                                 "%Y-%m-%dT%H:%M:%S"),
-                            'timeZone': 'Asia/Shanghai',
+                            'timeZone': rome_tz_str,
                         },
                     }
                     request = Oauth2Service.service.events().insert(

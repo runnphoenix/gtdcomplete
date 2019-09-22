@@ -8,8 +8,13 @@ from models import TimeCategory
 from models import Oauth2Service
 from google.appengine.ext import db
 import accessControl
+
 from datetime import datetime,date,time
 import pytz
+shanghai_tz_str='Asia/Shanghai'
+rome_tz_str='Europe/Rome'
+shanghai = pytz.timezone(shanghai_tz_str)
+rome = pytz.timezone(rome_tz_str)
 
 def events_key(name="default"):
     return db.Key.from_path("events", name)
@@ -27,8 +32,8 @@ class EventSchedule(Handler):
             eventTitle=event.title,
             eventContent=event.content,
             finished=False,
-            planStartTime=datetime.now(pytz.timezone('Asia/Shanghai')),
-            planEndTime=datetime.now(pytz.timezone('Asia/Shanghai'))
+            planStartTime=datetime.now(rome),
+            planEndTime=datetime.now(rome)
         )
 
     @accessControl.user_logged_in
@@ -112,11 +117,11 @@ class EventSchedule(Handler):
                         'description': event.content,
                         'start': {
                             'dateTime': event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S"),
-                            'timeZone': 'Asia/Shanghai',
+                            'timeZone': rome_tz_str,
                         },
                         'end': {
                             'dateTime': event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S"),
-                            'timeZone': 'Asia/Shanghai',
+                            'timeZone': rome_tz_str,
                         },
                         #'recurrence': [
                             #'RRULE:FREQ=DAILY;COUNT=2'
