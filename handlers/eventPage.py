@@ -151,6 +151,7 @@ class EventPage(Handler):
                 elif not ChangeFinishState and event.finished: # update Execution calendar
                     response = self.processCalendar(event, exe_calendar_id, 'update')
                     event.put()
+                    self.redirect("/event/%s" % str(event.key().id()))
                 elif ChangeFinishState and event.finished:
                     #delete from calendar and unfinish event
                     self.processCalendar(event, exe_calendar_id, 'delete')
@@ -180,8 +181,8 @@ class EventPage(Handler):
             gEvent = gEventRequest.execute(http=Oauth2Service.decorator.http())
             gEvent['summary'] = event.title
             gEvent['description'] = event.content
-            gEvent['start']['dateTime'] = event.time_plan_start.strftime("%Y-%m-%dT%H:%M:%S")
-            gEvent['end']['dateTime'] = event.time_plan_end.strftime("%Y-%m-%dT%H:%M:%S")
+            gEvent['start']['dateTime'] = eventStartTime.strftime("%Y-%m-%dT%H:%M:%S")
+            gEvent['end']['dateTime'] = eventEndTime.strftime("%Y-%m-%dT%H:%M:%S")
             request = Oauth2Service.service.events().update(calendarId=calendarName, eventId=eventCalendarId, body=gEvent)
             response = request.execute(http=Oauth2Service.decorator.http())
         elif operationType == 'insert':
